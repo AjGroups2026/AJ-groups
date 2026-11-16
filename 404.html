@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | AJ GROUPS</title>
+<meta name="robots" content="noindex">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(60% 50% at 20% 10%,#33506b,transparent 70%),#0e1730;color:#fff;font-family:Inter,system-ui,sans-serif;text-align:center}
+h1{margin:0 0 8px;font-weight:300;font-size:clamp(44px,12vw,110px);letter-spacing:-.05em;line-height:1}p{margin:0 0 26px;opacity:.75;line-height:1.6}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}a{display:inline-flex;align-items:center;min-height:42px;padding:0 20px;border-radius:999px;background:#fff;color:#0e1730;text-decoration:none;font-size:13px;font-weight:500}a.g{background:rgba(255,255,255,.14);color:#fff}
+</style>
+</head>
+<body><main><h1>Lost?</h1><p>We could not find that page. These are open:</p>
+<div class="row"><a href="/">AJ GROUPS</a><a class="g" id="a" href="/alven/">Alven Studio</a><a class="g" id="f" href="/fovo/">House of Fovo</a><a class="g" id="b" href="/bunbun/">Bun Bun Bakes</a></div></main>
+<script>/* work out the site's base folder, so the links also work while the site lives in a project folder */
+var parts=location.pathname.split('/').filter(Boolean),i=parts.findIndex(function(x){return['aj-groups','alven','fovo','bunbun','clothing'].indexOf(x)>-1}),base=i>0?'/'+parts.slice(0,i).join('/')+'/':(location.hostname.indexOf('github.io')>-1&&parts.length?'/'+parts[0]+'/':'/');
+[['a','alven/'],['f','fovo/'],['b','bunbun/']].forEach(function(p){document.getElementById(p[0]).href=base+p[1]});document.querySelector('.row a').href=base;</script></body>
+</html>

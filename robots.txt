@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /clothing/
+Disallow: /fovo/draft-mac/
