@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex } from './desserts.js?v=5';
-import { MENU } from './menu.js?v=5';
+import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=6';
+import { MENU, XMAS, XMAS_CAT } from './menu.js?v=6';
 
 const $ = (i) => document.getElementById(i);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -25,7 +25,11 @@ const OCC = [
   { k: 'Festival', style: 'naked', tiers: 2, flavour: 'caramel', frost: 'butter', drip: 'caramel', tops: ['sprinkles', 'pearls'], candles: true, msg: 'Happy celebrations' },
   { k: 'Just because', style: 'naked', tiers: 1, flavour: 'lemon', frost: 'cream', drip: 'none', tops: ['berries', 'strawberry'], candles: false, msg: 'Because you are lovely' }
 ];
-const bag = new Map(); const STAND = .52; const standParts = [];
+/* Christmas demo: open the page with ?xmas=1 */
+const XM = new URLSearchParams(location.search).has('xmas');
+if (XM) { FL.plum = ['Rum plum', '#4b2b19']; TOPS.holly = 'Holly'; OCC.unshift({ k: 'Christmas', style: 'frosted', tiers: 2, flavour: 'plum', frost: 'cream', drip: 'white', tops: ['holly', 'pearls'], candles: false, msg: 'Merry Christmas' }); }
+const MENU_ALL = XM ? [XMAS_CAT, ...MENU] : MENU;
+const bag = new Map(); const gifts = []; const STAND = .52; const standParts = [];
 const S = { cakeOn: false, occ: 'Birthday', style: 'naked', tiers: 2, flavour: 'vanilla', frost: 'cream', drip: 'none', tops: new Set(['strawberry', 'berries']), candles: true, msg: 'Happy Birthday', deco: [], decorate: false, qty: 1, ship: 'home', pinOk: false, km: 0 };
 const price = (s = S) => (TIER[s.tiers][2] + (s.drip !== 'none' ? 150 : 0) + [...s.tops].length * 100 + (s.candles ? 50 : 0) + (s.style === 'frosted' ? 200 : 0) + (s.deco ? s.deco.length * 20 : 0)) * (s.qty || 1);
 const preset = (o) => ({ ...S, occ: o.k, style: o.style, tiers: o.tiers, flavour: o.flavour, frost: o.frost, drip: o.drip, tops: new Set(o.tops), candles: o.candles, msg: o.msg, deco: [], decorate: false, qty: 1 });
@@ -179,6 +183,7 @@ function build(target, state) {
   if (ST.tops.has('roses')) { const cols = ['#fdf6ec', '#f1cfd6', '#fbeec9']; [[.55, .05], [-.42, -.5], [.1, .62], [-.6, .3]].forEach(([fx, fz], f) => { const r = rose(cols[f % 3]); r.position.set(fx * rr, top, fz * rr); r.rotation.y = f * 1.7; add(r, CG, false);
     for (let l = 0; l < 3; l++) { const lf = new THREE.Mesh(G.leaf, M('#5b8a52')); lf.scale.setScalar(1.8); const a = l * 2.1 + f; lf.position.set(fx * rr + Math.cos(a) * .15, top + .012, fz * rr + Math.sin(a) * .15); lf.rotation.y = -a; add(lf, CG, false); } }); }
   if (ST.tops.has('macarons')) { const cols = ['#f4b8c8', '#bccbe6', '#f6e3a8', '#cfe3c6']; for (let d = 0; d < 4; d++) { const a = d / 4 * Math.PI * 2 + .6, m = macaron(cols[d]); const p = at(a, rr * .55); m.position.set(p[0], top - .01, p[2]); m.rotation.set(.35, a, .1); add(m, CG, false); } }
+  if (ST.tops.has('holly')) for (let d = 0; d < 3; d++) { const a = d * 2.1 + .5, h = dHolly(1.6); h.position.set(Math.cos(a) * rr * .45, top + .005, Math.sin(a) * rr * .45); h.rotation.y = a; add(h, CG, false); }
   if (ST.tops.has('pearls')) { const pm = M('#e6c36e', { metalness: .95, roughness: .22 }); for (let d = 0; d < 16; d++) { const a = d / 16 * Math.PI * 2, rad = rr * (.85 + (d % 2) * .06); const p = new THREE.Mesh(G.pearl, pm); p.position.set(Math.cos(a) * rad, top + .03, Math.sin(a) * rad); add(p); } for (let d = 0; d < 9; d++) { const a = d * 2.3, rad = (.12 + (d % 3) * .1) * rr; const p = new THREE.Mesh(G.pearl, pm); p.scale.setScalar(.8); p.position.set(Math.cos(a) * rad + rr * .1, top + .028, Math.sin(a) * rad - rr * .1); add(p); } }
   if (ST.tops.has('sprinkles')) { const cl = ['#f2a7be', '#f6d37a', '#9fd2c3', '#a9b8e8', '#ffffff']; for (let d = 0; d < 110; d++) { const a = rnd() * 6.283, rad = Math.sqrt(rnd()) * (rr - .16); const s = new THREE.Mesh(G.spr, M(cl[d % 5], { roughness: .5 })); s.position.set(Math.cos(a) * rad, top + .012, Math.sin(a) * rad); s.rotation.set(Math.PI / 2, 0, rnd() * 6.283); add(s, CG, false); } }
   if (ST.candles) for (let d = 0; d < 5; d++) { const a = d / 5 * Math.PI * 2 + .2, x = Math.cos(a) * (rr * .36), z = Math.sin(a) * (rr * .36);
@@ -341,19 +346,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const hash = (s) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 9973, 7);
 let menuCat = 'All'; const toast = document.createElement('div'); toast.className = 'toast'; toast.setAttribute('role', 'status'); document.body.appendChild(toast); let toastT = 0;
 const say2 = (t) => { toast.textContent = t; toast.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('on'), 1800); };
-const ALL = MENU.flatMap((c) => c.items.map((i) => ({ ...i, cat: c.cat })));
+const ALL = MENU_ALL.flatMap((c) => c.items.map((i) => ({ ...i, cat: c.cat })));
 function badge() { const n = [...bag.values()].reduce((a, b) => a + b, 0) + (S.cakeOn ? S.qty : 0); document.querySelectorAll('.bagn').forEach((e) => { e.textContent = n; e.parentElement.classList.toggle('has', n > 0); }); const d = document.querySelector('.mo-dock a[data-h="order"]'); if (d) d.dataset.n = n || ''; }
 function orderSummary() {
   const rows = [...bag.entries()].map(([id, q]) => { const it = ALL.find((x) => x.id === id); return `<div class="ol"><span>${it.name} <small>${inr(it.price)} / ${it.unit}</small></span><span class="oq"><button type="button" data-o="-${id}" aria-label="One less">−</button><b>${q}</b><button type="button" data-o="+${id}" aria-label="One more">+</button></span><span class="op">${inr(it.price * q)}</span></div>`; });
   const items = [...bag.entries()].reduce((a, [id, q]) => a + ALL.find((x) => x.id === id).price * q, 0);
+  const gl = gifts.map((x) => `<div class="ol gnote"><span>Gift note for ${ALL.find((i) => i.id === x.id).name} ×${x.qty}<br><small>To ${x.to || 'recipient'}${x.date ? ', deliver ' + x.date : ''}${x.msg ? ', card: “' + x.msg.replace(/</g, '&lt;') + '”' : ''}${x.corp ? ', business order' + (x.company ? ' for ' + x.company : '') : ''}</small></span><span></span><span></span></div>`).join('');
   const cake = S.cakeOn ? `<div class="ol cake"><span>${summary()}</span><span></span><span class="op">${inr(price())}</span></div>` : '';
   if (!rows.length && !cake) return '<span style="opacity:.7">Nothing here yet. Design a cake above or add items from the menu.</span>';
-  return cake + rows.join('') + `<div class="ol tot"><span>Total <small>(sample pricing)</small></span><span></span><span class="op">${inr(items + (S.cakeOn ? price() : 0))}</span></div>`;
+  return cake + rows.join('') + gl + `<div class="ol tot"><span>Total <small>(sample pricing)</small></span><span></span><span class="op">${inr(items + (S.cakeOn ? price() : 0))}</span></div>`;
 }
 function changeBag(id, d) { const q = (bag.get(id) || 0) + d; if (q <= 0) bag.delete(id); else bag.set(id, Math.min(20, q)); ui(); renderMenu(); }
 $('sum2').addEventListener('click', (e) => { const b = e.target.closest('button[data-o]'); if (!b) return; const v = b.dataset.o; changeBag(v.slice(1), v[0] === '+' ? 1 : -1); });
 function renderMenu() {
-  const tabs = $('mtabs'); tabs.innerHTML = ['All', ...MENU.map((c) => c.cat)].map((c) => `<button type="button" class="chip${c === menuCat ? ' on' : ''}" data-c="${c}" aria-pressed="${c === menuCat}">${c}</button>`).join('');
+  const tabs = $('mtabs'); tabs.innerHTML = ['All', ...MENU_ALL.map((c) => c.cat)].map((c) => `<button type="button" class="chip${c === menuCat ? ' on' : ''}" data-c="${c}" aria-pressed="${c === menuCat}">${c}</button>`).join('');
   const grid = $('mgrid'); const keep = {}; grid.querySelectorAll('img[data-id]').forEach((i) => { if (i.src.startsWith('data:')) keep[i.dataset.id] = i.src; });
   const list = menuCat === 'All' ? ALL : ALL.filter((x) => x.cat === menuCat);
   grid.innerHTML = list.map((it) => { const q = bag.get(it.id) || 0; const ph = it.photo ? `../assets/bunbun/menu/${it.photo}` : ''; return `<article class="mc rv in" data-id="${it.id}"><div class="mi${ph ? ' photo ok' : ''}"><img data-id="${it.id}" alt="${it.name}" width="420" height="420" ${ph ? `src="${ph}" loading="lazy"` : (keep[it.id] ? `src="${keep[it.id]}"` : '')}></div><div class="mt"><h3>${it.name}</h3><p>${it.desc}</p></div><div class="mb"><span class="mp">${inr(it.price)}<small> / ${it.unit}</small></span>${q ? `<span class="oq"><button type="button" data-a="-${it.id}" aria-label="One less">−</button><b>${q}</b><button type="button" data-a="+${it.id}" aria-label="One more">+</button></span>` : `<button type="button" class="add" data-a="+${it.id}">Add</button>`}</div></article>`; }).join('');
@@ -377,3 +383,42 @@ async function menuRenders() {
 renderMenu();
 new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); exclusive(menuRenders); } }, { rootMargin: '600px 0px' }).observe($('menu'));
 Promise.race([document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve(), sleep(1200)]).then(() => { build(); addEventListener('load', () => setTimeout(() => exclusive(renders), 900), { once: true }); if (document.readyState === 'complete') setTimeout(() => exclusive(renders), 900); });
+
+
+/* ---------- christmas demo: countdown, batch board, gifting, wish card, snow (only with ?xmas=1) ---------- */
+if (XM) {
+  const last = new Date(XMAS.lastOrder + 'T23:59:59+05:30'), cd = $('cd'), cdn = $('cdn');
+  const tick = () => { const ms = last - Date.now(); if (ms <= 0) { cd.textContent = 'Closed'; cdn.textContent = 'Last orders have closed'; return; } const d = Math.floor(ms / 864e5), hh = Math.floor(ms % 864e5 / 36e5), mm = Math.floor(ms % 36e5 / 6e4); cd.textContent = `${d}d ${String(hh).padStart(2, '0')}h ${String(mm).padStart(2, '0')}m`; cdn.textContent = 'until ' + last.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' }); };
+  tick(); setInterval(tick, 30000);
+  $('batches').innerHTML = XMAS.batches.map((b) => `<div class="bt"><div class="r"><b>${b.name} <small>${b.ready}</small></b><span>${b.left === 0 ? 'Sold out' : b.left + ' of ' + b.total + ' left'}</span></div><div class="bar"><i data-w="${Math.round((b.total - b.left) / b.total * 100)}"></i></div></div>`).join('');
+  new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); document.querySelectorAll('.bt .bar i').forEach((i) => { i.style.width = i.dataset.w + '%'; }); } }, { threshold: .3 }).observe($('batches'));
+  $('gcake').innerHTML = XMAS_CAT.items.map((i) => `<option value="${i.id}">${i.name} · ${inr(i.price)}</option>`).join(''); $('gdate').innerHTML = XMAS.deliveryDates.map((d) => `<option>${d}</option>`).join('');
+  $('gcorp').addEventListener('change', (e) => { $('gcw').hidden = !e.target.checked; if (e.target.checked && +$('gqty').value < 10) $('gqty').value = 10; });
+  $('gift').addEventListener('submit', (e) => { e.preventDefault(); const qty = Math.max(1, Math.min(50, +$('gqty').value || 1)), corp = $('gcorp').checked;
+    if (!$('gto').value.trim()) { $('gm').textContent = 'Please add who it is for.'; return; } if (corp && qty < 10) { $('gm').textContent = 'Business orders start at 10 boxes.'; return; }
+    gifts.push({ id: $('gcake').value, qty, to: $('gto').value.trim(), msg: $('gmsg').value.trim(), date: $('gdate').value, corp, company: $('gco').value.trim() }); changeBag($('gcake').value, qty); $('gm').textContent = 'Added to your order. See it under Order.'; say2('Gift added to your order'); });
+  /* the wish card, drawn on a canvas so it can be saved and shared */
+  const wc = $('wc'), cx = wc.getContext('2d'); const logo = new Image(); logo.src = '../assets/bunbun/logo-word.png'; let logoTint = null; logo.onload = () => { const c = document.createElement('canvas'); c.width = logo.width; c.height = logo.height; const x = c.getContext('2d'); x.drawImage(logo, 0, 0); x.globalCompositeOperation = 'source-in'; x.fillStyle = '#fff0c1'; x.fillRect(0, 0, c.width, c.height); logoTint = c; draw(); };
+  const wrap = (t, w) => { const words = t.split(' '), lines = []; let l = ''; words.forEach((wd) => { const tt = l ? l + ' ' + wd : wd; if (cx.measureText(tt).width > w && l) { lines.push(l); l = wd; } else l = tt; }); if (l) lines.push(l); return lines; };
+  function draw() {
+    const W = 1080, H = 1350, g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#2b3d66'); g.addColorStop(1, '#0f1828'); cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 90; i++) { cx.fillStyle = `rgba(255,240,193,${.15 + ((i * 37) % 10) / 20})`; cx.beginPath(); cx.arc((i * 211) % W, (i * 337) % H, 1.5 + (i % 4), 0, 6.283); cx.fill(); }
+    cx.strokeStyle = 'rgba(255,240,193,.5)'; cx.lineWidth = 3; cx.strokeRect(46, 46, W - 92, H - 92);
+    cx.textAlign = 'center'; cx.fillStyle = '#fff0c1'; cx.font = 'italic 500 150px "Cormorant Garamond", Georgia, serif'; cx.fillText('Merry', W / 2, 250); cx.fillText('Christmas', W / 2, 400);
+    const img = menuImgs['xm-500']; if (img) { const im = wc._img || (wc._img = Object.assign(new Image(), { src: img, onload: draw })); if (im.complete && im.naturalWidth) cx.drawImage(im, W / 2 - 330, 440, 660, 660); }
+    else { cx.fillStyle = 'rgba(255,240,193,.12)'; cx.beginPath(); cx.arc(W / 2, 760, 250, 0, 6.283); cx.fill(); }
+    const name = $('wn').value.trim(), wish = $('ww').value.trim() || 'Wishing you cake and cheer';
+    cx.fillStyle = '#fff'; cx.font = '500 56px Jost, Inter, sans-serif'; wrap(wish, 840).slice(0, 2).forEach((l, i) => cx.fillText(l, W / 2, 1120 + i * 66));
+    if (name) { cx.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif'; cx.fillStyle = '#fff0c1'; cx.fillText('with love, ' + name, W / 2, 1262); }
+    if (logoTint) cx.drawImage(logoTint, W / 2 - 110, H - 140, 220, 220 * logoTint.height / logoTint.width * 0 + 60);
+  }
+  ['wn', 'ww'].forEach((i) => $(i).addEventListener('input', draw)); draw(); const pull = setInterval(() => { if (menuImgs['xm-500']) { draw(); clearInterval(pull); } }, 1500);
+  const blob = () => new Promise((r) => wc.toBlob(r, 'image/png'));
+  $('wdl').addEventListener('click', async () => { const b = await blob(), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'bun-bun-christmas-card.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); });
+  $('wsh').addEventListener('click', async () => { const b = await blob(), f = new File([b], 'bun-bun-christmas-card.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f], title: 'Bun Bun Bakes Christmas', text: 'Merry Christmas from Bun Bun Bakes' }); } catch (e) {} } else say2('Sharing is not available here. Use Download card.'); });
+  new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); exclusive(menuRenders); } }, { rootMargin: '500px 0px' }).observe($('xmas'));
+  /* gentle snow */
+  if (!reduce) { const sc = document.createElement('canvas'); sc.id = 'snow'; document.body.appendChild(sc); const sx = sc.getContext('2d'); let W = 0, H = 0; const fl = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random(), r: .6 + Math.random() * 2.2, v: .015 + Math.random() * .04, d: Math.random() * 6 }));
+    const rs = () => { W = sc.width = innerWidth; H = sc.height = innerHeight; }; rs(); addEventListener('resize', rs); let t0 = performance.now();
+    (function snow(n) { const dt = Math.min(.05, (n - t0) / 1000); t0 = n; sx.clearRect(0, 0, W, H); sx.fillStyle = 'rgba(255,255,255,.75)'; fl.forEach((f) => { f.y += f.v * dt * 4; f.d += dt; if (f.y > 1.02) { f.y = -.02; f.x = Math.random(); } sx.beginPath(); sx.arc((f.x + Math.sin(f.d) * .012) * W, f.y * H, f.r, 0, 6.283); sx.fill(); }); requestAnimationFrame(snow); })(t0); }
+}

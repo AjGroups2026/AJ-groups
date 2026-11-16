@@ -18,6 +18,8 @@ function textures() {
     for (let r = 0; r < 26; r++) for (let c = 0; c < 12; c++) { const px = (c + (r % 2) * .5) * (w / 12) + 4 + rnd() * 3, py = (r + .5) * (h / 26) + rnd() * 3; x.fillStyle = 'rgba(90,6,18,.55)'; x.beginPath(); x.ellipse(px, py + 2, 4.4, 5.6, 0, 0, 6.283); x.fill(); x.fillStyle = 'rgba(255,226,150,.95)'; x.beginPath(); x.ellipse(px, py, 2.1, 3.4, 0, 0, 6.283); x.fill(); } });
   tx.seed.colorSpace = THREE.SRGBColorSpace;
   tx.seedBump = canvasTex(256, 512, (x, w, h) => { x.fillStyle = '#d0d0d0'; x.fillRect(0, 0, w, h); for (let r = 0; r < 26; r++) for (let c = 0; c < 12; c++) { const px = (c + (r % 2) * .5) * (w / 12) + 4, py = (r + .5) * (h / 26); x.fillStyle = '#303030'; x.beginPath(); x.ellipse(px, py + 2, 5, 6.4, 0, 0, 6.283); x.fill(); } });
+  tx.fruit = canvasTex(256, 256, (x, w, h) => { x.fillStyle = '#4b2b19'; x.fillRect(0, 0, w, h); const cols = ['#2a1020', '#c97a1c', '#8a1c2c', '#b99a6a', '#1c0f08', '#d8b36a']; for (let i = 0; i < 520; i++) { x.fillStyle = cols[i % cols.length]; x.globalAlpha = .55 + rnd() * .4; x.beginPath(); x.ellipse(rnd() * w, rnd() * h, 1.4 + rnd() * 4.2, 1.2 + rnd() * 3.4, rnd() * 3, 0, 6.283); x.fill(); } x.globalAlpha = 1; }, [2, 1]);
+  tx.fruit.colorSpace = THREE.SRGBColorSpace;
   tx.cut = canvasTex(256, 256, (x, w, h) => { const g = x.createRadialGradient(w / 2, h * .55, 8, w / 2, h * .55, w * .62); g.addColorStop(0, '#fff3ef'); g.addColorStop(.28, '#ffd2cc'); g.addColorStop(.62, '#ee5560'); g.addColorStop(1, '#c4152e'); x.fillStyle = g; x.fillRect(0, 0, w, h);
     x.strokeStyle = 'rgba(255,240,236,.55)'; x.lineWidth = 2.2; for (let i = 0; i < 26; i++) { const a = -Math.PI / 2 + (i / 25 - .5) * 2.7; x.beginPath(); x.moveTo(w / 2, h * .5); x.lineTo(w / 2 + Math.cos(a) * w * .5, h * .55 + Math.sin(a) * h * .58); x.stroke(); }
     x.fillStyle = 'rgba(255,224,150,.9)'; for (let i = 0; i < 22; i++) { const a = Math.PI * (i / 21) - Math.PI, rr2 = w * .44; x.beginPath(); x.ellipse(w / 2 + Math.cos(a) * rr2 * .98, h * .52 - Math.sin(a) * rr2 * .86, 2, 3, 0, 0, 6.283); x.fill(); } });
@@ -42,6 +44,7 @@ const berryHalf = (s = 1) => { const g = new THREE.Group(); const t = textures()
 const blueberry = (s = 1) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.SphereGeometry(.06 * s, 24, 18), P('#2f3b82', { roughness: .36, bumpMap: textures().bloom, bumpScale: .5, sheen: 1, sheenColor: new THREE.Color('#b9c6f2'), sheenRoughness: .35, clearcoat: .25 })); m.scale.y = .86; cast(m, g);
   const cr = new THREE.Mesh(new THREE.TorusGeometry(.016 * s, .006 * s, 8, 14), P('#1a2150', { roughness: .6 })); cr.rotation.x = Math.PI / 2; cr.position.y = .05 * s; cast(cr, g, false); const dn = new THREE.Mesh(new THREE.CircleGeometry(.014 * s, 10), P('#10163a', { roughness: .7 })); dn.rotation.x = -Math.PI / 2; dn.position.y = .0505 * s; g.add(dn); return g; };
 const raspberry = (s = 1) => { const g = new THREE.Group(); const m = P('#c2224f', { roughness: .3, clearcoat: .45 }); for (let i = 0; i < 38; i++) { const a = rnd() * 6.283, hh = rnd() * .85 - .1, r = Math.sqrt(Math.max(0, 1 - hh * hh)); const b = new THREE.Mesh(new THREE.SphereGeometry(.022 * s, 10, 8), m); b.position.set(Math.cos(a) * r * .052 * s, hh * .06 * s + .045 * s, Math.sin(a) * r * .052 * s); cast(b, g, false); } return g; };
+const holly = (s = 1) => { const g = new THREE.Group(); for (let i = 0; i < 5; i++) { const l = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 6), P('#1e5a2d', { roughness: .35, clearcoat: .5 })); l.scale.set(.17, .012, .065); const a = i / 5 * 6.283 + .3; l.position.set(Math.cos(a) * .12, .012, Math.sin(a) * .12); l.rotation.set(0, -a, .15); cast(l, g, false); } for (let i = 0; i < 3; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(.045, 14, 10), P('#b3112e', { roughness: .12, clearcoat: 1 })); b.position.set((i - 1) * .05, .05, (i % 2) * .04); cast(b, g, false); } g.scale.setScalar(s); return g; };
 const mint = (s = 1) => { const g = new THREE.Group(); for (let i = 0; i < 2; i++) { const l = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 6), P('#4f8a4d', { roughness: .6 })); l.scale.set(.09 * s, .008 * s, .05 * s); l.position.set(i * .05 * s, 0, 0); l.rotation.set(0, i * 1.1, .25); cast(l, g, false); } return g; };
 function sprinkles(g, r, y, n = 60, cols = ['#f2a7be', '#f6d37a', '#9fd2c3', '#a9b8e8', '#ffffff']) { for (let i = 0; i < n; i++) { const a = rnd() * 6.283, d = Math.sqrt(rnd()) * r; const s = new THREE.Mesh(new THREE.CapsuleGeometry(.008, .034, 2, 5), P(cols[i % cols.length], { roughness: .5 })); s.position.set(Math.cos(a) * d, y, Math.sin(a) * d); s.rotation.set(Math.PI / 2, 0, rnd() * 6.283); g.add(s); } }
 
@@ -69,10 +72,23 @@ B.cheesecake = (o) => {
   if (garnish.includes('blueberry')) for (let i = 0; i < 7; i++) { const [x, z] = at(A * (.18 + (i % 4) * .17), R * (.42 + (i % 3) * .16)); const b = blueberry(1.3); b.position.set(x, y0 + .06, z + (i > 3 ? .1 : 0)); cast(b, g, false); b.rotation.y = i; g.add(b); }
   if (garnish.includes('raspberry')) for (let i = 0; i < 3; i++) { const [x, z] = at(A * (.3 + i * .22), R * .65); const b = raspberry(1.5); b.position.set(x, y0, z); g.add(b); }
   if (garnish.includes('crumble')) for (let i = 0; i < 46; i++) { const [x, z] = at(A * rr(.05, .95), R * rr(.2, .95)); const c = new THREE.Mesh(new THREE.DodecahedronGeometry(rr(.02, .055), 0), P('#c28a45', { roughness: .85, bumpMap: t.crumb, bumpScale: 2 })); c.position.set(x, y0 + .025, z); c.rotation.set(rnd() * 3, rnd() * 3, rnd() * 3); cast(c, g, false); }
+  if (garnish.includes('holly')) { const [hx, hz] = at(A * .5, R * .5); const hg = holly(1.5); hg.position.set(hx, y0 + .01, hz); g.add(hg); }
   if (garnish.includes('mint')) { const [x, z] = at(A * .46, R * .46); const mn = mint(1.5); mn.position.set(x, y0 + .12, z); mn.rotation.y = .8; g.add(mn); }
   if (garnish.includes('chocolate')) for (let i = 0; i < 8; i++) { const [x, z] = at(A * rr(.2, .8), R * rr(.4, .85)); const c = new THREE.Mesh(new THREE.CylinderGeometry(.02, .02, rr(.2, .38), 8), P('#33190e', { roughness: .25, clearcoat: .8 })); c.position.set(x, y0 + .05, z); c.rotation.set(Math.PI / 2, 0, rnd() * 3); cast(c, g, false); }
   if (garnish.includes('mango')) for (let i = 0; i < 5; i++) { const [x, z] = at(A * (.18 + i * .16), R * (.55 + (i % 2) * .1)); const c = new THREE.Mesh(new RoundedBoxGeometry(.15, .07, .15, 3, .02), P('#f7b21c', { roughness: .18, clearcoat: .9 })); c.position.set(x, y0 + .04, z); c.rotation.y = rnd() * 3; cast(c, g, false); }
   g.position.set(-R * .42, 0, R * .1); g.rotation.y = -A / 2 + .2; const w = new THREE.Group(); w.add(g); return w;
+};
+
+B.plumcake = (o) => {
+  const g = new THREE.Group(), t = textures(); plate(g, 1.8); const k = o.big ? 1.12 : 1;
+  const body = cast(new THREE.Mesh(wobble(lathe([[0, 0], [1.02, 0], [1.09, .04], [1.1, .6], [1.05, .68], [0, .68]], 80), .006, 8), P('#fff', { map: t.fruit, bumpMap: t.crumb, bumpScale: 2.8, roughness: .85 })), g); body.position.y = .12; body.scale.set(k, 1, k);
+  if (!o.plain || true) {
+    const ic = new THREE.Mesh(wobble(lathe([[0, .09], [.84, .085], [.96, .05], [1.02, -.02], [1.02, -.09], [0, -.09]], 80), .015, 6), P('#fbf6ec', { roughness: .4, clearcoat: .25 })); ic.position.y = .12 + .68; ic.scale.set(k, 1, k); cast(ic, g);
+    for (let i = 0; i < 20; i++) { const a = i / 20 * 6.283 + rr(-.08, .08), L = rr(.08, .3); const d = new THREE.Mesh(new THREE.CapsuleGeometry(rr(.045, .07), L, 4, 10), P('#fbf6ec', { roughness: .4, clearcoat: .25 })); d.position.set(Math.cos(a) * 1.03 * k, .12 + .68 - .02 - L / 2, Math.sin(a) * 1.03 * k); cast(d, g); }
+  }
+  const h = holly(1.7); h.position.set(.05, .12 + .68 + .05, 0); g.add(h);
+  if (o.ribbon) { const band = cast(new THREE.Mesh(new THREE.CylinderGeometry(1.115 * k, 1.115 * k, .2, 64, 1, true), P('#a31d2e', { roughness: .45, side: THREE.DoubleSide })), g); band.position.y = .12 + .36; [-1, 1].forEach((s) => { const lp = new THREE.Mesh(new THREE.TorusGeometry(.2, .06, 10, 24), P('#a31d2e', { roughness: .4 })); lp.position.set(s * .22, .12 + .68 + .22, 0); lp.rotation.set(Math.PI / 2.3, s * .4, s * .5); cast(lp, g); }); }
+  return g;
 };
 
 B.flan = (o) => {
@@ -190,6 +206,6 @@ B.eclair = (o) => {
 
 B.jar = (o) => B.glass({ ...o, wide: true, tall: 1.2 });
 
-export { berry, berryHalf, blueberry, raspberry, mint, textures };
+export { berry, berryHalf, blueberry, raspberry, mint, textures, holly };
 export function dessert(type, o = {}) { seed = (o.seed || 11); textures(); const f = B[type] || B.cheesecake; return f(o); }
 export const FRAME = { y: .55, d: 6.4, h: 2.2 };
