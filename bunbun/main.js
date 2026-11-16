@@ -439,9 +439,9 @@ if (XM) {
   new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); exclusive(menuRenders); } }, { rootMargin: '500px 0px' }).observe($('xmas'));
   /* snow: falls in depth layers, settles on the rounded tops of objects as lumpy, glinting drifts, and is shaken off when you scroll (?snow=0 turns it off) */
   if (!/[?&]snow=0/.test(location.search)) (function snowfall() {
-    const mob = innerWidth < 760, SEL = mob ? '.btn,.arcpill,.panel,.stage,.bk,.xc,.mc,.pkf,.hw' : '.pill,.sw,.btn,.arcpill,.panel,.stage,.arc,.bk,.xc,.mc,.pkf,.chips button,.mtabs button,.xdemo,.hw', COL = 4, CAPH = mob ? 16 : 24, DPR = Math.min(devicePixelRatio || 1, 2), MS = mob ? .5 : 1;
+    const mob = innerWidth < 760, SEL = mob ? '.btn,.arcpill,.panel,.bk,.xc,.mc,.pkf,.hw' : '.pill,.sw,.btn,.arcpill,.panel,.arc,.bk,.xc,.mc,.pkf,.chips button,.mtabs button,.xdemo,.hw', COL = 4, CAPH = mob ? 16 : 24, DPR = Math.min(devicePixelRatio || 1, 2), MS = mob ? .5 : 1;
     const mkLayer = (z) => { const c = document.createElement('div'); c.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:' + z; document.body.appendChild(c); return c; };
-    const fall = document.createElement('canvas'); fall.id = 'snow'; document.body.appendChild(fall); const layerA = mkLayer(8), layerB = mkLayer(31), sx = fall.getContext('2d');
+    const fall = document.createElement('canvas'); fall.id = 'snow'; document.body.appendChild(fall); const layerA = (() => { const c = document.createElement('div'); c.style.cssText = 'position:absolute;left:0;top:0;width:0;height:0;overflow:visible;pointer-events:none;z-index:8'; document.body.appendChild(c); return c; })(), layerB = mkLayer(31), sx = fall.getContext('2d');
     const gfx = document.getElementById('gfx'), back = document.createElement('canvas'); back.style.cssText = 'position:absolute;left:0;top:0'; if (gfx) gfx.appendChild(back); const bx = back.getContext('2d');   // far flakes sit behind the glass, so the glass blurs them
     let W = 0, H = 0; const rs = () => { W = innerWidth; H = innerHeight; [[fall, sx], [back, bx]].forEach(([c, x]) => { c.width = W * DPR; c.height = H * DPR; c.style.width = W + 'px'; c.style.height = H + 'px'; x.setTransform(DPR, 0, 0, DPR, 0, 0); }); }; rs(); addEventListener('resize', rs);
     /* soft flake sprites, tinted to the theme */
@@ -453,9 +453,10 @@ if (XM) {
     const pile = new WeakMap(); let tracked = [];
     const mkNoise = (n) => { const a = new Float32Array(n), b = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = .72 + Math.random() * .6; for (let i = 0; i < n; i++) b[i] = (a[Math.max(0, i - 2)] + a[Math.max(0, i - 1)] + a[i] + a[Math.min(n - 1, i + 1)] + a[Math.min(n - 1, i + 2)]) / 5; return b; };
     const radii = (p) => { const cs0 = getComputedStyle(p.el), r0 = p.el.getBoundingClientRect(), pr = (v) => (String(v).indexOf('%') > -1 ? parseFloat(v) / 100 * Math.min(r0.width, r0.height) : parseFloat(v) || 0); p.raw = [pr(cs0.borderTopLeftRadius), pr(cs0.borderTopRightRadius)]; };
+    const isFix = (el) => { for (let e = el; e && e !== document.body; e = e.parentElement) { const ps = getComputedStyle(e).position; if (ps === 'fixed' || ps === 'sticky') return true; } return false; };   // page-anchored caps scroll natively with the page; fixed/sticky ones follow the viewport
     const track = () => {
-      const els = [...document.querySelectorAll(SEL)]; tracked = els.map((el) => { let p = pile.get(el); if (!p) { p = { el, cols: null, nz: null, w: 0, cv: null, dirty: false, max: (11 + Math.random() * 5) * MS, layer: el.closest('.top') ? layerB : layerA, box: false, rtl: 0, rtr: 0 }; pile.set(el, p); } return p; });
-      tracked.forEach((p) => { radii(p); p.box = tracked.some((q) => q !== p && p.el.contains(q.el)); });
+      const els = [...document.querySelectorAll(SEL)]; tracked = els.map((el) => { let p = pile.get(el); if (!p) { p = { el, cols: null, nz: null, w: 0, cv: null, dirty: false, max: (11 + Math.random() * 5) * MS, layer: isFix(el) ? layerB : layerA, box: false, rtl: 0, rtr: 0 }; pile.set(el, p); } return p; });
+      tracked.forEach((p) => { const nl = isFix(p.el) ? layerB : layerA; if (nl !== p.layer) { p.layer = nl; if (p.cv) nl.appendChild(p.cv); } radii(p); p.box = tracked.some((q) => q !== p && p.el.contains(q.el)); });
     }; track(); setInterval(track, 1500);
     const mk = (L) => { const f = { L, x: Math.random() * innerWidth, y: Math.random() * innerHeight, d: Math.random() * 6, skip: null, f1: .6 + Math.random() * 1.2, amp: 4 + Math.random() * 12 }; init(f, L); return f; };
     const init = (f, L) => { if (mob) { f.r0 = 1; } if (L === 0) { f.r = .7 + Math.random() * .7; f.v = 12 + Math.random() * 14; f.a = .35 + Math.random() * .2; } else if (L === 1) { f.r = 1.2 + Math.random() * 1.1; f.v = 30 + Math.random() * 22; f.a = .75 + Math.random() * .2; } else { f.r = 2.6 + Math.random() * 1.8; f.v = 62 + Math.random() * 30; f.a = .8 + Math.random() * .15; } };
@@ -522,7 +523,7 @@ if (XM) {
         sx.globalAlpha = 1; bx.globalAlpha = 1;
       }
       vis.forEach((p) => { if (!p.cols) return; if (p.dirty || (p.cv && Math.abs(p.cv.offsetWidth - p.r.width) > 1)) { let any = false; for (let i = 0; i < p.cols.length; i++) if (p.cols[i] > .2) { any = true; break; } if (any) draw(p); else if (p.cv) { p.cv.getContext('2d').clearRect(0, 0, p.cv.width, p.cv.height); p.dirty = false; } }
-        if (p.cv) { p.cv.style.visibility = 'visible'; p.cv.style.transform = 'translate(' + p.r.left.toFixed(1) + 'px,' + (p.r.top - CAPH + 1).toFixed(1) + 'px)'; } });
+        if (p.cv) { p.cv.style.visibility = 'visible'; const ox = p.layer === layerA ? pageXOffset : 0, oy = p.layer === layerA ? pageYOffset : 0; p.cv.style.transform = 'translate(' + (p.r.left + ox).toFixed(1) + 'px,' + (p.r.top + oy - CAPH + 1).toFixed(1) + 'px)'; } });
       tracked.forEach((p) => { if (!p.vis && p.cv) p.cv.style.visibility = 'hidden'; });
     })(performance.now());
   })();
