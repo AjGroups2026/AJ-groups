@@ -65,6 +65,7 @@ export const MENU = [
 /* ---------- CHRISTMAS SPECIAL (demo: every figure here is a sample until confirmed) ----------
    Shown only when the page is opened with ?xmas=1. Edit dates, batches and prices here. */
 export const XMAS = {
+  demo: true,                                                // set to false once Allwyn has confirmed every date, price and batch
   lastOrder: '2026-12-20',                                   // last day to order
   deliveryDates: ['Mon 21 Dec', 'Tue 22 Dec', 'Wed 23 Dec', 'Thu 24 Dec'],
   batches: [                                                 // cakes left are edited by hand
@@ -74,9 +75,9 @@ export const XMAS = {
   ]
 };
 export const XMAS_CAT = { cat: 'Christmas', blurb: 'Rum plum cake and festive gifting. Sample details.', items: [
-  { id: 'xm-500', name: 'Rum Plum Cake, 500 g', desc: 'Dark, moist fruit cake with rum and warm spices. Contains alcohol.', price: 850, unit: 'cake', type: 'plumcake', opts: {} },
-  { id: 'xm-1k', name: 'Rum Plum Cake, 1 kg', desc: 'The family size, iced and decorated with holly. Contains alcohol.', price: 1600, unit: 'cake', type: 'plumcake', opts: { big: true } },
-  { id: 'xm-alc', name: 'Plum Cake, alcohol-free', desc: 'The same fruit cake made without rum.', price: 850, unit: 'cake', type: 'plumcake', opts: { plain: true } },
+  { id: 'xm-500', name: 'Rum Plum Cake, 500 g', desc: 'Dark, moist fruit cake with rum and warm spices. Contains alcohol.', price: 850, unit: 'cake', type: 'plumcake', opts: { cut: true } },
+  { id: 'xm-1k', name: 'Rum Plum Cake, 1 kg', desc: 'The family size, iced and decorated with holly. Contains alcohol.', price: 1600, unit: 'cake', type: 'plumcake', opts: { big: true, cut: true } },
+  { id: 'xm-alc', name: 'Plum Cake, alcohol-free', desc: 'The same fruit cake made without rum.', price: 850, unit: 'cake', type: 'plumcake', opts: { plain: true, cut: true } },
   { id: 'xm-slice', name: 'Plum Cake Slices (box of 4)', desc: 'Four generous slices for sharing. Contains alcohol.', price: 420, unit: 'box', type: 'cheesecake', opts: { fill: '#4a2c1a', crust: '#2a170e', top: '#fbf6ec', garnish: ['holly'] } },
   { id: 'xm-gift', name: 'Christmas Gift Box', desc: 'A 500 g plum cake in a ribboned box. Contains alcohol.', price: 1100, unit: 'box', type: 'plumcake', opts: { ribbon: true } }
 ] };

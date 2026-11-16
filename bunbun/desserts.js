@@ -20,6 +20,16 @@ function textures() {
   tx.seedBump = canvasTex(256, 512, (x, w, h) => { x.fillStyle = '#d0d0d0'; x.fillRect(0, 0, w, h); for (let r = 0; r < 26; r++) for (let c = 0; c < 12; c++) { const px = (c + (r % 2) * .5) * (w / 12) + 4, py = (r + .5) * (h / 26); x.fillStyle = '#303030'; x.beginPath(); x.ellipse(px, py + 2, 5, 6.4, 0, 0, 6.283); x.fill(); } });
   tx.fruit = canvasTex(256, 256, (x, w, h) => { x.fillStyle = '#4b2b19'; x.fillRect(0, 0, w, h); const cols = ['#2a1020', '#c97a1c', '#8a1c2c', '#b99a6a', '#1c0f08', '#d8b36a']; for (let i = 0; i < 520; i++) { x.fillStyle = cols[i % cols.length]; x.globalAlpha = .55 + rnd() * .4; x.beginPath(); x.ellipse(rnd() * w, rnd() * h, 1.4 + rnd() * 4.2, 1.2 + rnd() * 3.4, rnd() * 3, 0, 6.283); x.fill(); } x.globalAlpha = 1; }, [2, 1]);
   tx.fruit.colorSpace = THREE.SRGBColorSpace;
+  tx.fruitCut = canvasTex(640, 512, (x, w, h) => { const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#3d2012'); g.addColorStop(1, '#2c160c'); x.fillStyle = g; x.fillRect(0, 0, w, h);
+    for (let i = 0; i < 2600; i++) { x.fillStyle = `rgba(${90 + rnd() * 70 | 0},${48 + rnd() * 34 | 0},${20 + rnd() * 20 | 0},${.18 + rnd() * .34})`; x.beginPath(); x.ellipse(rnd() * w, rnd() * h, 1.5 + rnd() * 7, 1.2 + rnd() * 5, rnd() * 3, 0, 6.283); x.fill(); }
+    const kinds = [['#1c0b14', 44, 7, 16, .12], ['#a8721f', 22, 6, 15, .2], ['#7d0f22', 8, 8, 16, .3], ['#b9701c', 9, 4, 11, .12], ['#cdb988', 6, 5, 12, .06], ['#5e4328', 11, 5, 12, .06]];
+    for (let i = 0; i < 420; i++) { let r = rnd() * 100, kd = kinds[0]; for (const q of kinds) { if (r < q[1]) { kd = q; break; } r -= q[1]; } const px = rnd() * (w - 40), py = 66 + rnd() * (h - 76), rx = kd[2] + rnd() * (kd[3] - kd[2]), ry = rx * (.62 + rnd() * .3), rot = rnd() * 3.1;
+      x.save(); x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = 4; x.shadowOffsetY = 1.5; x.fillStyle = kd[0]; x.beginPath(); x.ellipse(px, py, rx, ry, rot, 0, 6.283); x.fill(); x.restore();
+      x.fillStyle = `rgba(255,236,210,${kd[4]})`; x.beginPath(); x.ellipse(px - rx * .25, py - ry * .3, rx * .38, ry * .24, rot, 0, 6.283); x.fill(); }
+    x.fillStyle = '#f6f0e3'; x.fillRect(0, 0, w, 41); x.fillStyle = 'rgba(0,0,0,.05)'; for (let i = 0; i < 200; i++) x.fillRect(rnd() * w, rnd() * 41, 2, 1);
+    x.fillStyle = '#e3ca8a'; x.fillRect(0, 41, w, 15); x.fillStyle = 'rgba(120,80,20,.25)'; x.fillRect(0, 54, w, 2);
+    x.fillStyle = '#e3ca8a'; x.fillRect(w - 29, 0, 12, h); x.fillStyle = '#f6f0e3'; x.fillRect(w - 17, 0, 17, h); });
+  tx.fruitCut.colorSpace = THREE.SRGBColorSpace;
   tx.cut = canvasTex(256, 256, (x, w, h) => { const g = x.createRadialGradient(w / 2, h * .55, 8, w / 2, h * .55, w * .62); g.addColorStop(0, '#fff3ef'); g.addColorStop(.28, '#ffd2cc'); g.addColorStop(.62, '#ee5560'); g.addColorStop(1, '#c4152e'); x.fillStyle = g; x.fillRect(0, 0, w, h);
     x.strokeStyle = 'rgba(255,240,236,.55)'; x.lineWidth = 2.2; for (let i = 0; i < 26; i++) { const a = -Math.PI / 2 + (i / 25 - .5) * 2.7; x.beginPath(); x.moveTo(w / 2, h * .5); x.lineTo(w / 2 + Math.cos(a) * w * .5, h * .55 + Math.sin(a) * h * .58); x.stroke(); }
     x.fillStyle = 'rgba(255,224,150,.9)'; for (let i = 0; i < 22; i++) { const a = Math.PI * (i / 21) - Math.PI, rr2 = w * .44; x.beginPath(); x.ellipse(w / 2 + Math.cos(a) * rr2 * .98, h * .52 - Math.sin(a) * rr2 * .86, 2, 3, 0, 0, 6.283); x.fill(); } });
@@ -80,16 +90,40 @@ B.cheesecake = (o) => {
 };
 
 B.plumcake = (o) => {
-  const g = new THREE.Group(), t = textures(); plate(g, 1.8); const k = o.big ? 1.12 : 1;
-  const body = cast(new THREE.Mesh(wobble(lathe([[0, 0], [1.02, 0], [1.09, .04], [1.1, .6], [1.05, .68], [0, .68]], 80), .006, 8), P('#fff', { map: t.fruit, bumpMap: t.crumb, bumpScale: 2.8, roughness: .85 })), g); body.position.y = .12; body.scale.set(k, 1, k);
-  if (!o.plain || true) {
-    const ic = new THREE.Mesh(wobble(lathe([[0, .09], [.84, .085], [.96, .05], [1.02, -.02], [1.02, -.09], [0, -.09]], 80), .015, 6), P('#fbf6ec', { roughness: .4, clearcoat: .25 })); ic.position.y = .12 + .68; ic.scale.set(k, 1, k); cast(ic, g);
-    for (let i = 0; i < 20; i++) { const a = i / 20 * 6.283 + rr(-.08, .08), L = rr(.08, .3); const d = new THREE.Mesh(new THREE.CapsuleGeometry(rr(.045, .07), L, 4, 10), P('#fbf6ec', { roughness: .4, clearcoat: .25 })); d.position.set(Math.cos(a) * 1.03 * k, .12 + .68 - .02 - L / 2, Math.sin(a) * 1.03 * k); cast(d, g); }
+  const g = new THREE.Group(), t = textures(), k = o.big ? 1.12 : 1, hero = !!o.hero, cut = !!o.cut;
+  const base = hero ? .09 : .12, R = 1.05 * k, H = .78, A = cut ? .95 : 0, Tp = H + .095, PHI = [A, Math.PI * 2 - A];
+  if (hero) {
+    cast(new THREE.Mesh(lathe([[0, 0], [1.5, 0], [1.72, .04], [1.92, .11], [1.88, .135], [1.7, .09], [0, .09]], 96), P('#0b040d', { roughness: .8, envMapIntensity: .12 })), g);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(1.9, .013, 8, 128), P('#d8b66a', { metalness: 1, roughness: .26 })); rim.rotation.x = Math.PI / 2; rim.position.y = .125; cast(rim, g, false);
+  } else plate(g, 1.8);
+  const LG = (pts, seg = 120) => new THREE.LatheGeometry(pts.map(([x, y]) => new THREE.Vector2(x, y)), seg, PHI[0], PHI[1]);
+  const body = cast(new THREE.Mesh(LG([[0, 0], [R - .02, 0], [R, .02], [R, H], [0, H]], 90), P('#2c170d', { roughness: .9 })), g); body.position.y = base;
+  const mz = cast(new THREE.Mesh(LG([[R + .02, 0], [R + .02, H + .01], [R, H + .025], [0, H + .025]], 110), P('#e3ca8a', { roughness: .62, bumpMap: t.fine, bumpScale: .5 })), g); mz.position.y = base;
+  const pk = (x, z) => { const a = Math.sin(x * 6.1 + 1.3) * Math.sin(z * 5.3 - .7) + .6 * Math.sin(x * 11.7 + z * 9.3 + 2) * Math.sin(z * 12.9 - x * 4.1) + .35 * Math.sin(x * 23 + z * 19); const v = Math.max(0, a + .12); const r = Math.hypot(x, z); return Math.pow(v, 1.7) * .03 * Math.min(1, Math.max(0, (R * .98 - r) / (R * .3))); };
+  const ip = [[R + .04, 0], [R + .05, .02], [R + .052, H + .05], [R + .05, H + .085], [R + .03, Tp]]; for (let i = 0; i <= 56; i++) ip.push([(R + .0) * (1 - i / 56), Tp]);
+  const ig = LG(ip, 160), pp = ig.attributes.position; for (let i = 0; i < pp.count; i++) { if (pp.getY(i) > Tp - .001) pp.setY(i, Tp + pk(pp.getX(i), pp.getZ(i))); } ig.computeVertexNormals();
+  const ice = cast(new THREE.Mesh(ig, P('#f3ead6', { roughness: .6, bumpMap: t.crumb, bumpScale: .9, sheen: .35, sheenRoughness: .7, sheenColor: new THREE.Color('#fff8ea') })), g); ice.position.y = base;
+  for (let i = 0; i < 30; i++) { const a = A + (i + rnd() * .5) / 30 * (Math.PI * 2 - A - .1); if (!cut && false) continue; const rad = R - .03 + rr(-.03, .02), x = Math.sin(a) * rad, z = Math.cos(a) * rad, s = rr(.7, 1.25); const cn = new THREE.Mesh(new THREE.ConeGeometry(.034 * s, .075 * s, 12), ice.material); cn.position.set(x, base + Tp + .02 * s, z); cn.rotation.set(rr(-.15, .15) - Math.cos(a) * .1, 0, rr(-.15, .15) + Math.sin(a) * .1); cast(cn, g); }
+  if (cut) {
+    const Wd = R + .05, Ht = Tp, fm = new THREE.MeshStandardMaterial({ map: t.fruitCut, bumpMap: t.fruitCut, bumpScale: 2.2, roughness: .72, side: THREE.DoubleSide }), fg = new THREE.PlaneGeometry(Wd, Ht);
+    [0, A].forEach((ph) => { const f = new THREE.Mesh(fg, fm); f.rotation.y = ph - Math.PI / 2; f.position.set(Math.sin(ph) * Wd / 2, base + Ht / 2, Math.cos(ph) * Wd / 2); cast(f, g); });
   }
-  const h = holly(1.7); h.position.set(.05, .12 + .68 + .05, 0); g.add(h);
-  if (o.ribbon) { const band = cast(new THREE.Mesh(new THREE.CylinderGeometry(1.115 * k, 1.115 * k, .2, 64, 1, true), P('#a31d2e', { roughness: .45, side: THREE.DoubleSide })), g); band.position.y = .12 + .36; [-1, 1].forEach((s) => { const lp = new THREE.Mesh(new THREE.TorusGeometry(.2, .06, 10, 24), P('#a31d2e', { roughness: .4 })); lp.position.set(s * .22, .12 + .68 + .22, 0); lp.rotation.set(Math.PI / 2.3, s * .4, s * .5); cast(lp, g); }); }
+  const top = base + Tp, mid = (A + Math.PI * 2) / 2, ox = Math.sin(mid), oz = Math.cos(mid);
+  const sprig = (s, ang) => { const sg = new THREE.Group(), cols = ['#0f4220', '#17562a', '#0b3818'];
+    for (let i = 0; i < 3; i++) { const lf = new THREE.Mesh(leafGeo(), P(cols[i], { roughness: .36, clearcoat: .6, side: THREE.DoubleSide })); lf.rotation.y = ang + (i - 1) * .95 + rr(-.1, .1); lf.position.y = .01 + i * .004; cast(lf, sg); }
+    for (let i = 0; i < 3; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(.048, 18, 14), P('#b3112e', { roughness: .1, clearcoat: 1 })); b.position.set(Math.cos(i * 2.1) * .045, .06, Math.sin(i * 2.1) * .045); cast(b, sg); }
+    sg.scale.setScalar(s); return sg; };
+  const hx = ox * .1, hz = oz * .1, hs = sprig(1.5, mid + 1.57); hs.position.set(hx, top + pk(hx, hz) + .01, hz); g.add(hs);
+  for (let i = 0; i < 5; i++) { const a = mid + (i - 2) * .55, rad = .42 + (i % 2) * .08, x = Math.sin(a) * rad, z = Math.cos(a) * rad; const c = new THREE.Mesh(new THREE.SphereGeometry(.058, 20, 16), P('#c4283c', { roughness: .42, bumpMap: t.bloom, bumpScale: 1.4, sheen: .8, sheenColor: new THREE.Color('#ffffff'), sheenRoughness: .35 })); c.position.set(x, top + pk(x, z) + .045, z); cast(c, g); }
+  for (let i = 0; i < 16; i++) { const a = rr(0, 6.283), rad = rr(.45, .92), x = Math.sin(a) * rad, z = Math.cos(a) * rad; if (cut && ((a % 6.283) < A + .15 || (a % 6.283) > 6.283 - .1)) continue; const d = new THREE.Mesh(new THREE.SphereGeometry(.024, 12, 10), P('#d8b66a', { metalness: 1, roughness: .26 })); d.position.set(x, top + pk(x, z) + .018, z); cast(d, g, false); }
+  if (o.ribbon) { const band = cast(new THREE.Mesh(new THREE.CylinderGeometry(R + .07, R + .07, .2, 64, 1, true), P('#a31d2e', { roughness: .45, side: THREE.DoubleSide })), g); band.position.y = base + .36; [-1, 1].forEach((s) => { const lp = new THREE.Mesh(new THREE.TorusGeometry(.2, .06, 10, 24), P('#a31d2e', { roughness: .4 })); lp.position.set(s * .22, top + .24, 0); lp.rotation.set(Math.PI / 2.3, s * .4, s * .5); cast(lp, g); }); }
   return g;
 };
+const leafGeo = () => { const len = .42, wid = .14, N = 36, sh = new THREE.Shape(), up = [], dn = [];
+  for (let i = 0; i <= N; i++) { const u = i / N, tri = Math.abs(((u * 5) % 1) - .5) * 2, w = Math.pow(Math.sin(Math.PI * Math.min(1, u * 1.02)), .75) * wid * (.62 + .38 * tri); up.push([u * len, w]); dn.push([u * len, -w]); }
+  sh.moveTo(up[0][0], 0); up.forEach(([x, y]) => sh.lineTo(x, y)); dn.reverse().forEach(([x, y]) => sh.lineTo(x, y));
+  const gg = new THREE.ExtrudeGeometry(sh, { depth: .006, bevelEnabled: false, curveSegments: 1 }); gg.rotateX(-Math.PI / 2); const p = gg.attributes.position;
+  for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i); p.setY(i, p.getY(i) + Math.pow(x / len, 2) * .05 + Math.abs(z) * .6); } gg.computeVertexNormals(); return gg; };
 
 B.flan = (o) => {
   const g = new THREE.Group(); plate(g, 1.7);

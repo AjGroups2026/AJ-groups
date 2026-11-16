@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=6';
-import { MENU, XMAS, XMAS_CAT } from './menu.js?v=6';
+import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=12';
+import { MENU, XMAS, XMAS_CAT } from './menu.js?v=8';
 
 const $ = (i) => document.getElementById(i);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -26,7 +26,7 @@ const OCC = [
   { k: 'Just because', style: 'naked', tiers: 1, flavour: 'lemon', frost: 'cream', drip: 'none', tops: ['berries', 'strawberry'], candles: false, msg: 'Because you are lovely' }
 ];
 /* Christmas demo: open the page with ?xmas=1 */
-const XM = new URLSearchParams(location.search).has('xmas');
+const XM = document.documentElement.dataset.xmas === '1';
 if (XM) { FL.plum = ['Rum plum', '#4b2b19']; TOPS.holly = 'Holly'; OCC.unshift({ k: 'Christmas', style: 'frosted', tiers: 2, flavour: 'plum', frost: 'cream', drip: 'white', tops: ['holly', 'pearls'], candles: false, msg: 'Merry Christmas' }); }
 const MENU_ALL = XM ? [XMAS_CAT, ...MENU] : MENU;
 const bag = new Map(); const gifts = []; const STAND = .52; const standParts = [];
@@ -108,6 +108,7 @@ if (renderer) {
   const ground = new THREE.Mesh(new THREE.CircleGeometry(4, 48), new THREE.ShadowMaterial({ opacity: .22 })); ground.rotation.x = -Math.PI / 2; ground.position.y = -.005; ground.receiveShadow = true; root.add(ground);
   root.add(cakeG, boxG); scene.add(root); cam.position.set(0, 3.2, 10); cam.lookAt(0, 1.5, 0);
   makeTextures(); makeGeometry();
+  $('viewer').appendChild(cvs);   // the cake lives inside its card, so it scrolls with the card instead of chasing it
 }
 const add = (mesh, parent = cakeG, cast = true) => { mesh.castShadow = cast; mesh.receiveShadow = true; parent.add(mesh); return mesh; };
 
@@ -217,9 +218,9 @@ let t0 = performance.now(); let packState = '';
 function frame(now) {
   const dt = Math.min(.05, (now - t0) / 1000) || .016; t0 = now; const T2 = now / 1000;
   if (renderer) {
-    const vr = $('viewer').getBoundingClientRect(), size = Math.min(vr.width, vr.height) * 1.1, cx = vr.left + vr.width / 2, cy = vr.top + vr.height / 2 + vr.height * (innerWidth < 760 ? -.03 : .04);
-    const inView = vr.bottom > -40 && vr.top < innerHeight, fade = clamp(vr.bottom / (innerHeight * .25)) * clamp((innerHeight - vr.top) / (innerHeight * .12));
-    cvs.style.transform = `translate(${(cx - 320).toFixed(1)}px,${(cy - 320).toFixed(1)}px) scale(${(size / 640).toFixed(4)})`; cvs.style.opacity = inView ? fade.toFixed(3) : 0; cvs.style.visibility = inView && fade > .01 ? 'visible' : 'hidden';
+    const vw = $('viewer'), vr = vw.getBoundingClientRect(), size = Math.min(vw.clientWidth, vw.clientHeight) * 1.1, offY = vw.clientHeight * (innerWidth < 760 ? -.03 : .04);
+    const inView = vr.bottom > -40 && vr.top < innerHeight;
+    cvs.style.transform = `translate(-50%,-50%) translateY(${offY.toFixed(1)}px) scale(${(size / 640).toFixed(4)})`; cvs.style.opacity = inView ? 1 : 0; cvs.style.visibility = inView ? 'visible' : 'hidden';
     if (inView && !thumbsBusy) {
       if (!dragging) { rotV *= Math.pow(.04, dt); rotY += rotV; if (spinning && !S.decorate && !reduce && Math.abs(rotV) < .002) rotY += dt * .3; }
       root.rotation.y = rotY; if (!packState) root.position.y = Math.sin(T2 * 1.2) * .03;
@@ -334,8 +335,9 @@ document.querySelectorAll('.rv').forEach((r) => io.observe(r));
 $('msg').value = S.msg; ui(); requestAnimationFrame(frame);
 
 
-/* ---------- colour directions A, B, C ---------- */
-{ const root = document.documentElement, meta = document.querySelector('meta[name="theme-color"]'), bg = { a: '#aab6cc', b: '#19253b', c: '#fff0c1' }, btns = [...document.querySelectorAll('.sw button')];
+/* ---------- colour directions ---------- */
+if (XM) { const sw = document.querySelector('.sw'); if (sw) sw.innerHTML = [['x1', 'Plum &amp; Gold', 'Plum and gold: deep plum with gold', 'linear-gradient(135deg,#4d2040 50%,#e0b863 50%)'], ['x2', 'Holly &amp; Berry', 'Holly and cranberry: forest green with red', 'linear-gradient(135deg,#1e5a37 50%,#c8283d 50%)'], ['x3', 'Snow &amp; Rum', 'Icing and rum: cream with rum brown', 'linear-gradient(135deg,#fbf6ec 50%,#6b3a1f 50%)']].map(([t, n, ti, g]) => `<button type="button" data-t="${t}" title="${ti}" style="--sw:${g}"><i></i><span>${n}</span></button>`).join(''); }
+{ const root = document.documentElement, meta = document.querySelector('meta[name="theme-color"]'), bg = { a: '#aab6cc', b: '#19253b', c: '#fff0c1', x1: '#2a1020', x2: '#12301f', x3: '#fbf6ec' }, btns = [...document.querySelectorAll('.sw button')];
   const set = (t, save) => { root.dataset.theme = t; if (meta) meta.setAttribute('content', bg[t]); btns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.t === t)); if (save) { try { localStorage.setItem('bbtheme', t); } catch (e) {} } };
   btns.forEach((b) => b.addEventListener('click', () => set(b.dataset.t, true))); set(root.dataset.theme || 'a'); }
 
@@ -387,6 +389,7 @@ Promise.race([document.fonts && document.fonts.ready ? document.fonts.ready : Pr
 
 /* ---------- christmas demo: countdown, batch board, gifting, wish card, snow (only with ?xmas=1) ---------- */
 if (XM) {
+  if (XMAS.demo) { const dt = document.createElement('div'); dt.className = 'xdemo mono'; dt.textContent = 'Christmas · sample details'; document.body.appendChild(dt); } else $('xmas').querySelector('.lab').textContent = 'Christmas special';
   const last = new Date(XMAS.lastOrder + 'T23:59:59+05:30'), cd = $('cd'), cdn = $('cdn');
   const tick = () => { const ms = last - Date.now(); if (ms <= 0) { cd.textContent = 'Closed'; cdn.textContent = 'Last orders have closed'; return; } const d = Math.floor(ms / 864e5), hh = Math.floor(ms % 864e5 / 36e5), mm = Math.floor(ms % 36e5 / 6e4); cd.textContent = `${d}d ${String(hh).padStart(2, '0')}h ${String(mm).padStart(2, '0')}m`; cdn.textContent = 'until ' + last.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' }); };
   tick(); setInterval(tick, 30000);
@@ -417,8 +420,94 @@ if (XM) {
   $('wdl').addEventListener('click', async () => { const b = await blob(), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'bun-bun-christmas-card.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); });
   $('wsh').addEventListener('click', async () => { const b = await blob(), f = new File([b], 'bun-bun-christmas-card.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f], title: 'Bun Bun Bakes Christmas', text: 'Merry Christmas from Bun Bun Bakes' }); } catch (e) {} } else say2('Sharing is not available here. Use Download card.'); });
   new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); exclusive(menuRenders); } }, { rootMargin: '500px 0px' }).observe($('xmas'));
-  /* gentle snow */
-  if (!reduce) { const sc = document.createElement('canvas'); sc.id = 'snow'; document.body.appendChild(sc); const sx = sc.getContext('2d'); let W = 0, H = 0; const fl = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random(), r: .6 + Math.random() * 2.2, v: .015 + Math.random() * .04, d: Math.random() * 6 }));
-    const rs = () => { W = sc.width = innerWidth; H = sc.height = innerHeight; }; rs(); addEventListener('resize', rs); let t0 = performance.now();
-    (function snow(n) { const dt = Math.min(.05, (n - t0) / 1000); t0 = n; sx.clearRect(0, 0, W, H); sx.fillStyle = 'rgba(255,255,255,.75)'; fl.forEach((f) => { f.y += f.v * dt * 4; f.d += dt; if (f.y > 1.02) { f.y = -.02; f.x = Math.random(); } sx.beginPath(); sx.arc((f.x + Math.sin(f.d) * .012) * W, f.y * H, f.r, 0, 6.283); sx.fill(); }); requestAnimationFrame(snow); })(t0); }
+  /* snow: falls in depth layers, settles on the rounded tops of objects as lumpy, glinting drifts, and is shaken off when you scroll (?snow=0 turns it off) */
+  if (!/[?&]snow=0/.test(location.search)) (function snowfall() {
+    const SEL = '.pill,.sw,.btn,.arcpill,.panel,.stage,.arc,.bk,.xc,.mc,.pkf,.chips button,.mtabs button,.xdemo,.hw', COL = 4, CAPH = 24, DPR = Math.min(devicePixelRatio || 1, 2), mob = innerWidth < 760;
+    const mkLayer = (z) => { const c = document.createElement('div'); c.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:' + z; document.body.appendChild(c); return c; };
+    const fall = document.createElement('canvas'); fall.id = 'snow'; document.body.appendChild(fall); const layerA = mkLayer(8), layerB = mkLayer(31), sx = fall.getContext('2d');
+    const gfx = document.getElementById('gfx'), back = document.createElement('canvas'); back.style.cssText = 'position:absolute;left:0;top:0'; if (gfx) gfx.appendChild(back); const bx = back.getContext('2d');   // far flakes sit behind the glass, so the glass blurs them
+    let W = 0, H = 0; const rs = () => { W = innerWidth; H = innerHeight; [[fall, sx], [back, bx]].forEach(([c, x]) => { c.width = W * DPR; c.height = H * DPR; c.style.width = W + 'px'; c.style.height = H + 'px'; x.setTransform(DPR, 0, 0, DPR, 0, 0); }); }; rs(); addEventListener('resize', rs);
+    /* soft flake sprites, tinted to the theme */
+    let sCrisp, sSoft, snowRGB = '255,255,255';
+    const sprite = (soft) => { const s = Math.ceil(32 * DPR), c = document.createElement('canvas'); c.width = c.height = s; const x = c.getContext('2d'), m = s / 2, g = x.createRadialGradient(m, m, 0, m, m, m); g.addColorStop(0, `rgba(${snowRGB},1)`); g.addColorStop(soft, `rgba(${snowRGB},.8)`); g.addColorStop(1, `rgba(${snowRGB},0)`); x.fillStyle = g; x.fillRect(0, 0, s, s); return c; };
+    const rebuild = () => { sCrisp = sprite(.55); sSoft = sprite(.12); }; rebuild();
+    const put = (ctx, sp, x, y, r, a) => { ctx.globalAlpha = a; ctx.drawImage(sp, x - r * 1.5, y - r * 1.5, r * 3, r * 3); };
+    const pile = new WeakMap(); let tracked = [];
+    const mkNoise = (n) => { const a = new Float32Array(n), b = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = .72 + Math.random() * .6; for (let i = 0; i < n; i++) b[i] = (a[Math.max(0, i - 2)] + a[Math.max(0, i - 1)] + a[i] + a[Math.min(n - 1, i + 1)] + a[Math.min(n - 1, i + 2)]) / 5; return b; };
+    const radii = (p) => { const cs0 = getComputedStyle(p.el), r0 = p.el.getBoundingClientRect(), pr = (v) => (String(v).indexOf('%') > -1 ? parseFloat(v) / 100 * Math.min(r0.width, r0.height) : parseFloat(v) || 0); p.raw = [pr(cs0.borderTopLeftRadius), pr(cs0.borderTopRightRadius)]; };
+    const track = () => {
+      const els = [...document.querySelectorAll(SEL)]; tracked = els.map((el) => { let p = pile.get(el); if (!p) { p = { el, cols: null, nz: null, w: 0, cv: null, dirty: false, max: 11 + Math.random() * 5, layer: el.closest('.top') ? layerB : layerA, box: false, rtl: 0, rtr: 0 }; pile.set(el, p); } return p; });
+      tracked.forEach((p) => { radii(p); p.box = tracked.some((q) => q !== p && p.el.contains(q.el)); });
+    }; track(); setInterval(track, 1500);
+    const mk = (L) => { const f = { L, x: Math.random() * innerWidth, y: Math.random() * innerHeight, d: Math.random() * 6, skip: null, f1: .6 + Math.random() * 1.2, amp: 4 + Math.random() * 12 }; init(f, L); return f; };
+    const init = (f, L) => { if (L === 0) { f.r = .7 + Math.random() * .7; f.v = 12 + Math.random() * 14; f.a = .35 + Math.random() * .2; } else if (L === 1) { f.r = 1.2 + Math.random() * 1.1; f.v = 30 + Math.random() * 22; f.a = .75 + Math.random() * .2; } else { f.r = 2.6 + Math.random() * 1.8; f.v = 62 + Math.random() * 30; f.a = .8 + Math.random() * .15; } };
+    const cnt = mob ? [28, 30, 7] : [60, 56, 16], far = [], fl = [];
+    cnt.forEach((n, L) => { for (let i = 0; i < n; i++) (L === 0 ? far : fl).push(mk(L)); });
+    const respawn = (f) => { f.x = Math.random() * W; f.y = -10 - Math.random() * 60; f.skip = null; };
+    const end = (f) => { if (f.c) f.dead = true; else respawn(f); };
+    const pf = []; const puff = (x, y, n, sp) => { for (let i = 0; i < n && pf.length < 160; i++) pf.push({ x, y, vx: (Math.random() - .5) * sp, vy: -Math.random() * sp * .8, l: .7 + Math.random() * .5, r: .7 + Math.random() * 1.3 }); };
+    const drop = (p, x, w) => { const a = p.rtl, b = p.rtr; if (a > 0 && x < a) return a - Math.sqrt(Math.max(0, a * a - (a - x) * (a - x))); if (b > 0 && x > w - b) { const q = x - (w - b); return b - Math.sqrt(Math.max(0, b * b - q * q)); } return 0; };
+    const addSnow = (p, x, amt) => {
+      const n = p.cols.length, ci = Math.min(n - 1, Math.max(0, Math.floor(x / COL))); let c = ci;
+      if (p.cols[c] >= p.max) { let best = -1, bv = p.max; for (let k = -8; k <= 8; k++) { const j = ci + k; if (j >= 0 && j < n && p.cols[j] < bv) { bv = p.cols[j]; best = j; } } if (best < 0) return; c = best; }
+      for (let k = -5; k <= 5; k++) { const j = c + k; if (j < 0 || j >= n) continue; p.cols[j] = Math.min(p.max, p.cols[j] + amt * Math.exp(-k * k / 7)); } p.dirty = true;
+    };
+    const draw = (p) => {
+      const w = Math.max(1, Math.round(p.r.width)), n = p.cols.length, rad = Math.max(p.rtl, p.rtr), CH = CAPH + Math.ceil(rad) + 2, y0 = CAPH - 1;
+      if (!p.cv) { p.cv = document.createElement('canvas'); p.cv.style.cssText = 'position:absolute;left:0;top:0;will-change:transform'; p.layer.appendChild(p.cv); }
+      const cv = p.cv; cv.width = w * DPR; cv.height = CH * DPR; cv.style.width = w + 'px'; cv.style.height = CH + 'px'; const c = cv.getContext('2d'); c.setTransform(DPR, 0, 0, DPR, 0, 0); c.clearRect(0, 0, w, CH);
+      const edge = Math.max(6, rad * .85), top = [], bot = [];
+      for (let i = 0; i < n; i++) { const x = Math.min(w, i * COL + COL / 2), d0 = drop(p, x, w), dd = Math.min(x, w - x), k = Math.min(1, dd / edge), s = k * k * (3 - 2 * k), base = y0 + d0 + .8, hgt = p.cols[i] * s * p.nz[i]; bot.push([x, base]); top.push([x, base - Math.max(0, hgt - .3)]); }
+      const path = () => { c.beginPath(); c.moveTo(0, bot[0][1]); c.lineTo(top[0][0], top[0][1]); for (let i = 0; i < n - 1; i++) { const mx = (top[i][0] + top[i + 1][0]) / 2, my = (top[i][1] + top[i + 1][1]) / 2; c.quadraticCurveTo(top[i][0], top[i][1], mx, my); } c.lineTo(top[n - 1][0], top[n - 1][1]); c.lineTo(w, bot[n - 1][1]); for (let i = n - 1; i >= 0; i--) c.lineTo(bot[i][0], bot[i][1]); c.closePath(); };
+      /* body: soft blue shadow at the base, bright snow on top */
+      const g = c.createLinearGradient(0, y0 - 16, 0, y0 + 3); g.addColorStop(0, '#ffffff'); g.addColorStop(.55, '#f1f6fd'); g.addColorStop(1, '#bccfe8');
+      path(); c.save(); c.shadowColor = 'rgba(15,25,50,.45)'; c.shadowBlur = 4; c.shadowOffsetY = 1.5; c.fillStyle = g; c.fill(); c.restore();
+      /* a bright rim along the crest and a few glints, so it reads as crystalline, not flat paint */
+      c.save(); path(); c.clip(); c.strokeStyle = 'rgba(255,255,255,.95)'; c.lineWidth = 1.4; c.beginPath(); c.moveTo(top[0][0], top[0][1] + .5); for (let i = 1; i < n; i++) c.lineTo(top[i][0], top[i][1] + .5); c.stroke();
+      c.fillStyle = 'rgba(130,160,205,.28)'; for (let i = 1; i < n - 1; i += 2) { const h2 = bot[i][1] - top[i][1]; if (h2 > 3) c.fillRect(top[i][0] - 1, top[i][1] + h2 * .55, 2, h2 * .4); }
+      for (let i = 0; i < n; i++) { const h2 = bot[i][1] - top[i][1]; if (h2 > 4 && (i * 7 + n) % 5 === 0) { c.fillStyle = 'rgba(255,255,255,1)'; c.beginPath(); c.arc(top[i][0] + ((i * 13) % 3) - 1, top[i][1] + 1.5 + (i % 4), .8, 0, 6.283); c.fill(); } } c.restore(); p.dirty = false;
+    };
+    if (reduce) tracked.forEach((p) => { p.dusted = true; });
+    let t0 = performance.now(), fc = 0, wind = 0, lastSY = scrollY, snowC = '';
+    (function loop(now) {
+      requestAnimationFrame(loop); const dt = Math.min(.05, (now - t0) / 1000) || .016; t0 = now;
+      if (!(fc++ % 60)) { const sc = getComputedStyle(document.documentElement).getPropertyValue('--snow').trim() || 'rgba(255,255,255,.75)'; if (sc !== snowC) { snowC = sc; const q = sc.match(/[\d.]+/g); snowRGB = q ? q.slice(0, 3).map((v) => Math.round(+v)).join(',') : '255,255,255'; rebuild(); } }
+      wind = Math.sin(now / 4300) * 7 + Math.sin(now / 1500) * 4 + Math.sin(now / 777) * 1.5;
+      const dy = scrollY - lastSY, sv = Math.abs(dy) / dt; lastSY = scrollY;
+      const vis = []; tracked.forEach((p) => {
+        const r = p.el.getBoundingClientRect(); p.r = r; const cs = p.el.classList; p.rtl = Math.min(p.raw[0], r.width / 2, r.height / 2); p.rtr = Math.min(p.raw[1], r.width / 2, r.height / 2); p.vis = r.width > 40 && r.height > 14 && r.bottom > 0 && r.top < H + CAPH && !(cs.contains('rv') && !cs.contains('in'));
+        if (p.vis) { const n = Math.ceil(r.width / COL); if (!p.cols || p.cols.length !== n) { const old = p.cols, nc = new Float32Array(n); if (old) for (let i = 0; i < n; i++) nc[i] = old[Math.min(old.length - 1, Math.floor(i * old.length / n))]; p.cols = nc; p.nz = mkNoise(n); p.dirty = true; if (!old && reduce) { for (let i = 0; i < n; i++) nc[i] = 3 + Math.random() * 2.2; } } vis.push(p); }
+      });
+      /* scrolling shakes the snow off: it slides away in clumps that fall and land on whatever is below */
+      if (!reduce && sv > 220) { const k = Math.min(1, (sv - 220) / 1800) * (dy > 0 ? 1 : .55);
+        vis.forEach((p) => { const n = p.cols.length, r = p.r; let ch = false;
+          for (let i = 0; i < n; i += 3) { if (Math.random() > k * .4) continue; let s = 0; for (let j = i; j < Math.min(n, i + 3); j++) { const a = p.cols[j] * (.45 + Math.random() * .55); p.cols[j] -= a; s += a; }
+            if (s > .5) { ch = true; const x = r.left + i * COL + COL * 1.5, y = r.top + drop(p, x - r.left, r.width) - p.cols[i] - 2; puff(x, y, 2, 34); if (fl.length < 300) fl.push({ c: true, L: 2, x, y, r: Math.min(3.8, 1 + s * .32), v: 20 + Math.random() * 50, vx: (Math.random() - .5) * 40, d: 0, skip: p }); } else if (s > 0) ch = true; }
+          if (ch) p.dirty = true; }); }
+      if (!reduce) {
+        sx.clearRect(0, 0, W, H); bx.clearRect(0, 0, W, H);
+        far.forEach((f) => { f.d += dt; f.y += f.v * dt; f.x += (Math.sin(f.d * f.f1) * f.amp * .6 + wind * .4) * dt; if (f.y > H + 6) { f.y = -8; f.x = Math.random() * W; } if (f.x < -10) f.x = W + 8; else if (f.x > W + 10) f.x = -8; put(bx, sSoft, f.x, f.y, f.r * 1.6, f.a); });
+        fl.forEach((f) => {
+          if (f.c) { f.y -= dy; f.v += 640 * dt; if (Math.random() < .5) puff(f.x, f.y, 1, 14); }
+          const py = f.y; f.d += dt; f.y += f.v * dt; f.x += f.c ? f.vx * dt : (Math.sin(f.d * f.f1) * f.amp + wind * (f.L === 2 ? 1.3 : .8)) * dt; let hit = null, hy = 1e9, inside = false;
+          for (const p of vis) { const r = p.r; if (f.x < r.left + 2 || f.x > r.right - 2) continue; const ci = Math.min(p.cols.length - 1, Math.max(0, Math.floor((f.x - r.left) / COL)));
+            const ty = r.top + drop(p, f.x - r.left, r.width) - p.cols[ci] * p.nz[ci]; if (f.skip !== p && py <= ty && f.y >= ty && ty < hy) { hit = p; hy = ty; }
+            else if (!p.box && f.y > r.top + drop(p, f.x - r.left, r.width) + 1 && f.y < r.bottom) inside = true; }
+          if (hit) { if (hit.box && Math.random() > .3) f.skip = hit; else { addSnow(hit, f.x - hit.r.left, f.r * (f.c ? 1.1 : 1.3)); if (f.c) puff(f.x, hy, 6, 70); end(f); return; } }
+          if (inside || f.y > H + 8) { end(f); return; }
+          if (f.x < -10) f.x = W + 8; else if (f.x > W + 10) f.x = -8;
+          if (f.c) { put(sx, sCrisp, f.x, f.y, f.r * 1.15, .98); put(sx, sCrisp, f.x + f.r * .8, f.y - f.r * .5, f.r * .8, .9); put(sx, sCrisp, f.x - f.r * .7, f.y + f.r * .3, f.r * .7, .9); }
+          else put(sx, f.L === 2 ? sSoft : sCrisp, f.x, f.y, f.r, f.a);
+        });
+        for (let k = fl.length - 1; k >= 0; k--) if (fl[k].dead) fl.splice(k, 1);
+        for (let k = pf.length - 1; k >= 0; k--) { const q = pf[k]; q.x += q.vx * dt; q.y += q.vy * dt; q.vy += 140 * dt; q.l -= dt * 2; if (q.l <= 0) { pf.splice(k, 1); continue; } put(sx, sCrisp, q.x, q.y, q.r, Math.min(1, q.l) * .85); }
+        sx.globalAlpha = 1; bx.globalAlpha = 1;
+      }
+      vis.forEach((p) => { if (!p.cols) return; if (p.dirty || (p.cv && Math.abs(p.cv.offsetWidth - p.r.width) > 1)) { let any = false; for (let i = 0; i < p.cols.length; i++) if (p.cols[i] > .2) { any = true; break; } if (any) draw(p); else if (p.cv) { p.cv.getContext('2d').clearRect(0, 0, p.cv.width, p.cv.height); p.dirty = false; } }
+        if (p.cv) { p.cv.style.visibility = 'visible'; p.cv.style.transform = 'translate(' + p.r.left.toFixed(1) + 'px,' + (p.r.top - CAPH + 1).toFixed(1) + 'px)'; } });
+      tracked.forEach((p) => { if (!p.vis && p.cv) p.cv.style.visibility = 'hidden'; });
+    })(performance.now());
+  })();
 }
+
+
