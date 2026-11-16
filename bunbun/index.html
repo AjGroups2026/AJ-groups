@@ -367,6 +367,12 @@ a.logo.mo-cur{background:none!important}
  .trs{grid-template-columns:46px 1fr;justify-items:start;align-items:center;text-align:left;gap:14px}.trs b{max-width:none;font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){.trs.now .tri{animation:none}.trkline i{transition:none}}
+
+/* ---------- pay now ---------- */
+.paybox[hidden]{display:none}.paybox{display:grid;gap:12px}.paybox h3{margin:0;font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:-.02em}
+.paysub{margin:0;font-size:13px;line-height:1.55;color:var(--mute)}.payrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.payrow div{display:grid;gap:2px}.payrow span{font-size:10px;opacity:.7}.payrow b{font-family:var(--disp);font-weight:300;font-size:clamp(28px,3.4vw,38px);letter-spacing:-.03em;line-height:1.1}
+.paynote{margin:0;font-size:12px;line-height:1.5;color:var(--mute)}.trkpay{margin:6px 0 0;font-size:13px;color:var(--accent)}.trkpay:empty{display:none}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 </head>
@@ -529,7 +535,9 @@ a.logo.mo-cur{background:none!important}
         <label><span class="mono">Delivery slot (for home delivery)</span><select name="s"></select></label>
         <label><span class="mono">Allergies or notes</span><textarea name="m" placeholder="Eggless, nut allergy, colours, theme…"></textarea></label>
         <button class="btn" type="submit">Send order request</button>
+        <p class="paynote" style="margin:0">We use your name and phone number only to confirm, bake and deliver your order. Only the bakery team can see them, and they are deleted after 6 months.</p>
         <div class="thanks" id="thanks" role="status"></div>
+        <div class="xc paybox" id="paybox" hidden></div>
       </form>
     </div>
   </section>
@@ -541,6 +549,7 @@ a.logo.mo-cur{background:none!important}
       <div class="trkhead"><div><span class="mono">Order</span><b id="trkId">BB-0000</b></div><div><span class="mono">For</span><b id="trkFor"></b></div><div><span class="mono" id="trkWhenL">Delivery</span><b id="trkWhen"></b></div></div>
       <ol class="trksteps" id="trkSteps"></ol>
       <p class="trknow" id="trkNow" role="status" aria-live="polite"></p>
+      <p class="trkpay" id="trkPay"></p>
       <p class="trkdemo" id="trkDemo" hidden>Draft: the stages move on a timer so you can see how it will feel. Real orders will update when the baker changes the status.</p>
       <div class="trkbar"><form id="trkFind" class="trkfind"><input id="trkQ" class="msg" placeholder="Find an order, e.g. BB-1234" aria-label="Order number"><button class="btn ghost" type="submit">Find</button></form><button class="btn ghost" id="trkReplay" type="button">Replay</button></div>
       <p class="shipMsg" id="trkFindMsg" role="status"></p>
@@ -554,6 +563,6 @@ var p=document.querySelector('.pill');if(p)p.insertAdjacentHTML('afterbegin','<a
 window.MOTION.titles.xmas='Christmas';window.MOTION.dock.splice(1,0,{l:'Christmas',h:'#xmas',i:'<svg viewBox="0 0 24 24"><path d="M12 3l4 6h-3l4 6h-3l3 5H7l3-5H7l4-6H8z"/></svg>'});
 })();</script>
 <script src="../assets/motion.js?v=6"></script>
-<script type="module" src="main.js?v=49"></script>
+<script type="module" src="main.js?v=53"></script>
 </body>
 </html>

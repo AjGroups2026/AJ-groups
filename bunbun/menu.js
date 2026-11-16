@@ -98,3 +98,19 @@ export const TRACKER = {
   demo: true,        // set to false once real order statuses are connected
   stepSeconds: 7     // in the draft, each stage lasts this many seconds
 };
+
+/* ---------- PAYMENT (the "Pay now" step) ----------
+   Create a payment link or payment page in the gateway dashboard (Razorpay, Cashfree, PayU, PhonePe Business) and paste it here.
+   Or add the business UPI id: phones then open their UPI app with the amount filled in. Leave both empty to keep the draft message. */
+export const PAYMENT = {
+  link: '',
+  upiId: '',
+  payeeName: 'Bun Bun Bakes',
+  depositPercent: 50,   // advance for custom cakes; the rest is paid on delivery or pickup
+  allowFull: true
+};
+
+/* ---------- BACKEND (the free Cloudflare backend in /server) ----------
+   Leave url empty for demo mode: orders stay on this device and the baker page works on the same device.
+   After deploying /server, paste its address here, for example 'https://bunbun-orders.YOURNAME.workers.dev' */
+export const BACKEND = { url: '' };

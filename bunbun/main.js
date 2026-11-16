@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=13';
-import { MENU, XMAS, XMAS_CAT, DELIVERY as D, TRACKER as TRK } from './menu.js?v=11';
+import { MENU, XMAS, XMAS_CAT, DELIVERY as D, TRACKER as TRK, PAYMENT as PAY, BACKEND } from './menu.js?v=15';
 import { initExtras } from './extras.js?v=2';
-import { initTracker } from './tracker.js?v=1';
+import { makeStore } from './store.js?v=2';
+import { initTracker } from './tracker.js?v=4';
+import { initPay } from './pay.js?v=1';
 
 const $ = (i) => document.getElementById(i);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -342,17 +344,18 @@ function reset() { while (boxG.children.length) { const o = boxG.children.pop();
 $('bPack').addEventListener('click', pack);
 
 /* ---------- order form (demo) ---------- */
-$('form').addEventListener('submit', (e) => { e.preventDefault(); const f = e.target, th = $('thanks'); th.classList.add('on');
+$('form').addEventListener('submit', async (e) => { e.preventDefault(); const f = e.target, th = $('thanks'); th.classList.add('on');
   const okOrder = !!f.n.value.trim() && /^[\d\s+()-]{7,}$/.test(f.p.value.trim());
   th.textContent = !f.n.value.trim() || !/^[\d\s+()-]{7,}$/.test(f.p.value.trim()) ? 'Please add your name and a phone number so the baker can call you.' : `Thank you, ${f.n.value.trim()}. A baker will call to confirm your ${S.occ.toLowerCase()} cake.${f.t.value === 'Delivery' && f.s && f.s.value ? ' Delivery slot: ' + f.s.value + '.' : ''} (Draft: nothing is sent yet.)`;
-  if (okOrder) { const del = f.t.value === 'Delivery', id = TK.add({ who: `${f.n.value.trim()} · ${S.occ} cake`, when: (f.d.value ? new Date(f.d.value + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) : 'Date to be confirmed') + (del && f.s && f.s.value ? ' · ' + f.s.value : ''), delivery: del, eta: S.eta || 0 }); const a = document.createElement('a'); a.href = '#track'; a.textContent = ` Order ${id}. Track it →`; a.style.cssText = 'color:inherit;font-weight:600'; th.appendChild(a); } });
+  if (okOrder) { const del = f.t.value === 'Delivery', id = await TK.add({ phone: f.p.value.trim(), summary: ($('sum2').innerText || '').slice(0, 700), total: orderTotal(), notes: (f.m.value || '').slice(0, 300), who: `${f.n.value.trim()} · ${S.occ} cake`, when: (f.d.value ? new Date(f.d.value + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) : 'Date to be confirmed') + (del && f.s && f.s.value ? ' · ' + f.s.value : ''), delivery: del, eta: S.eta || 0, noScroll: true }); const a = document.createElement('a'); a.href = '#track'; a.textContent = ` Order ${id}. Track it →`; a.style.cssText = 'color:inherit;font-weight:600'; th.appendChild(a); const tot = orderTotal(); PY.show({ id, total: tot, delivery: del }); setTimeout(() => (tot ? $('paybox') : $('track')).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: tot ? 'center' : 'start' }), 300); } });
 
 /* ---------- reveals ---------- */
 const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const sib = [...e.target.parentElement.children].filter((x) => x.classList.contains('rv') && !x.classList.contains('in')); e.target.style.setProperty('--rd', (Math.min(4, Math.max(0, sib.indexOf(e.target))) * .09).toFixed(2) + 's'); e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -4% 0px' });
 document.querySelectorAll('.rv').forEach((r) => io.observe(r));
 
 $('msg').value = S.msg; ui(); requestAnimationFrame(frame);
-const TK = initTracker({ $, T: TRK, reduce });
+const store = makeStore(BACKEND), TK = initTracker({ $, T: TRK, reduce, store });
+const PY = initPay({ $, inr, PAY, TK });
 X = initExtras({ S, $, apply, preset, OCC, keys: { FL, FR, DR, TOPS, STYLE, TIER }, XM, inr, D, renderer, scene, cam, cvs, reduce });
 
 
@@ -371,6 +374,7 @@ let menuCat = 'All'; const toast = document.createElement('div'); toast.classNam
 const say2 = (t) => { toast.textContent = t; toast.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('on'), 1800); };
 const ALL = MENU_ALL.flatMap((c) => c.items.map((i) => ({ ...i, cat: c.cat })));
 function badge() { const n = [...bag.values()].reduce((a, b) => a + b, 0) + (S.cakeOn ? S.qty : 0); document.querySelectorAll('.bagn').forEach((e) => { e.textContent = n; e.parentElement.classList.toggle('has', n > 0); }); const d = document.querySelector('.mo-dock a[data-h="order"]'); if (d) d.dataset.n = n || ''; }
+const orderTotal = () => [...bag.entries()].reduce((a, [id, q]) => a + ALL.find((x) => x.id === id).price * q, 0) + (S.cakeOn ? price() : 0);
 function orderSummary() {
   const rows = [...bag.entries()].map(([id, q]) => { const it = ALL.find((x) => x.id === id); return `<div class="ol"><span>${it.name} <small>${inr(it.price)} / ${it.unit}</small></span><span class="oq"><button type="button" data-o="-${id}" aria-label="One less">−</button><b>${q}</b><button type="button" data-o="+${id}" aria-label="One more">+</button></span><span class="op">${inr(it.price * q)}</span></div>`; });
   const items = [...bag.entries()].reduce((a, [id, q]) => a + ALL.find((x) => x.id === id).price * q, 0);

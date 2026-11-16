@@ -10,7 +10,7 @@ const ICON = {
   ready: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
   done: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>'
 };
-const stepsFor = (delivery) => [
+export const stepsFor = (delivery) => [
   { k: 'placed', t: 'Order received', now: 'We have your order request. A baker will call you shortly.' },
   { k: 'confirmed', t: 'Baker confirmed', now: 'A baker has confirmed your design and date.' },
   { k: 'baking', t: 'Baking', now: 'Your cake is in the oven.' },
@@ -21,34 +21,39 @@ const stepsFor = (delivery) => [
 ];
 
 export function initTracker(c) {
-  const { $, T, reduce } = c, KEY = 'bborders', sec = $('track');
-  let orders = []; try { orders = JSON.parse(localStorage.getItem(KEY) || '[]').filter((o) => o && o.id && o.at); } catch (e) { orders = []; }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(orders.slice(0, 6))); } catch (e) {} };
-  const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
-  let cur = orders[0] || null, built = '';
-  const stageOf = (o, now = Date.now()) => Math.min(stepsFor(o.delivery).length - 1, Math.floor((now - o.at) / (T.stepSeconds * 1000)));
-  const pad = (n) => String(n).padStart(2, '0');
+  const { $, T, reduce, store } = c, sec = $('track');
+  const mine = () => (store.remote ? store.mine() : store.localAll());
+  let cur = mine()[0] || null, built = '';
+  const stageOf = (o) => { const max = stepsFor(o.delivery).length - 1; if (store.remote || o.stage != null) return Math.min(max, Math.max(0, o.stage | 0)); return Math.min(max, Math.floor((Date.now() - o.at) / (T.stepSeconds * 1000))); };
+  const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
   function build() {
     const st = stepsFor(cur.delivery), key = cur.id + (cur.delivery ? 'd' : 'p'); if (built === key) return; built = key;
     $('trkSteps').style.setProperty('--n', st.length);
     $('trkSteps').innerHTML = '<span class="trkline" aria-hidden="true"><i></i></span>' + st.map((s, i) => `<li class="trs" data-i="${i}"><span class="tri"><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[s.k]}</svg></span><b>${s.t}</b></li>`).join('');
     $('trkId').textContent = cur.id; $('trkFor').textContent = cur.who; $('trkWhenL').textContent = cur.delivery ? 'Delivery' : 'Pickup'; $('trkWhen').textContent = cur.when;
   }
+  function payText(p) {
+    if (!p) return ''; const kind = p.kind === 'full' ? 'in full' : 'deposit', amt = p.amount ? inr(p.amount) + ' ' + kind : '';
+    return p.state === 'confirmed' ? `Payment confirmed${amt ? ': ' + amt : ''}. Thank you.` : p.state === 'claimed' ? `Payment: ${amt} marked as paid. The baker is checking it and will confirm.` : p.state === 'started' ? 'Payment page opened. Tap "I\'ve paid" once you have paid.' : p.state === 'later' ? 'Payment: on ' + (cur.delivery ? 'delivery' : 'pickup') + '.' : p.state === 'demo' ? 'Payment: not connected in this draft.' : '';
+  }
   function update() {
-    if (!cur) return; build(); const st = stepsFor(cur.delivery), idx = stageOf(cur), ol = $('trkSteps');
+    if (!cur) return; if (!store.remote) { const f = store.localAll().find((x) => x.id === cur.id); if (f) cur = f; }
+    build(); const st = stepsFor(cur.delivery), idx = stageOf(cur), ol = $('trkSteps');
     ol.style.setProperty('--p', (idx / (st.length - 1)).toFixed(3));
     [...ol.querySelectorAll('.trs')].forEach((li, i) => { li.classList.toggle('done', i < idx || (idx === st.length - 1 && i === idx)); li.classList.toggle('now', i === idx && idx < st.length - 1); if (i === idx) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); });
-    let msg = st[idx].now; if (st[idx].k === 'out' && cur.eta) { const left = Math.max(1, Math.round(cur.eta * (1 - ((Date.now() - cur.at) / 1000 - idx * T.stepSeconds) / T.stepSeconds))); msg = `On its way to you. Arriving in about ${left} min.`; }
-    $('trkNow').textContent = msg; $('trkDemo').hidden = !T.demo;
+    let msg = st[idx].now; if (st[idx].k === 'out' && cur.eta) { if (store.remote || cur.stage != null) msg = `On its way to you. About ${cur.eta} min on the road.`; else { const left = Math.max(1, Math.round(cur.eta * (1 - ((Date.now() - cur.at) / 1000 - idx * T.stepSeconds) / T.stepSeconds))); msg = `On its way to you. Arriving in about ${left} min.`; } }
+    $('trkNow').textContent = msg; $('trkDemo').hidden = !(T.demo && !store.remote); $('trkPay').textContent = payText(cur.pay);
   }
+  function setPay(id, p) { if (!cur || cur.id !== id) return; cur.pay = p; update(); store.customerPay(cur, p).catch(() => {}); }
   function show(o) { cur = o; built = ''; sec.hidden = false; update(); }
-  function add(o) {
-    const id = 'BB-' + (Math.floor(Math.random() * 9000) + 1000), rec = { id, at: Date.now(), who: o.who, when: o.when, delivery: !!o.delivery, eta: o.eta || 0 };
-    orders.unshift(rec); save(); show(rec); setTimeout(() => sec.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), 350); return id;
+  async function add(o) {
+    const rec = await store.create(o); show(rec); if (!o.noScroll) setTimeout(() => sec.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), 350); return rec.id;
   }
-  $('trkFind').addEventListener('submit', (e) => { e.preventDefault(); const q = $('trkQ').value.trim().toUpperCase(), f = orders.find((o) => o.id === q), m = $('trkFindMsg'); if (f) { m.textContent = ''; show(f); } else m.textContent = 'No order with that number on this device. In this draft, orders are saved on the device that placed them.'; });
-  $('trkReplay').addEventListener('click', () => { if (!cur) return; cur.at = Date.now(); save(); built = ''; update(); });
+  $('trkFind').addEventListener('submit', (e) => { e.preventDefault(); const q = $('trkQ').value.trim().toUpperCase(), f = mine().find((o) => o.id === q), m = $('trkFindMsg'); if (f) { m.textContent = ''; show(f); } else m.textContent = 'No order with that number on this device.'; });
+  $('trkReplay').hidden = store.remote;
+  $('trkReplay').addEventListener('click', async () => { if (!cur || store.remote) return; await store.update(cur.id, { at: Date.now(), stage: null, pay: null }); built = ''; update(); });
   if (cur) show(cur);
   setInterval(update, 1000);
-  return { add };
+  if (store.remote) setInterval(async () => { if (!cur || !cur.token) return; try { const s = await store.status(cur); if (s) { cur.stage = s.stage; cur.pay = s.pay; update(); } } catch (e) {} }, 12000);
+  return { add, setPay };
 }

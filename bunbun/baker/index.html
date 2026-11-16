@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Bun Bun Baker</title>
+<meta name="theme-color" content="#2a1020">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#1d0b16;--bg1:#4a1f3a;--ink:#f8efdc;--mute:rgba(248,239,220,.7);--line:rgba(248,239,220,.18);--glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.12);--edge:inset 0 0 0 1px rgba(255,255,255,.2),inset 0 1.5px 0 rgba(255,255,255,.25);--gold:#e0b863;--gold-ink:#2a1020;--ok:#8fe0a8;--warn:#ffcf7a;--bad:#ff9aa8}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(70% 50% at 15% 0,var(--bg1),transparent 70%),radial-gradient(60% 50% at 95% 40%,#2e1030,transparent 70%),var(--bg);padding-bottom:env(safe-area-inset-bottom)}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{width:min(100%,980px);margin:0 auto;padding:16px}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.05));box-shadow:var(--edge),0 18px 50px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-radius:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-weight:600;font-size:14px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:var(--glass2);color:var(--ink);box-shadow:var(--edge)}.btn.sm{min-height:36px;padding:0 14px;font-size:13px}.btn:disabled{opacity:.5;cursor:default}.btn:active{transform:scale(.97)}
+.mono{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}#login form{width:min(100%,380px);padding:28px;display:grid;gap:14px;text-align:center}
+#login h1{margin:0;font-weight:400;font-size:28px;letter-spacing:-.02em}#login p{margin:0;color:var(--mute);font-size:14px}
+input[type=password],input[type=text]{width:100%;min-height:48px;padding:0 16px;border:0;border-radius:16px;background:var(--glass2);box-shadow:var(--edge);outline:0;font-size:16px}
+.err{color:var(--bad);font-size:13px;min-height:1.3em}
+/* app */
+header.bar{position:sticky;top:0;z-index:10;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;background:linear-gradient(180deg,rgba(29,11,22,.95),rgba(29,11,22,.7));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.bar .row{width:min(100%,980px);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.bar h1{margin:0;font-size:18px;font-weight:500;letter-spacing:-.01em}.bar small{display:block;color:var(--mute);font-size:12px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tabs{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}.tab{border:0;min-height:42px;padding:0 16px;border-radius:999px;background:var(--glass);box-shadow:var(--edge);cursor:pointer;font-weight:500}.tab b{margin-left:6px;opacity:.85}.tab[aria-pressed=true]{background:var(--gold);color:var(--gold-ink)}
+.banner{padding:12px 16px;border-radius:16px;background:rgba(255,207,122,.12);box-shadow:inset 0 0 0 1px rgba(255,207,122,.35);color:var(--warn);font-size:13px;margin-bottom:14px}
+.list{display:grid;gap:14px}.empty{padding:28px;text-align:center;color:var(--mute)}
+.card{padding:18px;display:grid;gap:12px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.top h3{margin:0;font-size:18px;font-weight:600}.top small{color:var(--mute)}
+.chip{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--glass2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.chip.ok{color:var(--ok)}.chip.warn{color:var(--warn)}.chip.bad{color:var(--bad)}
+.sum{white-space:pre-wrap;font-size:13.5px;color:var(--ink);background:rgba(0,0,0,.18);border-radius:14px;padding:12px 14px;max-height:9.5em;overflow:auto}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mute)}.meta b{color:var(--ink);font-weight:500}
+.steps{display:flex;gap:5px}.steps i{flex:1;height:6px;border-radius:6px;background:var(--line)}.steps i.on{background:var(--gold)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+textarea{width:100%;min-height:56px;padding:10px 14px;border:0;border-radius:14px;background:rgba(0,0,0,.18);resize:vertical;outline:0;font-size:14px}
+.paybar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.paybar .chip{flex:none}
+@media (min-width:760px){.list{grid-template-columns:1fr 1fr}.list .empty{grid-column:1/-1}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<section id="login" hidden>
+  <form class="glass" id="loginForm" autocomplete="off">
+    <div class="mono">Bun Bun Bakes</div><h1>Baker dashboard</h1><p>Enter the baker access code to see today's orders.</p>
+    <input type="password" id="code" placeholder="Access code" autocomplete="current-password" aria-label="Access code" required>
+    <label style="display:flex;gap:8px;align-items:center;justify-content:center;font-size:13px;color:var(--mute)"><input type="checkbox" id="keep"> Keep me signed in on this device</label>
+    <div class="err" id="loginErr" role="alert"></div>
+    <button class="btn" type="submit">Open dashboard</button>
+  </form>
+</section>
+<main id="app" hidden>
+  <header class="bar"><div class="row">
+    <div><h1>Bun Bun · Baker</h1><small id="modeLine"></small></div>
+    <div class="tools"><button class="btn ghost sm" id="bNotify" type="button">Turn on alerts</button><button class="btn ghost sm" id="bCsv" type="button">Export CSV</button><button class="btn ghost sm" id="bOut" type="button">Sign out</button></div>
+  </div></header>
+  <div class="wrap">
+    <div class="banner" id="demoBanner" hidden>Demo mode: you are seeing orders placed on this device only. Connect the backend (see server/SETUP.md) to see orders from every customer.</div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="list" id="list" aria-live="polite"></div>
+  </div>
+</main>
+<script type="module" src="baker.js?v=2"></script>
+</body>
+</html>

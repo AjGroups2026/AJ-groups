@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /clothing/
 Disallow: /fovo/draft-mac/
+Disallow: /bunbun/baker/
