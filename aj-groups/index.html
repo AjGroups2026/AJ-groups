@@ -190,6 +190,14 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .form{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(30px) saturate(1.8);backdrop-filter:blur(30px) saturate(1.8);box-shadow:0 30px 80px rgba(6,12,30,.26),inset 0 0 0 1px rgba(255,255,255,.5),inset 0 1.5px 0 rgba(255,255,255,.85)}
 .stack .form input,.stack .form select,.stack .form textarea{background:rgba(255,255,255,.55);border-color:rgba(14,23,48,.08)}
 .stack .toast{background:rgba(14,23,48,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+/* nav: a sliding indicator marks the current section; hover no longer leaves a block behind */
+.pillnav{position:relative}
+.pillnav .ind{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:var(--line);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.34,1.56,.64,1),width .5s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.pillnav a{position:relative;z-index:1}.pillnav a:hover{background:transparent}.pillnav a.on{color:var(--ink)}
+@media (hover:hover){.pillnav a:not(.on):hover{background:color-mix(in srgb,var(--line) 55%,transparent)}}
+.pillnav a:focus{outline:none}.pillnav a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.menu a.on::after{content:"";display:inline-block;width:.16em;height:.16em;border-radius:50%;background:currentColor;margin-left:.22em;vertical-align:.12em}
+.menu a.on{color:var(--ink)}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -203,7 +211,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <div class="grid" aria-hidden="true"><i class="v1"></i><i class="h1"></i></div>
 <div class="fade" id="fade"></div>
 <header class="top" id="top"><a class="mark" id="mark" href="./"><i>AJ</i>AJ Groups</a>
-  <nav class="pillnav" aria-label="Main"><a href="#" data-go="1">Ventures</a><a href="#" data-go="8">Founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a></nav>
+  <nav class="pillnav" aria-label="Main"><i class="ind" aria-hidden="true"></i><a href="#" data-go="1">Ventures</a><a href="#" data-go="8">Founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a></nav>
   <div class="right"><a class="gbtn" href="#" data-go="10">Talk to us</a><button class="menubtn" id="menubtn" type="button" aria-expanded="false">Menu<i></i></button><button class="theme" id="theme" type="button" aria-label="Switch between light and dark theme"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg></button></div></header><div class="cursor" id="cursor" aria-hidden="true"></div>
 <button class="sidetab" id="sidetab" type="button">Talk to us</button>
 <div class="menu" id="menu"><a href="#" data-go="1">Our <em>ventures</em></a><a href="#" data-go="2">Alven Studio</a><a href="#" data-go="3">House of Fovo</a><a href="#" data-go="6">Bun Bun Bakes</a><a href="#" data-go="8">The founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a><small>AJ GROUPS · built and led by Allwyn</small></div>
@@ -234,6 +242,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=4"></script>
+<script type="module" src="main.js?v=5"></script>
 </body>
 </html>

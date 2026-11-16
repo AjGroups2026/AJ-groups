@@ -21,6 +21,7 @@
     '.mo-dock a svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.mo-dock a.cur{color:#fff}.mo-dock a:active{transform:scale(.9)}',
     '.mo-dock .pillbg{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:62px;border-radius:999px;background:' + accent + ';opacity:.28;transition:transform .55s cubic-bezier(.34,1.56,.64,1),width .55s cubic-bezier(.34,1.56,.64,1)}',
     '@media (max-width:759px){.mo-dock{display:flex}'+(C.dock?'body{padding-bottom:84px}':'')+'}',
+    'a.mo-cur{background:color-mix(in srgb,currentColor 14%,transparent);border-radius:999px}.menu a.mo-cur{background:none;text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:2px}',
     '@media (prefers-reduced-motion:reduce){.mo-in{opacity:1;transform:none;filter:none;transition:none}.mo-bar{display:none}}'
   ].join('\n');
   document.head.appendChild(css);
@@ -75,6 +76,13 @@
   var rv = $$(C.reveal || '.s h2,.s .lead,.s p.lead,.card,.step,.field,.rv'); rv.forEach(function (el) { if (el.classList.contains('rv')) return; el.classList.add('mo-in'); });
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var sibs = e.target.parentElement ? [].slice.call(e.target.parentElement.children).filter(function (x) { return x.classList.contains('mo-in'); }) : []; e.target.style.setProperty('--mo-d', (Math.max(0, sibs.indexOf(e.target)) * .09).toFixed(2) + 's'); e.target.classList.add('mo-on'); io.unobserve(e.target); } }); }, { threshold: .15, rootMargin: '0px 0px -6% 0px' });
   $$('.mo-in').forEach(function (el) { io.observe(el); });
+
+  /* scroll-spy: the header and menu links mark the section you are in */
+  var spyLinks = $$('header a[href^="#"], .menu a[href^="#"], nav a[href^="#"]').filter(function (a) { return a.getAttribute('href').length > 1 && !a.closest('.mo-dock'); });
+  var spySecs = (C.sections ? $$(C.sections) : $$('main > section[id]'));
+  function spy() { var line = innerHeight * .38, cur = ''; spySecs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s.id; });
+    spyLinks.forEach(function (a) { var on = a.getAttribute('href') === '#' + cur; a.classList.toggle('mo-cur', on); if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
+  addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy); spy();
 
   /* phone dock */
   if (C.dock && C.dock.length) {
