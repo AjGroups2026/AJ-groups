@@ -81,3 +81,14 @@ export const XMAS_CAT = { cat: 'Christmas', blurb: 'Rum plum cake and festive gi
   { id: 'xm-slice', name: 'Plum Cake Slices (box of 4)', desc: 'Four generous slices for sharing. Contains alcohol.', price: 420, unit: 'box', type: 'cheesecake', opts: { fill: '#4a2c1a', crust: '#2a170e', top: '#fbf6ec', garnish: ['holly'] } },
   { id: 'xm-gift', name: 'Christmas Gift Box', desc: 'A 500 g plum cake in a ribboned box. Contains alcohol.', price: 1100, unit: 'box', type: 'plumcake', opts: { ribbon: true } }
 ] };
+
+/* ---------- DELIVERY (sample figures until the real service area is confirmed) ---------- */
+export const DELIVERY = {
+  radiusKm: 9.5,            // how far we deliver
+  baseMin: 12,              // minutes on the road before distance is added
+  perKmMin: 3.5,            // extra minutes per km
+  feeBase: 30, feePerKm: 8, // delivery fee in rupees
+  cutoffHour: 18,           // order before this hour (24h) for the earliest day
+  leadDays: 1,              // days of baking time a custom cake needs
+  slots: ['10 am to 12 pm', '12 pm to 3 pm', '3 pm to 6 pm', '6 pm to 9 pm']
+};

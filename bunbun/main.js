@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=12';
-import { MENU, XMAS, XMAS_CAT } from './menu.js?v=8';
+import { MENU, XMAS, XMAS_CAT, DELIVERY as D } from './menu.js?v=9';
+import { initExtras } from './extras.js?v=1';
 
 const $ = (i) => document.getElementById(i);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -30,11 +31,13 @@ const XM = document.documentElement.dataset.xmas === '1';
 if (XM) { FL.plum = ['Rum plum', '#4b2b19']; TOPS.holly = 'Holly'; OCC.unshift({ k: 'Christmas', style: 'frosted', tiers: 2, flavour: 'plum', frost: 'cream', drip: 'white', tops: ['holly', 'pearls'], candles: false, msg: 'Merry Christmas' }); }
 const MENU_ALL = XM ? [XMAS_CAT, ...MENU] : MENU;
 const bag = new Map(); const gifts = []; const STAND = .52; const standParts = [];
-const S = { cakeOn: false, occ: 'Birthday', style: 'naked', tiers: 2, flavour: 'vanilla', frost: 'cream', drip: 'none', tops: new Set(['strawberry', 'berries']), candles: true, msg: 'Happy Birthday', deco: [], decorate: false, qty: 1, ship: 'home', pinOk: false, km: 0 };
+const S = { cakeOn: false, occ: 'Birthday', style: 'naked', tiers: 2, flavour: 'vanilla', frost: 'cream', drip: 'none', tops: new Set(['strawberry', 'berries']), candles: true, msg: 'Happy Birthday', deco: [], decorate: false, qty: 1, ship: 'home', pinOk: false, km: 0, msgStyle: 'script', slot: '' };
+let X = null;
 const price = (s = S) => (TIER[s.tiers][2] + (s.drip !== 'none' ? 150 : 0) + [...s.tops].length * 100 + (s.candles ? 50 : 0) + (s.style === 'frosted' ? 200 : 0) + (s.deco ? s.deco.length * 20 : 0)) * (s.qty || 1);
 const preset = (o) => ({ ...S, occ: o.k, style: o.style, tiers: o.tiers, flavour: o.flavour, frost: o.frost, drip: o.drip, tops: new Set(o.tops), candles: o.candles, msg: o.msg, deco: [], decorate: false, qty: 1 });
 
 /* ---------- controls ---------- */
+const SUG = { Birthday: ['Happy Birthday', 'Happy Birthday Mom', 'Another year, more cake'], Wedding: ['Forever begins', 'Mr & Mrs', 'Cheers to love'], Anniversary: ['Happy Anniversary', 'Together forever', 'Cheers to us'], 'Baby shower': ['Welcome little one', 'Hello baby', 'Oh baby'], Graduation: ['Well done', 'Congratulations', 'Proud of you'], Festival: ['Happy celebrations', 'Happy Diwali', 'Season greetings'], 'Just because': ['Because you are lovely', 'Thank you', 'Just for you'], Christmas: ['Merry Christmas', 'Happy holidays', 'Season greetings'] };
 function chipRow(id, items, isOn, pick, swatch) {
   const el = $(id); el.innerHTML = '';
   items.forEach(([key, label, col]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (isOn(key) ? ' on' : ''); b.setAttribute('aria-pressed', isOn(key));
@@ -48,6 +51,9 @@ function ui() {
   chipRow('c-frost', Object.entries(FR).map(([k, v]) => [k, v[0], v[1]]), (k) => S.frost === k, (k) => { S.frost = k; refresh(); }, true);
   chipRow('c-drip', Object.entries(DR).map(([k, v]) => [k, v[0], v[1]]), (k) => S.drip === k, (k) => { S.drip = k; refresh(); }, true);
   chipRow('c-tops', [...Object.entries(TOPS), ['candles', 'Candles']], (k) => (k === 'candles' ? S.candles : S.tops.has(k)), (k) => { if (k === 'candles') S.candles = !S.candles; else S.tops.has(k) ? S.tops.delete(k) : S.tops.add(k); refresh(); });
+  chipRow('c-msgs', [['script', 'Gold script'], ['piped', 'Chocolate piping'], ['plaque', 'Plaque']], (k) => S.msgStyle === k, (k) => { S.msgStyle = k; refresh(); });
+  chipRow('msgsug', (SUG[S.occ] || []).map((t) => [t, t]), (k) => S.msg === k, (k) => { S.msg = k; $('msg').value = k; refresh(); });
+  { const dm = $('dmap'); if (dm) dm.classList.toggle('off', S.ship !== 'home'); }
   chipRow('c-ship', [['home', 'Home delivery (nearby)'], ['pickup', 'Pickup']], (k) => S.ship === k, (k) => { S.ship = k; refresh(); });
   $('serves').textContent = TIER[S.tiers][1];
   $('qn').textContent = S.qty; $('price').textContent = inr(price());
@@ -112,11 +118,21 @@ if (renderer) {
 }
 const add = (mesh, parent = cakeG, cast = true) => { mesh.castShadow = cast; mesh.receiveShadow = true; parent.add(mesh); return mesh; };
 
-function topperTexture(text) {
+function topperTexture(text, style = 'script') {
   const c = document.createElement('canvas'); c.width = 768; c.height = 256; const x = c.getContext('2d'); x.textAlign = 'center'; x.textBaseline = 'middle';
-  let size = 130; do { x.font = `italic 500 ${size}px 'Cormorant Garamond', Georgia, serif`; size -= 4; } while (x.measureText(text).width > 700 && size > 40);
-  const g = x.createLinearGradient(0, 70, 0, 190); g.addColorStop(0, '#fff2c4'); g.addColorStop(.45, '#e2b862'); g.addColorStop(1, '#b3862f');
-  x.shadowColor = 'rgba(60,40,10,.35)'; x.shadowBlur = 6; x.shadowOffsetY = 3; x.fillStyle = g; x.fillText(text, 384, 132); x.lineWidth = 2; x.strokeStyle = 'rgba(120,84,20,.6)'; x.strokeText(text, 384, 132);
+  const fit = (w, max) => { let size = max; do { x.font = `${w} ${size}px 'Cormorant Garamond', Georgia, serif`; size -= 4; } while (x.measureText(text).width > 640 && size > 36); };
+  if (style === 'plaque') {
+    const px = 18, py = 34, w = 768 - px * 2, h = 256 - py * 2, r = 34; x.save(); x.shadowColor = 'rgba(60,40,20,.35)'; x.shadowBlur = 14; x.shadowOffsetY = 6; x.beginPath(); x.moveTo(px + r, py); x.arcTo(px + w, py, px + w, py + h, r); x.arcTo(px + w, py + h, px, py + h, r); x.arcTo(px, py + h, px, py, r); x.arcTo(px, py, px + w, py, r); x.closePath();
+    const g = x.createLinearGradient(0, py, 0, py + h); g.addColorStop(0, '#fffaf0'); g.addColorStop(1, '#efe3cc'); x.fillStyle = g; x.fill(); x.restore(); x.lineWidth = 3; x.strokeStyle = '#d8b66a'; x.stroke();
+    fit('italic 500', 96); x.fillStyle = '#2b170d'; x.fillText(text, 384, 132);
+  } else if (style === 'piped') {
+    fit('italic 700', 120); x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = 5; x.shadowOffsetY = 4; const g = x.createLinearGradient(0, 60, 0, 200); g.addColorStop(0, '#7a4630'); g.addColorStop(.5, '#4a2515'); g.addColorStop(1, '#2a1209'); x.fillStyle = g; x.fillText(text, 384, 132);
+    x.shadowColor = 'transparent'; x.lineWidth = 2.5; x.strokeStyle = 'rgba(255,225,190,.38)'; x.strokeText(text, 383, 130);
+  } else {
+    let size = 130; do { x.font = `italic 500 ${size}px 'Cormorant Garamond', Georgia, serif`; size -= 4; } while (x.measureText(text).width > 700 && size > 40);
+    const g = x.createLinearGradient(0, 70, 0, 190); g.addColorStop(0, '#fff2c4'); g.addColorStop(.45, '#e2b862'); g.addColorStop(1, '#b3862f');
+    x.shadowColor = 'rgba(60,40,10,.35)'; x.shadowBlur = 6; x.shadowOffsetY = 3; x.fillStyle = g; x.fillText(text, 384, 132); x.lineWidth = 2; x.strokeStyle = 'rgba(120,84,20,.6)'; x.strokeText(text, 384, 132);
+  }
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
 function rose(col) {
@@ -192,7 +208,7 @@ function build(target, state) {
     const f = new THREE.Mesh(G.flame, new THREE.MeshBasicMaterial({ color: '#ffd37a' })); f.position.set(x, top + .63, z); f.scale.setScalar(.8); f.userData.p = d; CG.add(f); if (vis) flames.push(f);
     const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: T.glow, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); gl.scale.setScalar(.14); gl.position.set(x, top + .7, z); CG.add(gl); }
   ST.deco.forEach((p) => { const m = p.t === 'strawberry' ? strawberry(.85) : macaron(['#f4b8c8', '#bccbe6', '#f6e3a8'][Math.abs(Math.round(p.x * 10)) % 3]); m.position.set(p.x, top - .01, p.z); m.rotation.y = p.x * 9; add(m, CG, false); });
-  if (ST.msg.trim()) { const g = new THREE.Group(); const pl = new THREE.Mesh(new THREE.PlaneGeometry(1.7, .57), new THREE.MeshBasicMaterial({ map: topperTexture(ST.msg.trim()), transparent: true, side: THREE.DoubleSide, depthWrite: false })); pl.position.y = .88; g.add(pl);
+  if (ST.msg.trim()) { const g = new THREE.Group(); const pl = new THREE.Mesh(new THREE.PlaneGeometry(1.7, .57), new THREE.MeshBasicMaterial({ map: topperTexture(ST.msg.trim(), ST.msgStyle), transparent: true, side: THREE.DoubleSide, depthWrite: false })); pl.position.y = .88; g.add(pl);
     [-.35, .35].forEach((sx) => { const st = new THREE.Mesh(new THREE.CylinderGeometry(.011, .011, .64, 6), M('#d8b66a', { metalness: .95, roughness: .25 })); st.position.set(sx, .32, 0); g.add(st); }); g.position.set(0, top, -rr * .08); CG.add(g); if (vis) topper = g; }
   const ct = { y: cakeHL * .5 + .3, d: 8.8 + ST.tiers * 1.0 }; if (vis) { camTarget = ct; cakeH = cakeHL; topDisc = topDiscL; topY = topYL; topR = topRL; } return { ct, cakeH: cakeHL };
 }
@@ -276,7 +292,7 @@ async function renders() {
 
 /* ---------- quantity, message, tools ---------- */
 $('qm').addEventListener('click', () => { S.qty = Math.max(1, S.qty - 1); ui(); }); $('qp').addEventListener('click', () => { S.qty = Math.min(9, S.qty + 1); ui(); });
-$('msg').addEventListener('input', (e) => { S.msg = e.target.value; clearTimeout(S._m); S._m = setTimeout(refresh, 180); });
+$('msg').addEventListener('input', (e) => { S.msg = e.target.value; clearTimeout(S._m); S._m = setTimeout(refresh, 70); });
 $('bDeco').addEventListener('click', () => { S.decorate = !S.decorate; ui(); }); $('bClear').addEventListener('click', () => { S.deco = []; refresh(); });
 $('bRand').addEventListener('click', () => { const pick = (o) => Object.keys(o)[Math.floor(Math.random() * Object.keys(o).length)]; S.flavour = pick(FL); S.frost = pick(FR); S.drip = pick(DR); S.style = pick(STYLE); S.tiers = 1 + Math.floor(Math.random() * 3); S.tops = new Set(Object.keys(TOPS).filter(() => Math.random() > .55)); if (!S.tops.size) S.tops.add('berries'); S.candles = Math.random() > .5; S.deco = []; refresh(); });
 const float = $('float'); ['#ffffff', '#f2f5fb', '#dfe6f2', '#fff0c1', '#c8d1e1'].forEach((c) => { for (let i = 0; i < 4; i++) { const p = document.createElement('i'); p.style.cssText = `left:${(8 + Math.random() * 84).toFixed(0)}%;top:${(10 + Math.random() * 70).toFixed(0)}%;--c:${c};--t:${(5 + Math.random() * 5).toFixed(1)}s;--d:${(-Math.random() * 6).toFixed(1)}s;scale:${(.7 + Math.random() * .9).toFixed(2)}`; float.appendChild(p); } });
@@ -288,9 +304,9 @@ function checkPin() {
   const v = $('pin').value.trim(); S.pinOk = false; shipMsg.className = 'shipMsg';
   if (!/^\d{6}$/.test(v)) { shipMsg.textContent = 'Enter a 6-digit pincode.'; shipMsg.classList.add('no'); return; }
   const km = 1 + ((+v * 7919) % 1400) / 100; S.km = km;
-  if (km > 9.5) { shipMsg.textContent = `That is about ${km.toFixed(1)} km from the kitchen, outside our nearby delivery area. Choose pickup or try another pincode. (Demo estimate)`; shipMsg.classList.add('no'); return; }
-  const eta = Math.round(25 + km * 4), fee = Math.round(30 + km * 8); S.pinOk = true; S.eta = eta;
-  shipMsg.textContent = `Nearby: about ${km.toFixed(1)} km, arrives in ~${eta} min, delivery ${inr(fee)}. (Demo estimate)`; shipMsg.classList.add('ok');
+  if (km > D.radiusKm) { X && X.pin({ ok: false }); shipMsg.textContent = `That is about ${km.toFixed(1)} km from the kitchen, outside our nearby delivery area. Choose pickup or try another pincode. (Demo estimate)`; shipMsg.classList.add('no'); return; }
+  const eta = Math.round(D.baseMin + km * D.perKmMin), fee = Math.round(D.feeBase + km * D.feePerKm); S.pinOk = true; S.eta = eta;
+  shipMsg.textContent = `Good news, we deliver to your area (about ${km.toFixed(1)} km).`; shipMsg.classList.add('ok'); X && X.pin({ ok: true, km, eta, fee, pin: v });
 }
 
 /* ---------- packing it up and sending it home ---------- */
@@ -326,13 +342,14 @@ $('bPack').addEventListener('click', pack);
 
 /* ---------- order form (demo) ---------- */
 $('form').addEventListener('submit', (e) => { e.preventDefault(); const f = e.target, th = $('thanks'); th.classList.add('on');
-  th.textContent = !f.n.value.trim() || !/^[\d\s+()-]{7,}$/.test(f.p.value.trim()) ? 'Please add your name and a phone number so the baker can call you.' : `Thank you, ${f.n.value.trim()}. A baker will call to confirm your ${S.occ.toLowerCase()} cake. (Draft: nothing is sent yet.)`; });
+  th.textContent = !f.n.value.trim() || !/^[\d\s+()-]{7,}$/.test(f.p.value.trim()) ? 'Please add your name and a phone number so the baker can call you.' : `Thank you, ${f.n.value.trim()}. A baker will call to confirm your ${S.occ.toLowerCase()} cake.${f.t.value === 'Delivery' && f.s && f.s.value ? ' Delivery slot: ' + f.s.value + '.' : ''} (Draft: nothing is sent yet.)`; });
 
 /* ---------- reveals ---------- */
 const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const sib = [...e.target.parentElement.children].filter((x) => x.classList.contains('rv') && !x.classList.contains('in')); e.target.style.setProperty('--rd', (Math.min(4, Math.max(0, sib.indexOf(e.target))) * .09).toFixed(2) + 's'); e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -4% 0px' });
 document.querySelectorAll('.rv').forEach((r) => io.observe(r));
 
 $('msg').value = S.msg; ui(); requestAnimationFrame(frame);
+X = initExtras({ S, $, apply, preset, OCC, keys: { FL, FR, DR, TOPS, STYLE, TIER }, XM, inr, D, renderer, scene, cam, cvs, reduce });
 
 
 /* ---------- colour directions ---------- */
@@ -422,7 +439,7 @@ if (XM) {
   new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); exclusive(menuRenders); } }, { rootMargin: '500px 0px' }).observe($('xmas'));
   /* snow: falls in depth layers, settles on the rounded tops of objects as lumpy, glinting drifts, and is shaken off when you scroll (?snow=0 turns it off) */
   if (!/[?&]snow=0/.test(location.search)) (function snowfall() {
-    const SEL = '.pill,.sw,.btn,.arcpill,.panel,.stage,.arc,.bk,.xc,.mc,.pkf,.chips button,.mtabs button,.xdemo,.hw', COL = 4, CAPH = 24, DPR = Math.min(devicePixelRatio || 1, 2), mob = innerWidth < 760;
+    const mob = innerWidth < 760, SEL = mob ? '.btn,.arcpill,.panel,.stage,.bk,.xc,.mc,.pkf,.hw' : '.pill,.sw,.btn,.arcpill,.panel,.stage,.arc,.bk,.xc,.mc,.pkf,.chips button,.mtabs button,.xdemo,.hw', COL = 4, CAPH = mob ? 16 : 24, DPR = Math.min(devicePixelRatio || 1, 2), MS = mob ? .5 : 1;
     const mkLayer = (z) => { const c = document.createElement('div'); c.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:' + z; document.body.appendChild(c); return c; };
     const fall = document.createElement('canvas'); fall.id = 'snow'; document.body.appendChild(fall); const layerA = mkLayer(8), layerB = mkLayer(31), sx = fall.getContext('2d');
     const gfx = document.getElementById('gfx'), back = document.createElement('canvas'); back.style.cssText = 'position:absolute;left:0;top:0'; if (gfx) gfx.appendChild(back); const bx = back.getContext('2d');   // far flakes sit behind the glass, so the glass blurs them
@@ -431,17 +448,18 @@ if (XM) {
     let sCrisp, sSoft, snowRGB = '255,255,255';
     const sprite = (soft) => { const s = Math.ceil(32 * DPR), c = document.createElement('canvas'); c.width = c.height = s; const x = c.getContext('2d'), m = s / 2, g = x.createRadialGradient(m, m, 0, m, m, m); g.addColorStop(0, `rgba(${snowRGB},1)`); g.addColorStop(soft, `rgba(${snowRGB},.8)`); g.addColorStop(1, `rgba(${snowRGB},0)`); x.fillStyle = g; x.fillRect(0, 0, s, s); return c; };
     const rebuild = () => { sCrisp = sprite(.55); sSoft = sprite(.12); }; rebuild();
-    const put = (ctx, sp, x, y, r, a) => { ctx.globalAlpha = a; ctx.drawImage(sp, x - r * 1.5, y - r * 1.5, r * 3, r * 3); };
+    const FS = mob ? .7 : 1;
+    const put = (ctx, sp, x, y, r, a) => { r *= FS; ctx.globalAlpha = a; ctx.drawImage(sp, x - r * 1.5, y - r * 1.5, r * 3, r * 3); };
     const pile = new WeakMap(); let tracked = [];
     const mkNoise = (n) => { const a = new Float32Array(n), b = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = .72 + Math.random() * .6; for (let i = 0; i < n; i++) b[i] = (a[Math.max(0, i - 2)] + a[Math.max(0, i - 1)] + a[i] + a[Math.min(n - 1, i + 1)] + a[Math.min(n - 1, i + 2)]) / 5; return b; };
     const radii = (p) => { const cs0 = getComputedStyle(p.el), r0 = p.el.getBoundingClientRect(), pr = (v) => (String(v).indexOf('%') > -1 ? parseFloat(v) / 100 * Math.min(r0.width, r0.height) : parseFloat(v) || 0); p.raw = [pr(cs0.borderTopLeftRadius), pr(cs0.borderTopRightRadius)]; };
     const track = () => {
-      const els = [...document.querySelectorAll(SEL)]; tracked = els.map((el) => { let p = pile.get(el); if (!p) { p = { el, cols: null, nz: null, w: 0, cv: null, dirty: false, max: 11 + Math.random() * 5, layer: el.closest('.top') ? layerB : layerA, box: false, rtl: 0, rtr: 0 }; pile.set(el, p); } return p; });
+      const els = [...document.querySelectorAll(SEL)]; tracked = els.map((el) => { let p = pile.get(el); if (!p) { p = { el, cols: null, nz: null, w: 0, cv: null, dirty: false, max: (11 + Math.random() * 5) * MS, layer: el.closest('.top') ? layerB : layerA, box: false, rtl: 0, rtr: 0 }; pile.set(el, p); } return p; });
       tracked.forEach((p) => { radii(p); p.box = tracked.some((q) => q !== p && p.el.contains(q.el)); });
     }; track(); setInterval(track, 1500);
     const mk = (L) => { const f = { L, x: Math.random() * innerWidth, y: Math.random() * innerHeight, d: Math.random() * 6, skip: null, f1: .6 + Math.random() * 1.2, amp: 4 + Math.random() * 12 }; init(f, L); return f; };
-    const init = (f, L) => { if (L === 0) { f.r = .7 + Math.random() * .7; f.v = 12 + Math.random() * 14; f.a = .35 + Math.random() * .2; } else if (L === 1) { f.r = 1.2 + Math.random() * 1.1; f.v = 30 + Math.random() * 22; f.a = .75 + Math.random() * .2; } else { f.r = 2.6 + Math.random() * 1.8; f.v = 62 + Math.random() * 30; f.a = .8 + Math.random() * .15; } };
-    const cnt = mob ? [28, 30, 7] : [60, 56, 16], far = [], fl = [];
+    const init = (f, L) => { if (mob) { f.r0 = 1; } if (L === 0) { f.r = .7 + Math.random() * .7; f.v = 12 + Math.random() * 14; f.a = .35 + Math.random() * .2; } else if (L === 1) { f.r = 1.2 + Math.random() * 1.1; f.v = 30 + Math.random() * 22; f.a = .75 + Math.random() * .2; } else { f.r = 2.6 + Math.random() * 1.8; f.v = 62 + Math.random() * 30; f.a = .8 + Math.random() * .15; } };
+    const cnt = mob ? [22, 22, 4] : [60, 56, 16], far = [], fl = [];
     cnt.forEach((n, L) => { for (let i = 0; i < n; i++) (L === 0 ? far : fl).push(mk(L)); });
     const respawn = (f) => { f.x = Math.random() * W; f.y = -10 - Math.random() * 60; f.skip = null; };
     const end = (f) => { if (f.c) f.dead = true; else respawn(f); };
