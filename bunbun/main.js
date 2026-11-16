@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=12';
-import { MENU, XMAS, XMAS_CAT, DELIVERY as D } from './menu.js?v=9';
-import { initExtras } from './extras.js?v=1';
+import { dessert, berry as dBerry, berryHalf as dHalf, blueberry as dBlue, raspberry as dRasp, textures as dTex, holly as dHolly } from './desserts.js?v=13';
+import { MENU, XMAS, XMAS_CAT, DELIVERY as D, TRACKER as TRK } from './menu.js?v=11';
+import { initExtras } from './extras.js?v=2';
+import { initTracker } from './tracker.js?v=1';
 
 const $ = (i) => document.getElementById(i);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -342,13 +343,16 @@ $('bPack').addEventListener('click', pack);
 
 /* ---------- order form (demo) ---------- */
 $('form').addEventListener('submit', (e) => { e.preventDefault(); const f = e.target, th = $('thanks'); th.classList.add('on');
-  th.textContent = !f.n.value.trim() || !/^[\d\s+()-]{7,}$/.test(f.p.value.trim()) ? 'Please add your name and a phone number so the baker can call you.' : `Thank you, ${f.n.value.trim()}. A baker will call to confirm your ${S.occ.toLowerCase()} cake.${f.t.value === 'Delivery' && f.s && f.s.value ? ' Delivery slot: ' + f.s.value + '.' : ''} (Draft: nothing is sent yet.)`; });
+  const okOrder = !!f.n.value.trim() && /^[\d\s+()-]{7,}$/.test(f.p.value.trim());
+  th.textContent = !f.n.value.trim() || !/^[\d\s+()-]{7,}$/.test(f.p.value.trim()) ? 'Please add your name and a phone number so the baker can call you.' : `Thank you, ${f.n.value.trim()}. A baker will call to confirm your ${S.occ.toLowerCase()} cake.${f.t.value === 'Delivery' && f.s && f.s.value ? ' Delivery slot: ' + f.s.value + '.' : ''} (Draft: nothing is sent yet.)`;
+  if (okOrder) { const del = f.t.value === 'Delivery', id = TK.add({ who: `${f.n.value.trim()} · ${S.occ} cake`, when: (f.d.value ? new Date(f.d.value + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) : 'Date to be confirmed') + (del && f.s && f.s.value ? ' · ' + f.s.value : ''), delivery: del, eta: S.eta || 0 }); const a = document.createElement('a'); a.href = '#track'; a.textContent = ` Order ${id}. Track it →`; a.style.cssText = 'color:inherit;font-weight:600'; th.appendChild(a); } });
 
 /* ---------- reveals ---------- */
 const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const sib = [...e.target.parentElement.children].filter((x) => x.classList.contains('rv') && !x.classList.contains('in')); e.target.style.setProperty('--rd', (Math.min(4, Math.max(0, sib.indexOf(e.target))) * .09).toFixed(2) + 's'); e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -4% 0px' });
 document.querySelectorAll('.rv').forEach((r) => io.observe(r));
 
 $('msg').value = S.msg; ui(); requestAnimationFrame(frame);
+const TK = initTracker({ $, T: TRK, reduce });
 X = initExtras({ S, $, apply, preset, OCC, keys: { FL, FR, DR, TOPS, STYLE, TIER }, XM, inr, D, renderer, scene, cam, cvs, reduce });
 
 

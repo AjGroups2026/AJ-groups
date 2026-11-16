@@ -345,6 +345,28 @@ a.logo.mo-cur{background:none!important}
  .f input,.f select,.f textarea{font-size:16px}
  .stage{background:linear-gradient(160deg,color-mix(in srgb,var(--bg) 70%,transparent),color-mix(in srgb,var(--bg) 52%,transparent))}
 }
+
+/* ---------- order tracker ---------- */
+.sec[hidden]{display:none}
+.trk{margin-top:clamp(22px,3vw,40px);padding:clamp(18px,3vw,32px)}
+.trkhead{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:clamp(22px,3vw,34px)}.trkhead div{display:grid;gap:3px}.trkhead span{font-size:10px;opacity:.7}.trkhead b{font-family:var(--disp);font-weight:500;font-size:clamp(16px,1.6vw,20px);letter-spacing:-.01em}
+.trksteps{--n:7;--p:0;list-style:none;margin:0;padding:0;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px}
+.trkline{position:absolute;left:calc(50% / var(--n));right:calc(50% / var(--n));top:22px;height:3px;border-radius:3px;background:var(--line)}.trkline i{display:block;height:100%;width:calc(var(--p) * 100%);border-radius:3px;background:var(--accent);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.trs{position:relative;z-index:1;display:grid;justify-items:center;gap:9px;text-align:center}.trs b{font-weight:500;font-size:12px;line-height:1.3;max-width:11ch;opacity:.6;transition:opacity .4s}
+.tri{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--glass2);box-shadow:var(--gl-hi);transition:background .5s,color .5s,transform .5s cubic-bezier(.34,1.56,.64,1)}.tri svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.trs.done .tri{background:var(--accent);color:var(--bg)}.trs.done b,.trs.now b{opacity:1}
+.trs.now .tri{background:var(--btn);color:var(--btn-ink);transform:scale(1.14);animation:trkpulse 1.8s ease-in-out infinite}
+@keyframes trkpulse{0%,100%{box-shadow:var(--gl-hi),0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}50%{box-shadow:var(--gl-hi),0 0 0 12px transparent}}
+.trknow{margin:clamp(20px,3vw,30px) 0 0;font-family:var(--disp);font-weight:400;font-size:clamp(18px,2vw,26px);letter-spacing:-.02em;line-height:1.35}
+.trkdemo{margin:8px 0 0;font-size:12px;color:var(--mute);line-height:1.5}
+.trkbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:18px}.trkfind{display:flex;gap:8px;flex:1 1 280px;max-width:420px}.trkfind .msg{flex:1;min-width:0}
+@media (max-width:760px){
+ .trkhead{grid-template-columns:1fr 1fr}.trkhead div:last-child{grid-column:1/-1}
+ .trksteps{grid-template-columns:minmax(0,1fr);gap:14px}
+ .trkline{left:22px;right:auto;top:22px;bottom:22px;width:3px;height:auto}.trkline i{width:100%;height:calc(var(--p) * 100%)}
+ .trs{grid-template-columns:46px 1fr;justify-items:start;align-items:center;text-align:left;gap:14px}.trs b{max-width:none;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.trs.now .tri{animation:none}.trkline i{transition:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 </head>
@@ -511,6 +533,19 @@ a.logo.mo-cur{background:none!important}
       </form>
     </div>
   </section>
+  <section class="sec" id="track" hidden>
+    <span class="lab mono">Order tracker</span>
+    <h2>Where is <em>my cake?</em></h2>
+    <p class="sub">Follow your order from the oven to your door. Every stage updates here as the baker moves it along.</p>
+    <div class="xc trk">
+      <div class="trkhead"><div><span class="mono">Order</span><b id="trkId">BB-0000</b></div><div><span class="mono">For</span><b id="trkFor"></b></div><div><span class="mono" id="trkWhenL">Delivery</span><b id="trkWhen"></b></div></div>
+      <ol class="trksteps" id="trkSteps"></ol>
+      <p class="trknow" id="trkNow" role="status" aria-live="polite"></p>
+      <p class="trkdemo" id="trkDemo" hidden>Draft: the stages move on a timer so you can see how it will feel. Real orders will update when the baker changes the status.</p>
+      <div class="trkbar"><form id="trkFind" class="trkfind"><input id="trkQ" class="msg" placeholder="Find an order, e.g. BB-1234" aria-label="Order number"><button class="btn ghost" type="submit">Find</button></form><button class="btn ghost" id="trkReplay" type="button">Replay</button></div>
+      <p class="shipMsg" id="trkFindMsg" role="status"></p>
+    </div>
+  </section>
 </main>
 <footer class="foot"><span>© 2026 Bun Bun Bakes · part of AJ GROUPS</span><a href="../aj-groups/">← Back to AJ GROUPS</a></footer>
 <script>window.MOTION={accent:'#aab6cc',par:'.mo-none',reveal:'.mo-none',press:'.btn,.chip,.tools button,.ac',mag:'.btn',titles:{hero:'Bun Bun Bakes',occasions:'Occasions',remind:'Save a date',build:'Cake studio',menu:'The menu',packaging:'Packaging',how:'How it works',bakers:'The bakers',order:'Order'},dock:[{l:'Home',h:'#hero',i:'<svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg>'},{l:'Occasions',h:'#occasions',i:'<svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="2"/><path d="M12 9v11M4 14h16M12 9c-2-4-6-3-5 0M12 9c2-4 6-3 5 0"/></svg>'},{l:'Design',h:'#build',i:'<svg viewBox="0 0 24 24"><path d="M5 20h14M7 20v-7h10v7M9 13V9h6v4M12 9V5"/></svg>'},{l:'Menu',h:'#menu',i:'<svg viewBox="0 0 24 24"><path d="M6 3v8M9 3v8M6 7h3M7.5 11v10M16 3c-2 2-2 6 0 8v10"/></svg>'},{l:'Order',h:'#order',i:'<svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7zM9 8a3 3 0 0 1 6 0"/></svg>'}]};</script>
@@ -519,6 +554,6 @@ var p=document.querySelector('.pill');if(p)p.insertAdjacentHTML('afterbegin','<a
 window.MOTION.titles.xmas='Christmas';window.MOTION.dock.splice(1,0,{l:'Christmas',h:'#xmas',i:'<svg viewBox="0 0 24 24"><path d="M12 3l4 6h-3l4 6h-3l3 5H7l3-5H7l4-6H8z"/></svg>'});
 })();</script>
 <script src="../assets/motion.js?v=6"></script>
-<script type="module" src="main.js?v=47"></script>
+<script type="module" src="main.js?v=49"></script>
 </body>
 </html>

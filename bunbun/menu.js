@@ -75,8 +75,8 @@ export const XMAS = {
   ]
 };
 export const XMAS_CAT = { cat: 'Christmas', blurb: 'Rum plum cake and festive gifting. Sample details.', items: [
-  { id: 'xm-500', name: 'Rum Plum Cake, 500 g', desc: 'Dark, moist fruit cake with rum and warm spices. Contains alcohol.', price: 850, unit: 'cake', type: 'plumcake', opts: { cut: true } },
-  { id: 'xm-1k', name: 'Rum Plum Cake, 1 kg', desc: 'The family size, iced and decorated with holly. Contains alcohol.', price: 1600, unit: 'cake', type: 'plumcake', opts: { big: true, cut: true } },
+  { id: 'xm-500', name: 'Rum Plum Cake, 500 g', desc: 'Dark, moist fruit cake soaked in rum with warm spices, cherries and almonds. Contains alcohol.', price: 850, unit: 'cake', type: 'plumcake', opts: { cut: true } },
+  { id: 'xm-1k', name: 'Rum Plum Cake, 1 kg', desc: 'The family size, iced and decorated with holly. Contains alcohol.', price: 1600, unit: 'cake', type: 'plumcake', opts: { big: true, cut: true, iced: true } },
   { id: 'xm-alc', name: 'Plum Cake, alcohol-free', desc: 'The same fruit cake made without rum.', price: 850, unit: 'cake', type: 'plumcake', opts: { plain: true, cut: true } },
   { id: 'xm-slice', name: 'Plum Cake Slices (box of 4)', desc: 'Four generous slices for sharing. Contains alcohol.', price: 420, unit: 'box', type: 'cheesecake', opts: { fill: '#4a2c1a', crust: '#2a170e', top: '#fbf6ec', garnish: ['holly'] } },
   { id: 'xm-gift', name: 'Christmas Gift Box', desc: 'A 500 g plum cake in a ribboned box. Contains alcohol.', price: 1100, unit: 'box', type: 'plumcake', opts: { ribbon: true } }
@@ -91,4 +91,10 @@ export const DELIVERY = {
   cutoffHour: 18,           // order before this hour (24h) for the earliest day
   leadDays: 1,              // days of baking time a custom cake needs
   slots: ['10 am to 12 pm', '12 pm to 3 pm', '3 pm to 6 pm', '6 pm to 9 pm']
+};
+
+/* ---------- ORDER TRACKER (draft: follows a timer so the flow can be seen) ---------- */
+export const TRACKER = {
+  demo: true,        // set to false once real order statuses are connected
+  stepSeconds: 7     // in the draft, each stage lasts this many seconds
 };
