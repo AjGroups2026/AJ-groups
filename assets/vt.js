@@ -57,7 +57,7 @@
   addEventListener('DOMContentLoaded', function () {
     var hd = document.querySelector('header'); if (!hd) return; var last = scrollY, hidden = false, tk = false;
     var base = getComputedStyle(hd).transition; hd.style.transition = (base && !/^all 0s/.test(base) ? base + ', ' : '') + 'translate .5s cubic-bezier(.2,.8,.2,1)';
-    var set = function (h) { if (h === hidden) return; hidden = h; hd.style.translate = h ? '0 -120%' : ''; };
+    var set = function (h) { if (h === hidden) return; hidden = h; hd.style.translate = h ? '0 -120%' : ''; var dk = document.querySelector('.mo-dock'); if (dk) dk.style.transform = h ? 'translate(-50%,170%)' : ''; };   /* the phone dock leaves and returns with the header */
     var menuOpen = function () { var m = document.getElementById('menu'); return m && m.classList.contains('on'); };
     var run = function () { tk = false; var y = scrollY, d = y - last; if (Math.abs(d) < 6) return; last = y; if (menuOpen() || hd.contains(document.activeElement)) { set(false); return; } if (y < 80) set(false); else set(d > 0); };
     addEventListener('scroll', run, { passive: true });
