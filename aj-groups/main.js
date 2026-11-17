@@ -121,7 +121,7 @@ renderer.setClearColor(0x9fb0ba);
 stopEls.forEach(el => { const items = [...el.querySelectorAll(':scope > .lead, :scope > .line, :scope > .enter')]; if (!items.length) return; const b = document.createElement('div'); b.className = 'body'; items[0].before(b); items.forEach(x => b.append(x)); });
 /* ---------- chrome ---------- */
 const dotsEl = document.getElementById('dots'); dotsEl.innerHTML = stopEls.map(el => `<button type="button" aria-label="${(el.querySelector('h1,h2,.lead') || el).textContent.replace(/\s+/g, ' ').trim()}"></button>`).join('');
-const dotBtns = [...dotsEl.children], vh = () => innerHeight, fade = document.getElementById('fade'), formEl = document.getElementById('form'), cue = document.getElementById('cue'), top = document.getElementById('top'), mark = document.getElementById('mark');
+const dotBtns = [...dotsEl.children]; dotBtns[0].setAttribute('aria-current', 'step'); const vh = () => innerHeight, fade = document.getElementById('fade'), formEl = document.getElementById('form'), cue = document.getElementById('cue'), top = document.getElementById('top'), mark = document.getElementById('mark');
 stopEls.forEach(el => { if (el.dataset.c) el.style.setProperty('--c', el.dataset.c); }); stopEls.forEach((el, k) => { const t = el.querySelector('.tag'); if (t) t.dataset.ix = k - 1; });
 /* phone only: fill the card with a short list (what each business does, or an index of all six) */
 stopEls.forEach((el, k) => { el.dataset.num = String(k + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); const bd = el.querySelector('.body'); if (!bd) return; let ul;
