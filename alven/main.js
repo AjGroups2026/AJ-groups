@@ -183,7 +183,7 @@ addEventListener('pointerdown', e => { ptr.tx = e.clientX; ptr.ty = e.clientY; p
 const topEl = $('top'), ht = $('ht'), base = ht.querySelector('.big'), alt = $('alt'), clock = new THREE.Clock(); let fa = 0, fn = 0, first = true, sy = 0, lensOn = 0, Rcur = 0; const wan = { x: innerWidth * .6, y: innerHeight * .45, next: 0 }; const eye = { a: 0, b: 0, w: 1, want: 0, gx: 0, gy: 0 }, cardEls = [...document.querySelectorAll('#cards .card')];
 function frame() {
   const dt = Math.min(clock.getDelta(), .05), now = performance.now(), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
-  if (renderer && !first) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .027 && PR > .6) { PR = Math.max(.6, PR * .82); renderer.setPixelRatio(PR); fit(); } else if (av < .019 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
+  if (renderer && !first) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; const FLOOR = Math.min(PRMAX, MOBILE ? 1 : .6); if (av > .027 && PR > FLOOR) { PR = Math.max(FLOOR, PR * .82); renderer.setPixelRatio(PR); fit(); } else if (av > .027 && U.uOct.value > 2) U.uOct.value--; else if (av < .019 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
   /* on a phone the lens drifts on its own until a finger moves it */
   const idle = now - ptr.last > 2600;
   if (ptr.touch && idle) { if (now > wan.next) { wan.next = now + 2400 + Math.random() * 2400; const ir = audVis ? document.querySelector('.idea-in').getBoundingClientRect() : null;

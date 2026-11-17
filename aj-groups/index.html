@@ -71,7 +71,7 @@ h1 em,h2 em{letter-spacing:-.015em}
 .dots button::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.35;transition:width .35s cubic-bezier(.2,.8,.2,1),border-radius .35s,opacity .3s,box-shadow .3s}
 .dots button[aria-current="step"]::after{opacity:1;box-shadow:0 0 0 4px var(--line)}
 .cue{position:fixed;right:var(--pad);bottom:26px;z-index:5;font-size:12px;color:var(--mute);transition:opacity .6s}
-.form{position:fixed;z-index:5;left:67vw;top:50%;width:min(60vh,440px);height:min(60vh,440px);overflow:hidden;transform:translate(-50%,-50%);border-radius:50%;background:rgba(255,255,255,.94);color:#0e1730;box-shadow:0 30px 90px rgba(14,23,48,.25);display:grid;place-content:center;gap:10px;padding:14% 16%;opacity:0;pointer-events:none;transition:opacity .5s}
+.form{position:fixed;z-index:5;left:67vw;top:50%;width:min(60vh,440px);height:min(60vh,440px);overflow:hidden;transform:translate(calc(-50% + var(--fx,0px)),-50%) rotate(var(--fr,0deg));border-radius:50%;background:rgba(255,255,255,.94);color:#0e1730;box-shadow:0 30px 90px rgba(14,23,48,.25);display:grid;place-content:center;gap:10px;padding:14% 16%;opacity:0;pointer-events:none;transition:opacity .5s}
 .form.on{opacity:1;pointer-events:auto}
 .form h3{margin:0 0 4px;text-align:center;font-weight:500;font-size:21px;letter-spacing:-.02em}.form h3 em{font-size:1.1em}
 .form input,.form textarea{font:inherit;font-weight:400;font-size:13px;color:#0e1730;padding:11px 14px;border:1px solid rgba(14,23,48,.16);border-radius:12px;background:#fff;width:100%;outline:none}
@@ -169,7 +169,9 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .svc.idx button b{font-weight:400;font-size:11px;color:var(--mute);font-variant-numeric:tabular-nums}
 .stack .cue{display:block;right:auto;left:50%;transform:translateX(-50%);bottom:calc(46px + env(safe-area-inset-bottom));font-size:11px;letter-spacing:.04em;white-space:nowrap}
 .stack .dots{flex-direction:row;right:auto;left:50%;top:auto;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);gap:0}
-.stack .dots button{width:26px;height:34px}.stack .dots button[aria-current="step"]::after{width:18px;border-radius:3px;box-shadow:none}
+.stack .dots button{width:26px;height:34px}
+.stack .dots button::after{width:calc(5px + 13px * var(--a,0));border-radius:999px;opacity:calc(.35 + .65 * var(--a,0));box-shadow:none;transition:none}
+.stack .dots button[aria-current="step"]::after{width:calc(5px + 13px * var(--a,1));opacity:calc(.35 + .65 * var(--a,1));box-shadow:none}
 .stack .form{left:50%;top:var(--zy,36%);width:min(88vw,380px);height:var(--zh,300px);border-radius:28px;padding:16px 22px;gap:8px}
 .stack .form input,.stack .form select{padding:9px 14px}.stack .form textarea{height:40px}.stack .form h3{font-size:19px;margin:0}
 /* short landscape windows */
@@ -236,7 +238,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
-<script src="../assets/vt.js?v=6"></script>
+<script src="../assets/vt.js?v=9"></script>
 </head>
 <body>
 <canvas id="c" aria-hidden="true"></canvas>
@@ -281,6 +283,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=16"></script>
+<script type="module" src="main.js?v=17"></script>
 </body>
 </html>

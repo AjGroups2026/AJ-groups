@@ -24,6 +24,8 @@
   var leaving = false;
   /* arriving: cover the page straight away, then lift once it is ready */
   var inc = null; try { inc = JSON.parse(sessionStorage.getItem(KEY) || 'null'); sessionStorage.removeItem(KEY); } catch (e) {}
+  /* the sheet belongs to a tap on a link, never to the browser's back, forward or refresh */
+  try { var nv = performance.getEntriesByType('navigation')[0]; if (nv && (nv.type === 'back_forward' || nv.type === 'reload')) inc = null; } catch (e) {}
   if (inc && !RM && Date.now() - inc.t < 8000) {
     var s = sheet(inc.c, inc.n, '0', inc.d === 'back'); root.appendChild(s); var lifted = false;
     var lift = function () { if (lifted) return; lifted = true; var to = inc.d === 'back' ? '100%' : '-100%';
@@ -35,7 +37,10 @@
     if (document.readyState !== 'loading') ready(); else addEventListener('DOMContentLoaded', ready, { once: true });
     setTimeout(lift, 1800);   /* never stay covered */
   }
-  addEventListener('pageshow', function (e) { if (e.persisted) { ['ajvt-sheet', 'ajvt-dim'].forEach(function (id) { var o = document.getElementById(id); if (o) o.remove(); }); leaving = false; } });
+  var uncover = function () { ['ajvt-sheet', 'ajvt-dim'].forEach(function (id) { var o = document.getElementById(id); if (o) { try { o.getAnimations().forEach(function (a) { a.cancel(); }); } catch (x) {} o.remove(); } }); leaving = false; };
+  /* a page restored from the browser's memory (back or forward) comes back exactly as it was left, still covered: clear it at once */
+  addEventListener('pageshow', function (e) { if (e.persisted) uncover(); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && leaving) uncover(); });
 
   /* leaving */
   document.addEventListener('click', function (e) {
@@ -48,19 +53,27 @@
     var back = dest === 'aj-groups', info = SITES[dest], s = sheet(info[0], info[1], back ? '-100%' : '100%', back); root.appendChild(s);
     var dim = document.createElement('div'); dim.id = 'ajvt-dim'; dim.style.cssText = 'position:fixed;inset:0;z-index:2147482999;background:#000;opacity:0;pointer-events:none'; root.appendChild(dim);
     dim.animate([{ opacity: 0 }, { opacity: .45 }], { duration: 340, fill: 'forwards', easing: 'ease-out' });
-    var go = function () { try { sessionStorage.setItem(KEY, JSON.stringify({ c: info[0], n: info[1], d: back ? 'back' : 'in', t: Date.now() })); } catch (x) {} location.href = u.href; };
+    var went = false, go = function () { if (went) return; went = true; try { sessionStorage.setItem(KEY, JSON.stringify({ c: info[0], n: info[1], d: back ? 'back' : 'in', t: Date.now() })); } catch (x) {} location.href = u.href; setTimeout(function () { if (!document.hidden) { try { sessionStorage.removeItem(KEY); } catch (x) {} uncover(); } }, 4500); };
     var a2 = s.animate([{ transform: 'translateY(' + (back ? '-100%' : '100%') + ')' }, { transform: 'translateY(0)' }], { duration: 360, easing: EASE, fill: 'forwards' });
     sheen(s); a2.finished.then(go, go); setTimeout(go, 800);
   }, true);
 
-  /* nav: away on scroll down, back on scroll up or when the pointer visits the top edge */
+  /* nav: away on scroll down, back on scroll up or when the pointer visits the top edge.
+     Direction is measured over a short run of travel (not single events), page-edge bounce is ignored, and the header and phone dock
+     move together on one curve. Only keyboard focus keeps the header open, never a tapped button. */
   addEventListener('DOMContentLoaded', function () {
-    var hd = document.querySelector('header'); if (!hd) return; var last = scrollY, hidden = false, tk = false;
-    var base = getComputedStyle(hd).transition; hd.style.transition = (base && !/^all 0s/.test(base) ? base + ', ' : '') + 'translate .5s cubic-bezier(.2,.8,.2,1)';
-    var set = function (h) { if (h === hidden) return; hidden = h; hd.style.translate = h ? '0 -120%' : ''; var dk = document.querySelector('.mo-dock'); if (dk) dk.style.transform = h ? 'translate(-50%,170%)' : ''; };   /* the phone dock leaves and returns with the header */
+    var hd = document.querySelector('header'); if (!hd) return; var last = scrollY, hidden = false, tk = false, acc = 0, EASE2 = 'cubic-bezier(.2,.8,.2,1)';
+    var base = getComputedStyle(hd).transition; hd.style.transition = (base && !/^all 0s/.test(base) ? base + ', ' : '') + 'translate .45s ' + EASE2; hd.style.willChange = 'translate';
+    var dock = function () { return document.querySelector('.mo-dock'); };
+    var set = function (h) { if (h === hidden) return; hidden = h; hd.style.translate = h ? '0 -120%' : ''; var dk = dock(); if (dk) dk.style.transform = h ? 'translate(-50%,170%)' : ''; };
     var menuOpen = function () { var m = document.getElementById('menu'); return m && m.classList.contains('on'); };
-    var run = function () { tk = false; var y = scrollY, d = y - last; if (Math.abs(d) < 6) return; last = y; if (menuOpen() || hd.contains(document.activeElement)) { set(false); return; } if (y < 80) set(false); else set(d > 0); };
-    addEventListener('scroll', run, { passive: true });
+    var kbd = function () { try { return !!hd.querySelector(':focus-visible'); } catch (e) { return false; } };
+    var run = function () { tk = false; var max = Math.max(0, document.documentElement.scrollHeight - innerHeight), y = Math.max(0, Math.min(scrollY, max)), d = y - last; last = y;
+      if (root.hasAttribute('data-mojump') || menuOpen() || kbd() || y < 80) { acc = 0; set(false); return; }
+      if (y >= max - 2 || d === 0) return;
+      if (acc * d < 0) acc = 0; acc += d;
+      if (acc > 28) set(true); else if (acc < -14) set(false); };
+    addEventListener('scroll', function () { if (!tk) { tk = true; requestAnimationFrame(run); } }, { passive: true });
     addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch' && e.clientY < 70) set(false); }, { passive: true });
   });
 
