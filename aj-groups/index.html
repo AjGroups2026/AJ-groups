@@ -43,7 +43,7 @@ button,.enter,.gbtn,.menu a{-webkit-tap-highlight-color:transparent}
 .stack .menu a,.menu a{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .5s ease,transform .8s cubic-bezier(.16,1,.3,1),filter .5s ease,padding-left .35s cubic-bezier(.2,.8,.2,1),color .3s}
 .menu.on a{opacity:1;transform:none;filter:none}.menu.on a:nth-child(1){transition-delay:.05s}.menu.on a:nth-child(2){transition-delay:.1s}.menu.on a:nth-child(3){transition-delay:.15s}.menu.on a:nth-child(4){transition-delay:.2s}.menu.on a:nth-child(5){transition-delay:.25s}.menu.on a:nth-child(6){transition-delay:.3s}.menu.on a:nth-child(7){transition-delay:.35s}
 .menu a:hover,.menu a:focus-visible{padding-left:14px}.menu small{opacity:0;transition:opacity .6s .5s}.menu.on small{opacity:1}
-.dots button{transition:transform .3s cubic-bezier(.2,.8,.2,1)}.dots button:hover{transform:scale(1.5)}.dots button:hover::after{opacity:.9}
+.dots button{transition:transform .3s cubic-bezier(.2,.8,.2,1)}@media (hover:hover){.dots button:hover{transform:scale(1.5)}.dots button:hover::after{opacity:.9}}
 .stack .stop.cur .svc li{animation:li .6s cubic-bezier(.16,1,.3,1) both}.stack .stop.cur .svc li:nth-child(2){animation-delay:.08s}.stack .stop.cur .svc li:nth-child(3){animation-delay:.16s}.stack .stop.cur .svc li:nth-child(4){animation-delay:.24s}.stack .stop.cur .svc li:nth-child(5){animation-delay:.32s}.stack .stop.cur .svc li:nth-child(6){animation-delay:.4s}
 @keyframes li{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
 .stack .svc li button,.stack .svc li{transition:background .3s,padding-left .3s}.stack .svc li:active{padding-left:8px}
@@ -68,7 +68,7 @@ h1 em,h2 em{letter-spacing:-.015em}
 .enter{display:inline-flex;align-items:center;gap:10px;min-height:42px;padding:0 20px;border-radius:999px;background:var(--btn);color:var(--btnink);text-decoration:none;font-size:13px;font-weight:400}
 .dots{position:fixed;right:max(16px,2vw);top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;gap:2px}
 .dots button{width:28px;height:18px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
-.dots button::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.35;transition:all .25s}
+.dots button::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.35;transition:width .35s cubic-bezier(.2,.8,.2,1),border-radius .35s,opacity .3s,box-shadow .3s}
 .dots button[aria-current="step"]::after{opacity:1;box-shadow:0 0 0 4px var(--line)}
 .cue{position:fixed;right:var(--pad);bottom:26px;z-index:5;font-size:12px;color:var(--mute);transition:opacity .6s}
 .form{position:fixed;z-index:5;left:67vw;top:50%;width:min(60vh,440px);height:min(60vh,440px);overflow:hidden;transform:translate(-50%,-50%);border-radius:50%;background:rgba(255,255,255,.94);color:#0e1730;box-shadow:0 30px 90px rgba(14,23,48,.25);display:grid;place-content:center;gap:10px;padding:14% 16%;opacity:0;pointer-events:none;transition:opacity .5s}
@@ -222,16 +222,17 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .hc-t{font-size:13px;line-height:1.35;color:rgba(14,23,48,.7)}
 .hc i{justify-self:end;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:16px;background:#0e1730;color:#fff;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
 .hc-d i{background:#fff;color:#0e1730}.hc button:hover i{transform:translateX(4px)}
-@keyframes hrise{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
-.stop.cur[data-i="0"] .hglass{animation:hrise 1s cubic-bezier(.16,1,.3,1) .05s both}
-.stop.cur[data-i="0"] .hc button:nth-child(1){animation:hrise 1s cubic-bezier(.16,1,.3,1) .2s both}
-.stop.cur[data-i="0"] .hc button:nth-child(2){animation:hrise 1s cubic-bezier(.16,1,.3,1) .3s both}
-.stop.cur[data-i="0"] .hc button:nth-child(3){animation:hrise 1s cubic-bezier(.16,1,.3,1) .4s both}
+/* the landing enters exactly like every other chapter: words rise, then the panels fade up, and they leave upward */
+.stop[data-i="0"] .hglass,.stop[data-i="0"] .hc{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.stop.cur[data-i="0"] .hglass{opacity:1;transform:none;transition-delay:.2s}
+.stop.cur[data-i="0"] .hc{opacity:1;transform:none;transition-delay:.32s}
+.stop[data-i="0"]:not(.cur) .hglass,.stop[data-i="0"]:not(.cur) .hc{transition-duration:.35s;transition-delay:0s}
+.stop.past[data-i="0"]:not(.cur) .hglass,.stop.past[data-i="0"]:not(.cur) .hc{transform:translateY(-16px)}
 .stack .stop[data-i="0"]{width:auto;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:0;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .stack .stop.cur[data-i="0"] .hglass,.stack .stop.cur[data-i="0"] .hc{pointer-events:auto}
 .stack .stop[data-i="0"] .lead{max-width:none;margin:0 0 22px;font-size:clamp(29px,8.8vw,40px);font-weight:300;letter-spacing:-.045em;line-height:1.08}
 @media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hc .hc-c{min-height:52px}.hglass{padding:18px 18px 16px}}
-@media (prefers-reduced-motion:reduce){.hc-w::before{animation:none}.stop.cur[data-i="0"] .hglass,.stop.cur[data-i="0"] .hc button{animation:none}}
+@media (prefers-reduced-motion:reduce){.hc-w::before{animation:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -248,22 +249,22 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
   <nav class="pillnav" aria-label="Main"><i class="ind" aria-hidden="true"></i><a href="#" data-go="1">Ventures</a><a href="#" data-go="8">Founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a></nav>
   <div class="right"><a class="gbtn" href="#" data-go="10">Talk to us</a><button class="menubtn" id="menubtn" type="button" aria-expanded="false">Menu<i></i></button><button class="theme" id="theme" type="button" aria-label="Switch between light and dark theme"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg></button></div></header><div class="cursor" id="cursor" aria-hidden="true"></div>
 <button class="sidetab" id="sidetab" type="button">Talk to us</button>
-<div class="menu" id="menu"><a href="#" data-go="1">Our <em>ventures</em></a><a href="#" data-go="2">Alven Studio</a><a href="#" data-go="3">House of Fovo</a><a href="#" data-go="6">Bun Bun Bakes</a><a href="#" data-go="8">The founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a><small>AJ GROUPS · built and led by Allwyn</small></div>
+<div class="menu" id="menu"><a href="#" data-go="1">Our <em>ventures</em></a><a href="#" data-go="2">Alven Studio</a><a href="#" data-go="3">House of Fovo</a><a href="#" data-go="4">Bun Bun Bakes</a><a href="#" data-go="8">The founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a><small>AJ GROUPS · built and led by Allwyn</small></div>
 <nav class="dots" id="dots" aria-label="Chapters"></nav>
 <div class="count" id="count"><span><b id="countN">01</b> / 11</span><i><u id="countBar"></u></i></div>
 <div class="cue" id="cue">↓ Scroll <span style="opacity:.6">down</span></div>
 <main>
   <article class="stop" data-i="0">
     <div class="hglass"><p class="lead">A group of working companies, <em>built and led by Allwyn.</em></p>
-      <div class="chips" role="group" aria-label="Our businesses"><button type="button" data-go="2" style="--c:#5fe0cd"><i></i>Alven Studio</button><button type="button" data-go="3" style="--c:#dfe7ff"><i></i>House of Fovo</button><button type="button" data-go="4" style="--c:#e9a24a"><i></i>Clothing</button><button type="button" data-go="5" style="--c:#a58bff"><i></i>AJ Softwares</button><button type="button" data-go="6" style="--c:#f08a4f"><i></i>Bun Bun Bakes</button><button type="button" data-go="7" style="--c:#ef6f8d"><i></i>AJ Little World</button></div></div>
+      <div class="chips" role="group" aria-label="Our businesses"><button type="button" data-go="2" style="--c:#5fe0cd"><i></i>Alven Studio</button><button type="button" data-go="3" style="--c:#dfe7ff"><i></i>House of Fovo</button><button type="button" data-go="4" style="--c:#f08a4f"><i></i>Bun Bun Bakes</button><button type="button" data-go="5" style="--c:#e9a24a"><i></i>Clothing</button><button type="button" data-go="6" style="--c:#a58bff"><i></i>AJ Softwares</button><button type="button" data-go="7" style="--c:#ef6f8d"><i></i>AJ Little World</button></div></div>
     <div class="hc"><button type="button" class="hc-w" data-go="1"><span class="hc-n">06</span><span class="hc-t">businesses,<br>one discipline</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="8"><small>Founder</small><span class="hc-n">Allwyn<br>Jerold</span><i aria-hidden="true">→</i></button><button type="button" class="hc-c" data-go="10"><span>Talk to us</span><i aria-hidden="true">→</i></button></div>
   </article>
   <article class="stop" data-i="1"><h1>Six businesses,<br><em>one discipline</em></h1><p class="line">Marketing, photography, clothing, software, baking and children’s stories, built to the same standard.</p></article>
   <article class="stop" data-i="2" data-c="#5fe0cd"><p class="tag"><i></i>Alven Studio</p><h2>Ideas that <em>get seen</em></h2><p class="line">Strategy, social and advertising that make your brand easy to find.</p><a class="enter" href="../alven/">Enter Alven Studio →</a></article>
   <article class="stop" data-i="3" data-c="#dfe7ff"><p class="tag"><i></i>House of Fovo</p><h2>Photography, <em>seen properly</em></h2><p class="line">Portraits, events and commercial work, shot with patience and a good eye.</p><a class="enter" href="../fovo/">Enter House of Fovo →</a></article>
-  <article class="stop" data-i="4" data-c="#e9a24a"><p class="tag"><i></i>Clothing</p><h2>Cut by hand, <em>finished by eye</em></h2><p class="line">Tailored pieces and seasonal collections, fitted to the person who wears them.</p><a class="enter" href="#clothing">Coming soon</a></article>
-  <article class="stop" data-i="5" data-c="#a58bff"><p class="tag"><i></i>AJ Softwares</p><h2>Built carefully, <em>shipped steadily</em></h2><p class="line">Websites, apps and custom software that work when you need them to.</p><a class="enter" href="#soft">Coming soon</a></article>
-  <article class="stop" data-i="6" data-c="#f08a4f"><p class="tag"><i></i>Bun Bun Bakes</p><h2>Baked fresh, <em>every morning</em></h2><p class="line">Bread, cakes and bakes, made to order and served warm.</p><a class="enter" href="../bunbun/">Enter Bun Bun Bakes →</a></article>
+  <article class="stop" data-i="4" data-c="#f08a4f"><p class="tag"><i></i>Bun Bun Bakes</p><h2>Baked fresh, <em>every morning</em></h2><p class="line">Bread, cakes and bakes, made to order and served warm.</p><a class="enter" href="../bunbun/">Enter Bun Bun Bakes →</a></article>
+  <article class="stop" data-i="5" data-c="#e9a24a"><p class="tag"><i></i>Clothing</p><h2>Cut by hand, <em>finished by eye</em></h2><p class="line">Tailored pieces and seasonal collections, fitted to the person who wears them.</p><a class="enter" href="#clothing">Coming soon</a></article>
+  <article class="stop" data-i="6" data-c="#a58bff"><p class="tag"><i></i>AJ Softwares</p><h2>Built carefully, <em>shipped steadily</em></h2><p class="line">Websites, apps and custom software that work when you need them to.</p><a class="enter" href="#soft">Coming soon</a></article>
   <article class="stop" data-i="7" data-c="#ef6f8d"><p class="tag"><i></i>AJ Little World</p><h2>Stories worth <em>sitting still for</em></h2><p class="line">Stories, learning videos and play, made for children and tried out with them.</p><a class="enter" href="#kids">Coming soon</a></article>
   <article class="stop" data-i="8" data-c="#f0c987"><p class="tag"><i></i>The founder</p><h2>Led by <em>Allwyn</em></h2><p class="line">Allwyn builds and leads the group, and holds all six businesses to the same standard of care. <span style="opacity:.7">(placeholder: founder story and portrait to come)</span></p><a class="enter" href="#" data-go="9">Read our story →</a></article>
   <article class="stop" data-i="9" data-c="#a8e6c9"><p class="tag"><i></i>Our story</p><h2>One standard, <em>six crafts</em></h2><p class="line">AJ GROUPS brings six working companies under one promise: careful work, honest delivery and things built to last. <span style="opacity:.7">(placeholder: full story to come)</span></p><a class="enter" href="#" data-go="1">Meet the ventures →</a></article>
@@ -272,14 +273,14 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="1"><small>Six ventures</small><b>The group</b><ul><li>One founder</li><li>One standard</li><li>Built to last</li></ul></aside>
 <aside class="card" data-i="2"><small>01 · What we do</small><b>Alven Studio</b><ul><li>Brand strategy</li><li>Social campaigns</li><li>Performance ads</li></ul></aside>
 <aside class="card" data-i="3"><small>02 · What we do</small><b>House of Fovo</b><ul><li>Portrait sessions</li><li>Events</li><li>Commercial shoots</li></ul></aside>
-<aside class="card" data-i="4"><small>03 · What we do</small><b>Clothing</b><ul><li>Seasonal collections</li><li>Tailored pieces</li><li>Lookbooks</li></ul></aside>
-<aside class="card" data-i="5"><small>04 · What we do</small><b>AJ Softwares</b><ul><li>Websites and apps</li><li>Custom software</li><li>Support and hosting</li></ul></aside>
-<aside class="card" data-i="6"><small>05 · What we do</small><b>Bun Bun Bakes</b><ul><li>Fresh daily bakes</li><li>Custom cakes</li><li>Orders and catering</li></ul></aside>
+<aside class="card" data-i="5"><small>04 · What we do</small><b>Clothing</b><ul><li>Seasonal collections</li><li>Tailored pieces</li><li>Lookbooks</li></ul></aside>
+<aside class="card" data-i="6"><small>05 · What we do</small><b>AJ Softwares</b><ul><li>Websites and apps</li><li>Custom software</li><li>Support and hosting</li></ul></aside>
+<aside class="card" data-i="4"><small>03 · What we do</small><b>Bun Bun Bakes</b><ul><li>Fresh daily bakes</li><li>Custom cakes</li><li>Orders and catering</li></ul></aside>
 <aside class="card" data-i="8"><small>Founder</small><b>Allwyn</b><ul><li>Builds the group</li><li>Sets the standard</li><li>Hands-on leadership</li></ul></aside>
 <aside class="card" data-i="9"><small>Our story</small><b>The group</b><ul><li>Careful work</li><li>Honest delivery</li><li>Built to last</li></ul></aside>
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=7"></script>
+<script type="module" src="main.js?v=16"></script>
 </body>
 </html>

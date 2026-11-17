@@ -22,15 +22,15 @@ const CH = [
   { s: 0, bg: [.60, .68, .73], w: 1, tint: [1, 1, 1], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [3.6, 2.6, 1.3], fe: [0, 0, 1, .07] },
   { s: 1, bg: [.78, .85, .89], w: 0, tint: [.85, 1, .97], ox: .24, sc: 1, ps: 1, ext: 1, abs: [3.4, .8, 1.1], fe: [0, 0, 1, .08] },          /* marketing: teal glass, rings of light */
   { s: 2, bg: [.42, .55, .62], w: 1, tint: [.95, .98, 1], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.45, .42, .4], fe: [0, 0, 1, .13] },     /* photography: water-clear crystal with strong colour fringes */
-  { s: 3, bg: [.86, .81, .74], w: 0, tint: [1, .9, .75], ox: .24, sc: .92, ps: .9, ext: 1.15, abs: [.7, 1.5, 3.2], fe: [1, 0, .6, .03] },  /* clothing: frosted amber linen with a woven surface */
-  { s: 4, bg: [.27, .40, .52], w: 1, tint: [.85, .8, 1], ox: .24, sc: .86, ps: .85, ext: 1.3, abs: [1.3, 3.2, .5], fe: [0, 1, 1, .06] },     /* software: violet glass with a faint circuit grid inside */
   { s: 5, bg: [.87, .79, .72], w: 0, tint: [1, .86, .7], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [1.6, 3.0, 5.4], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze, mostly solid */
-  { s: 6, bg: [.78, .85, .93], w: 0, tint: [1, .85, .92], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [.5, 2.3, 1.4], fe: [0, 0, .85, .04] }, /* kids: bright rose jelly */
-  { s: 2, bg: [.84, .80, .73], w: 0, tint: [1, .94, .84], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm clear crystal */
+  { s: 3, bg: [.86, .81, .74], w: 0, tint: [1, .9, .75], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [.7, 1.5, 3.2], fe: [1, 0, .6, .03] },  /* clothing: frosted amber linen with a woven surface */
+  { s: 4, bg: [.27, .40, .52], w: 1, tint: [.85, .8, 1], ox: .24, sc: .86, ps: .85, ext: 1.05, abs: [1.3, 3.2, .5], fe: [0, 1, 1, .06] },     /* software: violet glass with a faint circuit grid inside */
+  { s: 6, bg: [.78, .85, .93], w: 0, tint: [1, .72, .84], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [.2, 1.5, .9], fe: [0, 0, .4, .03] }, /* kids: bright rose jelly */
+  { s: 8, bg: [.84, .80, .73], w: 0, tint: [1, .94, .84], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm clear crystal */
   { s: 0, bg: [.64, .73, .70], w: 1, tint: [.9, 1, .95], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [2.4, 1.3, 2.2], fe: [0, 0, 1, .07] },        /* our story: soft green orb */
   { s: 7, bg: [.27, .42, .50], w: 1, tint: [.9, .95, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.5, .5, .45], fe: [0, 0, 1, .1] },
 ];
-const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09, .14], [.115, .085, .065], [.07, .06, .16], [.12, .07, .06], [.09, .07, .125], [.11, .09, .06], [.04, .09, .08], [.04, .08, .13]];
+const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09, .14], [.12, .07, .06], [.115, .085, .065], [.07, .06, .16], [.09, .07, .125], [.11, .09, .06], [.04, .09, .08], [.04, .08, .13]];
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
@@ -44,20 +44,39 @@ mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float sdRound(vec3 p, vec3 b, float r){ vec3 q = abs(p) - b; return length(max(q, 0.)) + min(max(q.x, max(q.y, q.z)), 0.) - r; }
 float sdTorus(vec3 p, float R, float r){ vec2 q = vec2(length(p.xz) - R, p.y); return length(q) - r; }
 float sdCylY(vec3 p, float r, float h){ vec2 d = vec2(length(p.xz) - r, abs(p.y) - h); return min(max(d.x, d.y), 0.) + length(max(d, 0.)); }
+float sdCap(vec3 p, vec3 a, vec3 b, float r){ vec3 pa = p - a, ba = b - a; float h = clamp(dot(pa, ba) / dot(ba, ba), 0., 1.); return length(pa - ba * h) - r; }
+float sdCone(vec3 p, float h, float r1, float r2){ vec2 q = vec2(length(p.xz), p.y), k1 = vec2(r2, h), k2 = vec2(r2 - r1, 2. * h), ca = vec2(q.x - min(q.x, q.y < 0. ? r1 : r2), abs(q.y) - h), cb = q - k1 + k2 * clamp(dot(k1 - q, k2) / dot(k2, k2), 0., 1.); float s = (cb.x < 0. && ca.y < 0.) ? -1. : 1.; return s * sqrt(min(dot(ca, ca), dot(cb, cb))); }
 
 float shape(int id, vec3 p){
   if (id == 0) { float d = length(p) - .92; return d + .012 * sin(p.x * 9. + uTime * .5) * sin(p.y * 8. + uTime * .4); }
-  if (id == 1) { float r = length(p.xy), d = length(p) - .92; return d + .05 * sin(r * 30. - uTime * 1.4) * smoothstep(1., .2, r); }                       /* ripples: a signal spreading */
-  if (id == 2) { vec3 q = p.xzy; float body = sdCylY(q, .98, .22) - .05, hole = sdCylY(q, .52, .6), core = length(p) - .34; return smin(max(body, -hole), core, .1); }   /* a lens */
-  if (id == 3) { vec3 q = p; q.xz *= rot(q.y * 1.3 + uTime * .2); return sdRound(q, vec3(.8, 1., .045), .05); }                                           /* cloth: a twisted fold */
-  if (id == 4) { vec3 q = p; q.xz *= rot(.55); q.yz *= rot(.3); return sdRound(q, vec3(.58), .2); }                                                          /* software: a cube */
-  if (id == 5) { vec3 q = p; q.yz *= rot(.9); float d = sdTorus(q, .62, .36); return d + .015 * sin(atan(q.z, q.x) * 14.); }                                  /* bakery: a bun */
-  if (id == 6) { float a = length(p - vec3(-.5 + .06 * sin(uTime * .8), -.22, 0.)) - .5, b = length(p - vec3(.5, -.12 + .05 * sin(uTime * .7 + 1.), .1)) - .46, c = length(p - vec3(0., .52 + .05 * sin(uTime * .9 + 2.), -.1)) - .4; return smin(smin(a, b, .32), c, .32); }
+  if (id == 1) { vec3 q = p * 1.5; q.xy *= rot(-.42); q.xz *= rot(-.3);                                                                                      /* marketing: a megaphone with sound rings */
+    float horn = sdCone(vec3(q.y, q.x - .1, q.z), .5, .2, .62) - .03, cap = length(q - vec3(-.46, 0., 0.)) - .27, grip = sdRound(q - vec3(-.2, -.46, 0.), vec3(.07, .2, .07), .04);
+    float r1 = sdTorus(vec3(q.y, q.x - 1., q.z), .42, .035), r2 = sdTorus(vec3(q.y, q.x - 1.2, q.z), .66, .035);
+    return min(smin(smin(horn, cap, .08), grip, .06), min(r1, r2)) / 1.5; }
+  if (id == 2) { vec3 q = p * 1.3; q.yz *= rot(.22);                                                                                                           /* photography: a camera */
+    float body = sdRound(q - vec3(0., -.05, 0.), vec3(.78, .46, .24), .1), hump = sdRound(q - vec3(-.34, .52, 0.), vec3(.24, .1, .16), .06), btn = sdCylY(q - vec3(.5, .56, 0.), .09, .05) - .02;
+    vec3 l = q - vec3(.1, -.02, .3), n = vec3(l.x, l.z, l.y); float barrel = sdCylY(n, .36, .18) - .03, hole = sdCylY(n - vec3(0., .2, 0.), .24, .14), glass = length(q - vec3(.1, -.02, .34)) - .2;
+    float d = smin(smin(body, hump, .05), btn, .03); d = smin(d, max(barrel, -hole), .04); return smin(d, glass, .02) / 1.3; }
+  if (id == 3) { vec3 q = p * 1.15; q.yz *= rot(.5); q.xy *= rot(.35);                                                                                          /* clothing: a spool of thread */
+    float core = sdCylY(q, .34, .56) - .02, fl = min(sdCylY(q - vec3(0., .56, 0.), .66, .07), sdCylY(q + vec3(0., .56, 0.), .66, .07)) - .04, thread = sdCylY(q, .52, .46) - .03 + .012 * sin(q.y * 42.);
+    return smin(fl, smin(core, thread, .05), .06) / 1.15; }
+  if (id == 4) { vec3 q = p * 1.2; float r = .115;                                                                                                              /* software: code brackets </> */
+    float a = smin(sdCap(q, vec3(-.3, .46, 0.), vec3(-.84, 0., 0.), r), sdCap(q, vec3(-.84, 0., 0.), vec3(-.3, -.46, 0.), r), .06), b = smin(sdCap(q, vec3(.3, .46, 0.), vec3(.84, 0., 0.), r), sdCap(q, vec3(.84, 0., 0.), vec3(.3, -.46, 0.), r), .06);
+    return min(min(a, b), sdCap(q, vec3(.15, .64, 0.), vec3(-.15, -.64, 0.), r * .9)) / 1.2; }
+  if (id == 5) { vec3 q = p; q.yz *= rot(.42); float ang = atan(q.z, q.x);                                                                                  /* bakery: a two-tier cake with a cherry */
+    float lo = sdCylY(q - vec3(0., -.3, 0.), .74, .2) - .07 + .007 * sin(ang * 20.);
+    float hi = sdCylY(q - vec3(0., .12, 0.), .46, .17) - .07 + .006 * sin(ang * 16.);
+    float ic = sdTorus(q - vec3(0., .3, 0.), .4, .045), ch = length(q - vec3(.04, .47, 0.)) - .14;
+    return smin(smin(lo, hi, .06), smin(ic, ch, .04), .05); }
+  if (id == 6) { vec3 q = p * 1.35, q1 = q - vec3(-.42, -.4, 0.), q2 = q - vec3(.34, -.42, .1), q3 = q - vec3(-.02, .2, .05);                                    /* kids: three toy blocks */
+    q1.xz *= rot(.35); q2.xz *= rot(-.3); q3.xz *= rot(.8); q3.xy *= rot(.12);
+    return min(min(sdRound(q1, vec3(.3), .06), sdRound(q2, vec3(.3), .06)), sdRound(q3, vec3(.3), .06)) / 1.35; }
+  if (id == 8) { vec3 q = p.xzy; float body = sdCylY(q, .98, .22) - .05, hole = sdCylY(q, .52, .6), core = length(p) - .34; return smin(max(body, -hole), core, .1); }   /* founder: a warm clear crystal disc */
   float d = sdTorus(p.xzy, 1.28, .07); return d;                                                                                                              /* contact: a ring */
 }
 float noise3(vec3 p){ return sin(p.x * 5. + uTime * .9) * sin(p.y * 5.3 - uTime * .7) * sin(p.z * 4.7 + uTime * .8); }
 float map(vec3 p){
-  p /= uSc * max(uApp, .001); p.yz *= rot(uRot.y); p.xz *= rot(uRot.x + uTime * .1);
+  p /= uSc * max(uApp, .001); p.yz *= rot(uRot.y); p.xz *= rot(uRot.x + sin(uTime * .35) * .38);
   float a = shape(int(uA + .5), p), d = a;
   if (uW > .001) { float b = shape(int(uB + .5), p); d = mix(a, b, uW) + .09 * sin(uW * 3.14159) * noise3(p * 1.4); }
   return d * .8 * uSc * max(uApp, .001);
@@ -73,7 +92,7 @@ vec3 env(vec3 r){
 }
 vec3 aces(vec3 x){ return clamp((x * (2.51 * x + .03)) / (x * (2.43 * x + .59) + .14), 0., 1.); }
 float marchIn(vec3 ro, vec3 rd){ float t = .02; for (int i = 0; i < 48; i++) { if (float(i) > uInner) break; float d = -map(ro + rd * t); if (d < .002) break; t += max(d, .012); if (t > 3.5) break; } return t; }
-vec3 objP(vec3 p){ p /= uSc * max(uApp, .001); p.yz *= rot(uRot.y); p.xz *= rot(uRot.x + uTime * .1); return p; }
+vec3 objP(vec3 p){ p /= uSc * max(uApp, .001); p.yz *= rot(uRot.y); p.xz *= rot(uRot.x + sin(uTime * .35) * .38); return p; }
 vec3 glass(vec3 p, vec3 rd, vec3 tint, vec3 ab, vec4 fe){
   vec3 n = nrm(p), q = objP(p);
   n = normalize(n + fe.x * .06 * vec3(sin(q.y * 58.) * cos(q.x * 58.), sin(q.x * 58.) * cos(q.y * 58.), 0.));              /* woven cloth */
@@ -169,7 +188,7 @@ SYS.addEventListener && SYS.addEventListener('change', e => { if (CHOSEN) return
 tbtn.addEventListener('click', () => { CHOSEN = true; THEME = THEME ? 0 : 1; root.dataset.theme = THEME ? 'dark' : 'light'; try { localStorage.setItem('ajtheme', THEME ? 'dark' : 'light'); } catch (e) {} tbtn.setAttribute('aria-pressed', THEME ? 'true' : 'false'); });
 tbtn.setAttribute('aria-pressed', THEME ? 'true' : 'false');
 /* headlines reveal word by word out of a mask */
-document.querySelectorAll('h1,h2').forEach(hd => { let k = 0; const walk = n => { [...n.childNodes].forEach(c => { if (c.nodeType === 3) { const frag = document.createDocumentFragment(); c.textContent.split(/(\s+)/).forEach(t => { if (!t.trim()) { frag.append(t); return; } const w = document.createElement('span'); w.className = 'w'; const i = document.createElement('span'); i.textContent = t; i.style.setProperty('--k', k++); w.append(i); frag.append(w); }); c.replaceWith(frag); } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c); }); }; walk(hd); });
+document.querySelectorAll('h1,h2,.stop[data-i="0"] .lead').forEach(hd => { let k = 0; const walk = n => { [...n.childNodes].forEach(c => { if (c.nodeType === 3) { const frag = document.createDocumentFragment(); c.textContent.split(/(\s+)/).forEach(t => { if (!t.trim()) { frag.append(t); return; } const w = document.createElement('span'); w.className = 'w'; const i = document.createElement('span'); i.textContent = t; i.style.setProperty('--k', k++); w.append(i); frag.append(w); }); c.replaceWith(frag); } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c); }); }; walk(hd); });
 /* a soft cursor ring on laptops */
 const ring = document.getElementById('cursor'), fine = matchMedia('(hover: hover) and (pointer: fine)').matches; let cx = -50, cy = -50, rx = -50, ry = -50, big = 0;
 if (fine) addEventListener('pointermove', e => { cx = e.clientX; cy = e.clientY; big = e.target.closest('a,button,input,textarea') ? 1 : 0; }, { passive: true }); else ring.remove();
