@@ -146,7 +146,7 @@ dotBtns.forEach((b, i) => b.addEventListener('click', () => go(i)));
 const menuEl = document.getElementById('menu'), menuBtn = document.getElementById('menubtn'), sideTab = document.getElementById('sidetab');
 const setMenu = on => { menuEl.classList.toggle('on', on); menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.firstChild.textContent = on ? 'Close' : 'Menu'; };
 menuBtn.addEventListener('click', () => setMenu(!menuEl.classList.contains('on')));
-document.querySelectorAll('.pillnav a,.gbtn,.stop .enter[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); a.blur(); go(+a.dataset.go); }));
+document.querySelectorAll('.pillnav a,.gbtn,.stop .enter[data-go],.stop[data-i="0"] [data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); a.blur(); go(+a.dataset.go); }));
 menuEl.querySelectorAll('a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setMenu(false); go(+a.dataset.go); }));
 sideTab.addEventListener('click', () => go(LAST));
 function fit() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); U.uAsp.value = w / h; }

@@ -198,6 +198,40 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .pillnav a:focus{outline:none}.pillnav a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .menu a.on::after{content:"";display:inline-block;width:.16em;height:.16em;border-radius:50%;background:currentColor;margin-left:.22em;vertical-align:.12em}
 .menu a.on{color:var(--ink)}
+/* landing chapter: calm layered cards (frosted glass, soft white, ink) over the orb */
+.stop[data-i="0"]{width:min(440px,38vw);bottom:9vh;display:grid;gap:10px}
+.hglass{padding:26px 22px 22px;border:1px solid var(--line);border-radius:26px;background:radial-gradient(120% 90% at 0% 0%,rgba(95,224,205,.28),transparent 60%),radial-gradient(110% 90% at 100% 100%,rgba(165,139,255,.26),transparent 62%),linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);box-shadow:0 24px 70px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.3)}
+.stop[data-i="0"] .lead{margin:0 0 18px;max-width:none;font-size:clamp(25px,2.3vw,34px);line-height:1.12;font-weight:300;letter-spacing:-.04em}
+.stop[data-i="0"] .lead em{letter-spacing:-.015em;font-size:1.04em}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chips button{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:var(--pill);color:var(--ink);font:inherit;font-size:12.5px;font-weight:400;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s}
+.chips button i{width:6px;height:6px;border-radius:50%;background:var(--c)}
+.chips button:hover{background:var(--line);transform:translateY(-1px)}.chips button:active{transform:scale(.95)}
+.hc{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+.hc button{position:relative;overflow:hidden;display:grid;align-content:space-between;min-height:168px;padding:16px 16px 14px;border:0;border-radius:26px;font:inherit;text-align:left;cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.hc button>*{position:relative;z-index:1}.hc button:hover{transform:translateY(-3px)}.hc button:active{transform:scale(.97)}
+.hc-w{background:rgba(255,255,255,.94);color:#0e1730;box-shadow:0 18px 50px rgba(8,16,32,.16)}
+.hc-w::before{content:"";position:absolute;z-index:0;right:-34px;top:14px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 30% 28%,#ffd9bd,#c9b8ff 55%,#a8ece0);filter:blur(9px);opacity:.95;animation:hfloat 9s ease-in-out infinite}
+@keyframes hfloat{50%{transform:translate(-8px,10px) scale(1.06)}}
+.hc .hc-d{background:radial-gradient(90% 70% at 0% 100%,rgba(240,201,135,.34),transparent 65%),radial-gradient(80% 60% at 100% 0%,rgba(165,139,255,.3),transparent 65%),linear-gradient(160deg,#16224a,#0e1730);color:#fff;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(8,16,32,.22)}
+.hc .hc-c{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 12px 0 22px;background:linear-gradient(100deg,#5fe0cd,#9fd0ff 48%,#a58bff);color:#0e1730;font-size:15px;font-weight:500;letter-spacing:-.01em;box-shadow:0 16px 44px rgba(95,224,205,.28)}
+.hc .hc-c i{background:#0e1730;color:#fff}
+.hc small{font-size:12px;color:rgba(255,255,255,.7)}
+.hc-n{font-size:clamp(46px,13vw,56px);font-weight:300;letter-spacing:-.06em;line-height:1}
+.hc-d .hc-n{font-size:clamp(26px,7.4vw,32px);font-weight:400;letter-spacing:-.04em}
+.hc-t{font-size:13px;line-height:1.35;color:rgba(14,23,48,.7)}
+.hc i{justify-self:end;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:16px;background:#0e1730;color:#fff;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.hc-d i{background:#fff;color:#0e1730}.hc button:hover i{transform:translateX(4px)}
+@keyframes hrise{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+.stop.cur[data-i="0"] .hglass{animation:hrise 1s cubic-bezier(.16,1,.3,1) .05s both}
+.stop.cur[data-i="0"] .hc button:nth-child(1){animation:hrise 1s cubic-bezier(.16,1,.3,1) .2s both}
+.stop.cur[data-i="0"] .hc button:nth-child(2){animation:hrise 1s cubic-bezier(.16,1,.3,1) .3s both}
+.stop.cur[data-i="0"] .hc button:nth-child(3){animation:hrise 1s cubic-bezier(.16,1,.3,1) .4s both}
+.stack .stop[data-i="0"]{width:auto;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:0;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.stack .stop.cur[data-i="0"] .hglass,.stack .stop.cur[data-i="0"] .hc{pointer-events:auto}
+.stack .stop[data-i="0"] .lead{max-width:none;margin:0 0 22px;font-size:clamp(29px,8.8vw,40px);font-weight:300;letter-spacing:-.045em;line-height:1.08}
+@media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hc .hc-c{min-height:52px}.hglass{padding:18px 18px 16px}}
+@media (prefers-reduced-motion:reduce){.hc-w::before{animation:none}.stop.cur[data-i="0"] .hglass,.stop.cur[data-i="0"] .hc button{animation:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -219,7 +253,11 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <div class="count" id="count"><span><b id="countN">01</b> / 11</span><i><u id="countBar"></u></i></div>
 <div class="cue" id="cue">↓ Scroll <span style="opacity:.6">down</span></div>
 <main>
-  <article class="stop" data-i="0"><p class="lead">A group of working companies, built and led by Allwyn.</p></article>
+  <article class="stop" data-i="0">
+    <div class="hglass"><p class="lead">A group of working companies, <em>built and led by Allwyn.</em></p>
+      <div class="chips" role="group" aria-label="Our businesses"><button type="button" data-go="2" style="--c:#5fe0cd"><i></i>Alven Studio</button><button type="button" data-go="3" style="--c:#dfe7ff"><i></i>House of Fovo</button><button type="button" data-go="4" style="--c:#e9a24a"><i></i>Clothing</button><button type="button" data-go="5" style="--c:#a58bff"><i></i>AJ Softwares</button><button type="button" data-go="6" style="--c:#f08a4f"><i></i>Bun Bun Bakes</button><button type="button" data-go="7" style="--c:#ef6f8d"><i></i>AJ Little World</button></div></div>
+    <div class="hc"><button type="button" class="hc-w" data-go="1"><span class="hc-n">06</span><span class="hc-t">businesses,<br>one discipline</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="8"><small>Founder</small><span class="hc-n">Allwyn<br>Jerold</span><i aria-hidden="true">→</i></button><button type="button" class="hc-c" data-go="10"><span>Talk to us</span><i aria-hidden="true">→</i></button></div>
+  </article>
   <article class="stop" data-i="1"><h1>Six businesses,<br><em>one discipline</em></h1><p class="line">Marketing, photography, clothing, software, baking and children’s stories, built to the same standard.</p></article>
   <article class="stop" data-i="2" data-c="#5fe0cd"><p class="tag"><i></i>Alven Studio</p><h2>Ideas that <em>get seen</em></h2><p class="line">Strategy, social and advertising that make your brand easy to find.</p><a class="enter" href="../alven/">Enter Alven Studio →</a></article>
   <article class="stop" data-i="3" data-c="#dfe7ff"><p class="tag"><i></i>House of Fovo</p><h2>Photography, <em>seen properly</em></h2><p class="line">Portraits, events and commercial work, shot with patience and a good eye.</p><a class="enter" href="../fovo/">Enter House of Fovo →</a></article>
@@ -242,6 +280,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=6"></script>
+<script type="module" src="main.js?v=7"></script>
 </body>
 </html>
