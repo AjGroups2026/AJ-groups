@@ -8,12 +8,12 @@ const MOBILE = matchMedia('(max-width: 760px), (pointer: coarse)').matches, RM =
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t, sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 const stopEls = [...document.querySelectorAll('.stop')], NS = stopEls.length; document.documentElement.style.setProperty('--n', NS); const LAST = NS - 1;
 const q = new URLSearchParams(location.search), PIN = parseFloat(q.get('s')), TFIX = parseFloat(q.get('t'));
-const root = document.documentElement;
+const root = document.documentElement; if (q.get('sheet')) root.classList.add('sheet');   /* ?sheet=1 keeps the old full-height frosted sheet on phones */
 
 const canvas = document.getElementById('c');
-let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' }); } catch (e) { renderer = null; }
+let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' }); renderer.autoClear = false; } catch (e) { renderer = null; }
 if (!renderer) { stopEls.forEach(e => { e.style.visibility = 'visible'; e.style.position = 'static'; e.style.opacity = 1; e.style.transform = 'none'; e.style.padding = '90px 22px 20px'; }); throw new Error('WebGL unavailable'); }
-let PR = Math.min(devicePixelRatio, MOBILE ? 1.2 : 1.25); renderer.setPixelRatio(PR);
+let PR = Math.min(devicePixelRatio, MOBILE ? 2 : 1.25); renderer.setPixelRatio(PR);
 
 /* per chapter: shape, page tone (rgb), text is white (1) or dark (0), orb tint, orb screen position (x offset in screens, 0 = centred) and scale */
 const CH = [
@@ -34,11 +34,11 @@ const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09,
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
-  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 44 : 72 }, uInner: { value: MOBILE ? 18 : 34 }, uDark: { value: 0 } };
+  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 52 : 72 }, uInner: { value: MOBILE ? 22 : 34 }, uTr: { value: 0 }, uPx: { value: .003 }, uDark: { value: 0 } };
 const frag = /* glsl */`
 precision highp float;
 varying vec2 vUv;
-uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot;
+uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot;
 float smin(float a, float b, float k){ float h = max(k - abs(a - b), 0.) / k; return min(a, b) - h * h * k * .25; }
 mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float sdRound(vec3 p, vec3 b, float r){ vec3 q = abs(p) - b; return length(max(q, 0.)) + min(max(q.x, max(q.y, q.z)), 0.) - r; }
@@ -63,7 +63,7 @@ float shape(int id, vec3 p){
   if (id == 4) { vec3 q = p * 1.2; float r = .115;                                                                                                              /* software: code brackets </> */
     float a = smin(sdCap(q, vec3(-.3, .46, 0.), vec3(-.84, 0., 0.), r), sdCap(q, vec3(-.84, 0., 0.), vec3(-.3, -.46, 0.), r), .06), b = smin(sdCap(q, vec3(.3, .46, 0.), vec3(.84, 0., 0.), r), sdCap(q, vec3(.84, 0., 0.), vec3(.3, -.46, 0.), r), .06);
     return min(min(a, b), sdCap(q, vec3(.15, .64, 0.), vec3(-.15, -.64, 0.), r * .9)) / 1.2; }
-  if (id == 5) { vec3 q = p; q.yz *= rot(.42); float ang = atan(q.z, q.x);                                                                                  /* bakery: a two-tier cake with a cherry */
+  if (id == 5) { vec3 q = p; q.yz *= rot(-.5); float ang = atan(q.z, q.x);                                                                                  /* bakery: a two-tier cake with a cherry */
     float lo = sdCylY(q - vec3(0., -.3, 0.), .74, .2) - .07 + .007 * sin(ang * 20.);
     float hi = sdCylY(q - vec3(0., .12, 0.), .46, .17) - .07 + .006 * sin(ang * 16.);
     float ic = sdTorus(q - vec3(0., .3, 0.), .4, .045), ch = length(q - vec3(.04, .47, 0.)) - .14;
@@ -116,6 +116,7 @@ void main(){
   vec3 ro = vec3(-uOff.x * 2.4 * uTan * uAsp * 3.2, -uOff.y, 4.6), rd = normalize(vec3(uv, -1.));
   /* the page: a calm tone with blurred dark blobs drifting at the edges */
   vec2 q = vUv; vec3 bg = uBG; float bl = 0.;
+  if (uTr < .5) {
   for (int i = 0; i < 5; i++) { float fi = float(i); vec2 c = vec2(.5 + .46 * sin(uTime * .05 + fi * 2.1) * (i % 2 == 0 ? 1. : -1.), .5 + .42 * cos(uTime * .04 + fi * 1.7)); vec2 d = (q - c) * vec2(uAsp, 1.); bl += exp(-dot(d, d) * (9. + fi * 3.)) * (.55 - fi * .06); }
   float vig = (1. - smoothstep(.0, .75, length((q - .5) * vec2(uAsp, 1.)))) * .05;
   vec3 bgL = bg * (1. - bl * .22 * (1. - uDark * .5)) + vig, bgD = bg + bl * .075 * vec3(.55, .75, 1.) + vig * .6;
@@ -123,14 +124,18 @@ void main(){
   for (int k = 0; k < 3; k++) { float fk = float(k); float yk = .13 + .1 * fk + .05 * sin(xx * (1.5 + .5 * fk) + uTime * .035 + fk * 2.) + .03 * sin(xx * (3.7 + fk) + fk * 5. - uTime * .02); float m = 1. - smoothstep(yk - .14, yk + .1, q.y);
     bgL = mix(bgL, bgL * (.9 - .03 * fk) + vec3(.02) * fk, m * .6); bgD = mix(bgD, bgD + vec3(.025, .04, .06) * (1. + fk * .5), m * .5); }
   bg = mix(bgL, bgD, uTheme);
-  float t = 0.; bool hit = false; vec3 p = ro;
+  }
+  float t = 0.; bool hit = false; vec3 p = ro; float mind = 9.; vec3 pm = ro;
   float bR = 1.62 * uSc * max(uApp, .001), bb = dot(ro, rd), disc = bb * bb - (dot(ro, ro) - bR * bR);                 /* a bounding sphere: pixels that miss it cost almost nothing */
   if (disc > 0.) { float sq = sqrt(disc), tmax = -bb + sq + .1; t = max(0., -bb - sq);
-    for (int i = 0; i < 90; i++) { if (float(i) > uSteps) break; p = ro + rd * t; float d = map(p); if (d < .0016) { hit = true; break; } t += d; if (t > tmax) break; } }
+    for (int i = 0; i < 90; i++) { if (float(i) > uSteps) break; p = ro + rd * t; float d = map(p); if (d < mind) { mind = d; pm = p; } if (d < .0016) { hit = true; break; } t += d; if (t > tmax) break; } }
+  /* phones draw only the orb on a transparent canvas: a ray that just misses the edge still shades, with partial coverage, so the outline is smooth */
+  float a = hit ? 1. : 0.; bool near = !hit && uTr > .5 && mind < uPx * 1.6;
+  if (near) { p = pm; a = 1. - smoothstep(0., uPx * 1.6, mind); }
   vec3 col = bg;                                                                          /* the page tone is already in display colour */
-  if (hit) { col = glass(p, rd, mix(uTA, uTB, uW), mix(uAbsA, uAbsB, uW), mix(uFeA, uFeB, uW)); col = aces(col * 1.05); col = pow(col, vec3(.4545)); }
+  if (hit || near) { col = glass(p, rd, mix(uTA, uTB, uW), mix(uAbsA, uAbsB, uW), mix(uFeA, uFeB, uW)); col = aces(col * 1.05); col = pow(col, vec3(.4545)); }
   col += (hash(gl_FragCoord.xy + fract(uTime) * 91.) - .5) * .02;                          /* film grain */
-  gl_FragColor = vec4(col, 1.);
+  gl_FragColor = uTr > .5 ? vec4(col * a, a) : vec4(col, 1.);
 }`;
 const scene = new THREE.Scene(), cam = new THREE.Camera();
 scene.add(Object.assign(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: U, vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }', fragmentShader: frag, depthTest: false, depthWrite: false })), { frustumCulled: false }));
@@ -174,7 +179,10 @@ function fitLists() { stopEls.forEach(el => { const sv = el.querySelector('.svc'
 function layout() {
   const W = innerWidth, H = innerHeight, hb = Math.max(top.offsetHeight, 52);
   LY.stack = W / H < 1 || (W <= 760 && H >= 560); LY.short = !LY.stack && H < 570; root.classList.toggle('stack', LY.stack); root.classList.toggle('short', LY.short);
-  if (LY.stack) { const tb = top.getBoundingClientRect().bottom; LY.hb = tb; root.style.setProperty('--hb', tb + 'px'); const cr = stopEls[2].getBoundingClientRect(), cc = (cr.top + cr.bottom) / 2, R = Math.min(W * .58, (cr.bottom - cr.top) * .38); LY.zone = [cc - R, cc + R];
+  if (LY.stack) { const tb = top.getBoundingClientRect().bottom; LY.hb = tb; root.style.setProperty('--hb', tb + 'px'); const cr = stopEls[2].getBoundingClientRect();
+    if (root.classList.contains('sheet')) { const cc = (cr.top + cr.bottom) / 2, R = Math.min(W * .58, (cr.bottom - cr.top) * .38); LY.zone = [cc - R, cc + R]; }
+    else { let ha = 0, bb = Infinity; for (let k = 2; k <= 9; k++) { const h = stopEls[k].querySelector('h2'), b = stopEls[k].querySelector('.body'); if (h) ha = Math.max(ha, h.getBoundingClientRect().bottom); if (b) bb = Math.min(bb, b.getBoundingClientRect().top); }
+      const a0 = ha + 8, b0 = bb - 8, mid = (a0 + b0) / 2, R = Math.min(W * .5, Math.max(80, (b0 - a0) / 2)); LY.zone = [mid - R, mid + R]; }
     const h8 = stopEls[LAST].querySelector('h2').getBoundingClientRect().bottom; LY.zone8 = [h8 + 10, cr.bottom - 14];
     fitLists(); const z = LY.zone8, zh = Math.max(226, Math.min(340, z[1] - z[0])); formEl.style.setProperty('--zh', zh + 'px'); formEl.style.setProperty('--zy', Math.max(z[0] + zh / 2, (z[0] + z[1]) / 2) + 'px'); }
 }
@@ -210,7 +218,7 @@ function frame() {
   themeNow += (THEME - themeNow) * Math.min(1, dt * 3.2); const iA = sNow >= NS - 1 ? NS - 1 : i0, iB = sNow >= NS - 1 ? NS - 1 : i0 + 1;
   const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); U.uTA.value.set(...A.tint); U.uTB.value.set(...B.tint); U.uAbsA.value.set(...A.abs); U.uAbsB.value.set(...B.abs); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
   const asp = innerWidth / innerHeight, st = LY.stack;
-  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); U.uOff.value.set(0, (1 - 2 * zc / innerHeight) * 4.6 * .32492); U.uSc.value = zr / ext / (.615 * innerHeight / 2); }
+  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); U.uOff.value.set(0, (1 - 2 * zc / innerHeight) * 4.6 * .32492); U.uSc.value = zr / ext / (.615 * innerHeight / 2); LY.rpx = zr * 1.22; LY.zc = zc; }
   else { const oxx = lerp(A.ox, B.ox, ww) * .8, ex = lerp(A.ext, B.ext, ww), cxp = (.5 + .5 * 1.67 * oxx) * innerWidth; U.uOff.value.set(oxx, 0); U.uSc.value = Math.min(lerp(A.sc, B.sc, ww) * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (innerWidth - 10 - cxp) / (.615 * innerHeight / 2 * ex)); }
   { } U.uApp.value = sstep(0, 1, app); U.uTime.value = T;
   dragS += (dragT - dragS) * Math.min(1, dt * 14);
@@ -245,7 +253,11 @@ function frame() {
     const ang = T * .22 + 1; setA(od, 'cx', (ocx + Math.cos(ang) * orad * 2.25).toFixed(1)); setA(od, 'cy', (ocy + Math.sin(ang) * orad * 2.25).toFixed(1)); setV(orbit, 'opacity', (sstep(.3, 1, app) * (LY.stack ? .5 : 1)).toFixed(3));
     let dd = 1; if (!LY.stack) cards.forEach(c => { if (!c.classList.contains('cur')) return; const r = c.getBoundingClientRect(), dx = Math.max(r.left - (ocx + Math.cos(ang) * orad * 2.25), 0, (ocx + Math.cos(ang) * orad * 2.25) - r.right), dy = Math.max(r.top - (ocy + Math.sin(ang) * orad * 2.25), 0, (ocy + Math.sin(ang) * orad * 2.25) - r.bottom); dd = Math.min(dd, Math.hypot(dx, dy) / 40); }); setV(od, 'opacity', clamp(dd).toFixed(2)); }
   cards.forEach(c => c.classList.toggle('cur', +c.dataset.i === near && op > .4));
-  renderer.render(scene, cam); first = false; requestAnimationFrame(frame);
+  /* phones: transparent canvas, and only the box around the orb is shaded (so it can be drawn at full sharpness for the same cost); laptops draw the whole page */
+  U.uTr.value = LY.stack ? 1 : 0; U.uPx.value = 2 * 4.6 * U.uTan.value / (innerHeight * renderer.getPixelRatio());
+  renderer.setScissorTest(false); renderer.setClearAlpha(LY.stack ? 0 : 1); renderer.clear();
+  if (LY.stack && LY.rpx) { const W = innerWidth, H = innerHeight, x0 = Math.max(0, W / 2 - LY.rpx), x1 = Math.min(W, W / 2 + LY.rpx), y0 = Math.max(0, LY.zc - LY.rpx), y1 = Math.min(H, LY.zc + LY.rpx); renderer.setScissorTest(true); renderer.setScissor(Math.floor(x0), Math.floor(H - y1), Math.ceil(x1 - x0), Math.ceil(y1 - y0)); }
+  renderer.render(scene, cam); renderer.setScissorTest(false); first = false; requestAnimationFrame(frame);
 }
 /* swipe sideways between businesses on phones; the orb follows the finger and settles on release */
 { let sx = 0, sy = 0, base = 0, drag = false, lock = '', lx = 0, lt = 0, vx = 0;

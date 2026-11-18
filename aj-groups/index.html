@@ -4,7 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AJ GROUPS | One discipline, six businesses</title>
-<meta name="description" content="AJ GROUPS: one glass orb that becomes each of the group's six businesses as you scroll.">
+<meta name="description" content="AJ GROUPS is a group of working companies built and led by Allwyn Jerold: Alven Studio, House of Fovo, Bun Bun Bakes and more.">
+<meta name="theme-color" content="#0b0f1a">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="AJ GROUPS">
+<meta property="og:title" content="AJ GROUPS | One discipline, six businesses">
+<meta property="og:description" content="A group of working companies built and led by Allwyn Jerold: Alven Studio, House of Fovo, Bun Bun Bakes and more.">
+<meta property="og:url" content="https://roosewelt-nacth.github.io/AJ-groups/">
+<meta property="og:image" content="https://roosewelt-nacth.github.io/AJ-groups/assets/og-aj-groups.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -225,7 +233,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 /* landscape phones: the landing shrinks to a lead card and three small cards in a row */
 .short .stop[data-i="0"]{top:auto;width:min(50vw,420px);bottom:max(14px,5vh);left:max(var(--pad),env(safe-area-inset-left));gap:8px}
 .short .chips{display:none}.short .hglass{padding:14px 16px}.short .stop[data-i="0"] .lead{font-size:clamp(18px,5.4vh,24px);margin:0;line-height:1.14}
-.short .hc{grid-template-columns:1fr 1fr 1fr;gap:8px}.short .hc button{min-height:86px;padding:10px 12px;border-radius:18px}.short .hc .hc-c{grid-column:auto;min-height:86px;padding:10px 12px;flex-direction:column;align-items:flex-start;justify-content:space-between;font-size:13px}
+.short .hc{grid-template-columns:1.2fr 1fr;gap:8px}.short .hc button{min-height:86px;padding:10px 12px;border-radius:18px}.short .gbtn{display:inline-block}
 .short .hc-n{font-size:34px}.short .hc-d .hc-n{font-size:17px}.short .hc-t{font-size:11px}.short .hc-w::before{width:80px;height:80px;right:-22px;top:6px}.short .hc i{width:26px;height:26px;font-size:13px}
 .stop[data-i="1"] .tag{display:none}.stack .stop[data-i="1"] .tag{display:inline-flex}
 .stop[data-i="1"] h1{font-size:clamp(34px,min(5.6vw,8.6vh),100px)}.stop[data-i="1"] .line{margin-bottom:0}
@@ -240,7 +248,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 @media (prefers-reduced-motion:reduce){.vc.live .vc-st i{animation:none}}
 /* landing chapter: calm layered cards (frosted glass, soft white, ink) over the orb */
 .stop[data-i="0"]{width:min(440px,38vw);bottom:9vh;display:grid;gap:10px}
-.hglass{padding:26px 22px 22px;border:1px solid var(--line);border-radius:26px;background:radial-gradient(120% 90% at 0% 0%,rgba(95,224,205,.28),transparent 60%),radial-gradient(110% 90% at 100% 100%,rgba(165,139,255,.26),transparent 62%),linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);box-shadow:0 24px 70px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.3)}
+.hglass{padding:26px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);box-shadow:0 24px 70px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.3)}
 .stop[data-i="0"] .lead{margin:0 0 18px;max-width:none;font-size:clamp(25px,2.3vw,34px);line-height:1.12;font-weight:300;letter-spacing:-.04em}
 .stop[data-i="0"] .lead em{letter-spacing:-.015em;font-size:1.04em}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -251,11 +259,8 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .hc button{position:relative;overflow:hidden;display:grid;align-content:space-between;min-height:168px;padding:16px 16px 14px;border:0;border-radius:26px;font:inherit;text-align:left;cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
 .hc button>*{position:relative;z-index:1}.hc button:hover{transform:translateY(-3px)}.hc button:active{transform:scale(.97)}
 .hc-w{background:rgba(255,255,255,.94);color:#0e1730;box-shadow:0 18px 50px rgba(8,16,32,.16)}
-.hc-w::before{content:"";position:absolute;z-index:0;right:-34px;top:14px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 30% 28%,#ffd9bd,#c9b8ff 55%,#a8ece0);filter:blur(9px);opacity:.95;animation:hfloat 9s ease-in-out infinite}
-@keyframes hfloat{50%{transform:translate(-8px,10px) scale(1.06)}}
-.hc .hc-d{background:radial-gradient(90% 70% at 0% 100%,rgba(240,201,135,.34),transparent 65%),radial-gradient(80% 60% at 100% 0%,rgba(165,139,255,.3),transparent 65%),linear-gradient(160deg,#16224a,#0e1730);color:#fff;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(8,16,32,.22)}
-.hc .hc-c{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 12px 0 22px;background:linear-gradient(100deg,#5fe0cd,#9fd0ff 48%,#a58bff);color:#0e1730;font-size:15px;font-weight:500;letter-spacing:-.01em;box-shadow:0 16px 44px rgba(95,224,205,.28)}
-.hc .hc-c i{background:#0e1730;color:#fff}
+.hc-w::before{content:"";position:absolute;z-index:0;right:-30px;top:12px;width:132px;height:132px;border-radius:50%;border:1.5px solid rgba(14,23,48,.12);box-shadow:0 0 0 18px rgba(14,23,48,.035)}
+.hc .hc-d{background:#0e1730;color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 50px rgba(8,16,32,.22)}
 .hc small{font-size:12px;color:rgba(255,255,255,.7)}
 .hc-n{font-size:clamp(46px,13vw,56px);font-weight:300;letter-spacing:-.06em;line-height:1}
 .hc-d .hc-n{font-size:clamp(26px,7.4vw,32px);font-weight:400;letter-spacing:-.04em}
@@ -271,14 +276,23 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .stop[data-i="0"]{width:auto;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:0;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .stack .stop.cur[data-i="0"] .hglass,.stack .stop.cur[data-i="0"] .hc{pointer-events:auto}
 .stack .stop[data-i="0"] .lead{max-width:none;margin:0 0 22px;font-size:clamp(29px,8.8vw,40px);font-weight:300;letter-spacing:-.045em;line-height:1.08}
-@media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hc .hc-c{min-height:52px}.hglass{padding:18px 18px 16px}}
-@media (prefers-reduced-motion:reduce){.hc-w::before{animation:none}}
+@media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hglass{padding:18px 18px 16px}}
+/* phones: a plain tone with a soft glow and shade; the orb is drawn on its own transparent canvas above it */
+#bgfx{display:none}
+.stack #bgfx{display:block;position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(90% 52% at 50% 24%,rgba(255,255,255,.12),transparent 72%),radial-gradient(120% 55% at 50% 108%,rgba(0,0,0,.2),transparent 70%)}
+/* phones, open layout: the orb shows sharp between the headline and a compact glass panel (add ?sheet=1 for the old full-height sheet) */
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]){background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:10px 8px 0}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) h2{text-shadow:0 0 22px var(--sheet)}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) .body{padding:16px 16px 14px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 18px 50px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.28)}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"])::after{top:16px;right:12px}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) .svc{display:none}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
 <script src="../assets/vt.js?v=9"></script>
 </head>
 <body>
+<div id="bgfx" aria-hidden="true"></div>
 <canvas id="c" aria-hidden="true"></canvas>
 <svg class="orbit" id="orbit" aria-hidden="true"><circle class="c1"/><circle class="c2"/><circle class="dot" r="3.5"/></svg>
 <i class="plus tl" aria-hidden="true"></i><i class="plus tr" aria-hidden="true"></i><i class="plus bl" aria-hidden="true"></i><i class="plus br" aria-hidden="true"></i>
@@ -297,7 +311,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
   <article class="stop" data-i="0">
     <div class="hglass"><p class="lead">A group of working companies, <em>built and led by Allwyn.</em></p>
       <div class="chips" role="group" aria-label="Our businesses"><button type="button" data-go="2" style="--c:#5fe0cd"><i></i>Alven Studio</button><button type="button" data-go="3" style="--c:#dfe7ff"><i></i>House of Fovo</button><button type="button" data-go="4" style="--c:#f08a4f"><i></i>Bun Bun Bakes</button><button type="button" data-go="5" style="--c:#e9a24a"><i></i>Clothing</button><button type="button" data-go="6" style="--c:#a58bff"><i></i>AJ Softwares</button><button type="button" data-go="7" style="--c:#ef6f8d"><i></i>AJ Little World</button></div></div>
-    <div class="hc"><button type="button" class="hc-w" data-go="1"><span class="hc-n">06</span><span class="hc-t">businesses,<br>one discipline</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="8"><small>Founder</small><span class="hc-n">Allwyn<br>Jerold</span><i aria-hidden="true">→</i></button><button type="button" class="hc-c" data-go="10"><span>Talk to us</span><i aria-hidden="true">→</i></button></div>
+    <div class="hc"><button type="button" class="hc-w" data-go="1"><span class="hc-n">06</span><span class="hc-t">businesses,<br>one discipline</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="8"><small>Founder</small><span class="hc-n">Allwyn<br>Jerold</span><i aria-hidden="true">→</i></button></div>
   </article>
   <article class="stop" data-i="1"><p class="tag"><i></i>Our ventures</p><h1>Six businesses,<br><em>one discipline</em></h1><p class="line">Marketing, photography, clothing, software, baking and children’s stories, built to the same standard.</p>
     <div class="vgrid" role="list" aria-label="Our ventures">
@@ -329,6 +343,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=24"></script>
+<script type="module" src="main.js?v=26"></script>
 </body>
 </html>
