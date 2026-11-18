@@ -412,14 +412,8 @@ h1 em,h2 em,.stop .lead em{color:var(--em,#debd87)}
 @media (hover:hover){.vc:hover .vc-img::before{opacity:1;animation:vspin 2s linear infinite}.vc.soon:hover .vc-img::before{opacity:.6}}
 @media (prefers-reduced-motion:reduce){.stop.cur .vc::before{animation:none;--a:360deg;opacity:.55}.vc:hover .vc-img::before{animation:none}}
 .vc:nth-child(2){--i:1}.vc:nth-child(3){--i:2}.vc:nth-child(4){--i:3}.vc:nth-child(5){--i:4}.vc:nth-child(6){--i:5}.vc:nth-child(7){--i:6}.vc:nth-child(8){--i:7}
-.stop[data-i="0"] .lead{white-space:nowrap;max-width:none}.stop[data-i="0"] .lead em{display:inline;margin-left:.2em}.stack .stop[data-i="0"] .lead{max-width:none}
-.stop[data-i="0"]{width:min(620px,46vw)}.stop[data-i="0"] .lead{font-size:clamp(34px,3.9vw,64px);letter-spacing:-.045em}.stop[data-i="0"] .hglass{padding-block:clamp(20px,3vh,32px)}
-.stack .stop[data-i="0"]{width:auto}.stack .stop[data-i="0"] .lead{font-size:clamp(28px,9vw,42px)}
-.short .stop[data-i="0"]{width:min(56vw,460px)}.short .stop[data-i="0"] .lead{font-size:clamp(20px,6.4vh,28px)}
-.hc{grid-template-columns:1fr 1fr}
-.stop[data-i="0"]{bottom:64px}.stack .stop[data-i="0"]{bottom:calc(74px + env(safe-area-inset-bottom))}
-.count{left:var(--pad)}
-.stack .hglass .sub{display:none}.stack .hglass .tagl{font-size:9.5px;letter-spacing:.07em;white-space:nowrap;margin-top:8px}
+.stop[data-i="0"] .lead em{display:block;margin-left:0}
+
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -484,6 +478,6 @@ h1 em,h2 em,.stop .lead em{color:var(--em,#debd87)}
 <aside class="card" data-i="11"><small>08 · Inside</small><b>Digital Products</b><ul><li>Digital resources</li><li>Everyday needs</li><li>Practical tools</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="What is this about"><option value="">What is this about?</option><option>Business enquiry</option><option>Partnership or collaboration</option><option>Career opportunity</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=58"></script>
+<script type="module" src="main.js?v=64"></script>
 </body>
 </html>
