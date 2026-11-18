@@ -17,20 +17,20 @@ let PR = Math.min(devicePixelRatio, MOBILE ? 2 : 1.25); renderer.setPixelRatio(P
 
 /* per chapter: shape, page tone (rgb), text is white (1) or dark (0), orb tint, orb screen position (x offset in screens, 0 = centred) and scale */
 const CH = [
-  /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion) */
-  { s: 0, bg: [.62, .69, .73], w: 1, tint: [1, 1, 1], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [3.6, 2.6, 1.3], fe: [0, 0, 1, .07] },
-  { s: 0, bg: [.60, .68, .73], w: 1, tint: [1, 1, 1], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [3.6, 2.6, 1.3], fe: [0, 0, 1, .07] },
-  { s: 1, bg: [.78, .85, .89], w: 0, tint: [.85, 1, .97], ox: .24, sc: 1, ps: 1, ext: 1, abs: [3.4, .8, 1.1], fe: [0, 0, 1, .08] },          /* marketing: teal glass, rings of light */
-  { s: 2, bg: [.42, .55, .62], w: 1, tint: [.95, .98, 1], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.45, .42, .4], fe: [0, 0, 1, .13] },     /* photography: water-clear crystal with strong colour fringes */
-  { s: 5, bg: [.87, .79, .72], w: 0, tint: [1, .86, .7], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [1.6, 3.0, 5.4], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze, mostly solid */
-  { s: 3, bg: [.86, .81, .74], w: 0, tint: [1, .9, .75], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [.7, 1.5, 3.2], fe: [1, 0, .6, .03] },  /* clothing: frosted amber linen with a woven surface */
-  { s: 4, bg: [.27, .40, .52], w: 1, tint: [.85, .8, 1], ox: .24, sc: .86, ps: .85, ext: 1.05, abs: [1.3, 3.2, .5], fe: [0, 1, 1, .06] },     /* software: violet glass with a faint circuit grid inside */
-  { s: 6, bg: [.78, .85, .93], w: 0, tint: [1, .72, .84], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [.2, 1.5, .9], fe: [0, 0, .4, .03] }, /* kids: bright rose jelly */
-  { s: 8, bg: [.84, .80, .73], w: 0, tint: [1, .94, .84], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm clear crystal */
-  { s: 0, bg: [.64, .73, .70], w: 1, tint: [.9, 1, .95], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [2.4, 1.3, 2.2], fe: [0, 0, 1, .07] },        /* our story: soft green orb */
-  { s: 7, bg: [.27, .42, .50], w: 1, tint: [.9, .95, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.5, .5, .45], fe: [0, 0, 1, .1] },
+  /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion). AJ palette: slate blue #2d3041 and beige #debd87; the glass takes the opposite colour to its page so the orb always stands out (tintD/absD: the same glass in the dark theme) */
+  { s: 0, bg: [.176, .188, .255], w: 1, tint: [1, .9, .72], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
+  { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .9, .72], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
+  { s: 1, bg: [.94, .90, .82], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: 1, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [.5, 1.1, 2.8], fe: [0, 0, .45, .08] },     /* marketing: megaphone */
+  { s: 2, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, .65, .5], fe: [0, 0, 1, .13] },     /* photography: clear crystal with colour fringes */
+  { s: 5, bg: [.205, .218, .295], w: 1, tint: [1, .86, .66], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, 1.5, 3.8], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze */
+  { s: 3, bg: [.92, .87, .77], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [4.6, 4.4, 3.0], absD: [.7, 1.4, 3.2], fe: [1, 0, .6, .03] },  /* clothing: woven spool */
+  { s: 4, bg: [.176, .188, .255], w: 1, tint: [.66, .7, .88], ox: .24, sc: .86, ps: .85, ext: 1.05, abs: [1.6, 1.5, 1.0], fe: [0, 1, 1, .06] },     /* software: blue glass with a beige circuit grid */
+  { s: 6, bg: [.94, .89, .80], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .7], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [4.6, 4.4, 3.0], absD: [.4, 1.0, 2.2], fe: [0, 0, .4, .03] }, /* kids: toy blocks */
+  { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
+  { s: 0, bg: [.93, .88, .78], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [.5, 1.1, 2.8], fe: [0, 0, .45, .07] },        /* our story */
+  { s: 7, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.6, .58, .5], fe: [0, 0, 1, .1] },
 ];
-const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09, .14], [.12, .07, .06], [.115, .085, .065], [.07, .06, .16], [.09, .07, .125], [.11, .09, .06], [.04, .09, .08], [.04, .08, .13]];
+const DARK = [[.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155]];
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
@@ -86,7 +86,7 @@ vec3 nrm(vec3 p){ vec2 e = vec2(.0014, -.0014); return normalize(e.xyy * map(p +
 vec3 env(vec3 r){
   float y = r.y * .5 + .5; vec3 c = mix(uBG * .55, uBG * 1.15 + vec3(.1), smoothstep(0., 1., y));
   c += vec3(1.5, 1.45, 1.35) * smoothstep(.84, .97, dot(r, normalize(vec3(-.5, .7, .55)))) * (1.2 + uTheme * 1.8);
-  c += vec3(.5, .7, 1.1) * smoothstep(.7, .98, dot(r, normalize(vec3(.9, .1, .3)))) * (.8 + uTheme * 1.4);
+  c += vec3(.62, .66, .92) * smoothstep(.7, .98, dot(r, normalize(vec3(.9, .1, .3)))) * (.8 + uTheme * 1.4);
   c += vec3(.9, .7, .5) * smoothstep(.8, .98, dot(r, normalize(vec3(.2, -.6, .6)))) * .35;
   return c;
 }
@@ -98,16 +98,17 @@ vec3 glass(vec3 p, vec3 rd, vec3 tint, vec3 ab, vec4 fe){
   n = normalize(n + fe.x * .06 * vec3(sin(q.y * 58.) * cos(q.x * 58.), sin(q.x * 58.) * cos(q.y * 58.), 0.));              /* woven cloth */
   vec3 v = -rd, r = reflect(rd, n); float fr = pow(1. - max(dot(n, v), 0.), 3.5), F = .05 + .95 * fr;
   vec3 rin = refract(rd, n, 1. / 1.45); float tin = marchIn(p - n * .004, rin); vec3 po = p + rin * tin, no = -nrm(po);
-  vec3 tr = vec3(0.); float ior[3]; ior[0] = 1.48 - fe.w; ior[1] = 1.48; ior[2] = 1.48 + fe.w * 1.15;
+  vec3 tr = vec3(0.); float ior[3]; ior[0] = 1.48 - fe.w * .25; ior[1] = 1.48; ior[2] = 1.48 + fe.w * .3;
   for (int k = 0; k < 3; k++) { vec3 ro2 = refract(rin, no, ior[k]); if (dot(ro2, ro2) < .01) ro2 = reflect(rin, no); vec3 e = env(ro2); if (k == 0) tr.r = e.r; else if (k == 1) tr.g = e.g; else tr.b = e.b; }
   vec3 absorb = exp(-tin * ab * .55);
   vec3 col = env(r) * tint * F * 1.25 + tr * absorb * (1. - F) * .9 * fe.z;
   vec3 alb = exp(-ab * .22) * tint; float lit = .28 + .6 * max(dot(n, normalize(vec3(-.5, .7, .55))), 0.);
   col += (1. - fe.z) * alb * lit * (1. - F) * 1.1;                                                                            /* the solid part of frosted or glazed materials */
-  col += vec3(.03, .06, .16) * (1. - fr) * .6 * (1. - absorb) * fe.z;
+  col += vec3(.05, .055, .11) * (1. - fr) * .6 * (1. - absorb) * fe.z;
   col += tint * vec3(.55, .4, .3) * pow(fr, 2.) * .3;
+  col += vec3(.31, .82, .77) * pow(fr, 3.5) * .24;                                                                             /* the one accent colour: a thin aqua glint on the rim */
   vec3 f3 = abs(fract(q * 3.2) - .5); float ln = smoothstep(.455, .5, max(f3.x, max(f3.y, f3.z)));
-  col += fe.y * ln * vec3(.38, .3, 1.) * (.45 + .55 * sin(uTime * 1.6 + q.y * 5.)) * (1. - fr) * .55;                          /* circuit grid inside */
+  col += fe.y * ln * vec3(.87, .74, .53) * (.45 + .55 * sin(uTime * 1.6 + q.y * 5.)) * (1. - fr) * .55;                          /* circuit grid inside */
   return col;
 }
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -119,10 +120,10 @@ void main(){
   if (uTr < .5) {
   for (int i = 0; i < 5; i++) { float fi = float(i); vec2 c = vec2(.5 + .46 * sin(uTime * .05 + fi * 2.1) * (i % 2 == 0 ? 1. : -1.), .5 + .42 * cos(uTime * .04 + fi * 1.7)); vec2 d = (q - c) * vec2(uAsp, 1.); bl += exp(-dot(d, d) * (9. + fi * 3.)) * (.55 - fi * .06); }
   float vig = (1. - smoothstep(.0, .75, length((q - .5) * vec2(uAsp, 1.)))) * .05;
-  vec3 bgL = bg * (1. - bl * .22 * (1. - uDark * .5)) + vig, bgD = bg + bl * .075 * vec3(.55, .75, 1.) + vig * .6;
+  vec3 bgL = bg * (1. - bl * .22 * (1. - uDark * .5)) + vig, bgD = bg + bl * .075 * vec3(.85, .72, .5) + vig * .6;
   float xx = q.x * uAsp;
   for (int k = 0; k < 3; k++) { float fk = float(k); float yk = .13 + .1 * fk + .05 * sin(xx * (1.5 + .5 * fk) + uTime * .035 + fk * 2.) + .03 * sin(xx * (3.7 + fk) + fk * 5. - uTime * .02); float m = 1. - smoothstep(yk - .14, yk + .1, q.y);
-    bgL = mix(bgL, bgL * (.9 - .03 * fk) + vec3(.02) * fk, m * .6); bgD = mix(bgD, bgD + vec3(.025, .04, .06) * (1. + fk * .5), m * .5); }
+    bgL = mix(bgL, bgL * (.9 - .03 * fk) + vec3(.02) * fk, m * .6); bgD = mix(bgD, bgD + vec3(.04, .038, .045) * (1. + fk * .5), m * .5); }
   bg = mix(bgL, bgD, uTheme);
   }
   float t = 0.; bool hit = false; vec3 p = ro; float mind = 9.; vec3 pm = ro;
@@ -157,8 +158,8 @@ let sNow = 0, swF = 0, swDrag = false;
 const NB = 11; fade.innerHTML = Array.from({ length: NB }, () => '<i></i>').join('') + '<div class="tcard"><small></small><b></b></div>'; const blades = [...fade.querySelectorAll('i')], tcard = fade.querySelector('.tcard'), tsm = tcard.querySelector('small'), tb = tcard.querySelector('b'); let jumping = false;
 const TITLES = stopEls.map(el => (el.querySelector('.tag') ? el.querySelector('.tag').textContent : (el.querySelector('h1,h2,.lead') || el).textContent).replace(/\s+/g, ' ').trim());
 const go = i => { if (i === Math.round(sNow) || jumping) return; if (RM) { scrollTo(0, i * vh()); sNow = i; swF = i; return; } jumping = true;
-  const col = stopEls[i].dataset.c || '#9fd0ff', mid = (NB - 1) / 2, fwd = i > sNow, sk = fwd ? -9 : 9; fade.classList.add('on'); tsm.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); tb.textContent = i === 0 ? 'AJ Groups' : TITLES[i];
-  blades.forEach((b, k) => { const t = k / (NB - 1); b.style.background = `linear-gradient(${180 + (fwd ? -8 : 8)}deg, color-mix(in srgb, ${col} 82%, #fff) 0%, ${col} 38%, color-mix(in srgb, ${col} 48%, #0b1020) 100%)`; b.style.setProperty('--sh', (t * 100).toFixed(0) + '%'); });
+  const col = stopEls[i].dataset.c || '#debd87', mid = (NB - 1) / 2, fwd = i > sNow, sk = fwd ? -9 : 9; fade.classList.add('on'); tsm.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); tb.textContent = i === 0 ? 'AJ Groups' : TITLES[i];
+  blades.forEach((b, k) => { const t = k / (NB - 1); b.style.background = `linear-gradient(${180 + (fwd ? -8 : 8)}deg, color-mix(in srgb, ${col} 82%, #fff) 0%, ${col} 38%, color-mix(in srgb, ${col} 48%, #2d3041) 100%)`; b.style.setProperty('--sh', (t * 100).toFixed(0) + '%'); });
   const ord = k => fwd ? k : NB - 1 - k;
   const up = blades.map((b, k) => b.animate([{ transform: `skewX(${sk}deg) scaleY(0)`, transformOrigin: '50% 100%' }, { transform: `skewX(0deg) scaleY(1)`, transformOrigin: '50% 100%' }], { duration: 240, delay: ord(k) * 11 + Math.abs(k - mid) * 5, easing: 'cubic-bezier(.76,0,.18,1)', fill: 'forwards' }));
   const ci = tcard.animate([{ opacity: 0, transform: 'translateY(26px) scale(.96)', filter: 'blur(8px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }], { duration: 220, delay: 140, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
@@ -210,25 +211,26 @@ const clock = new THREE.Clock(); let first = true, curIdx = -1, fa = 0, fn = 0, 
 function frame() {
   const dt = Math.min(clock.getDelta(), .05), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
   if (!FIXED && !first && clock.elapsedTime > 3 && dt < .05) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .024 && PR > PFLOOR) { PR = Math.max(PFLOOR, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0185 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
-  if (app < 1) app = Math.min(1, app + dt * .6);
+  if (app < 1) app = Math.min(1, app + dt * .75);
   const target = !isNaN(PIN) ? clamp(PIN, 0, NS - 1) : LY.stack ? clamp(swF, 0, NS - 1) : clamp(scrollY / vh(), 0, NS - 1);
   sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? (swDrag ? 32 : 12) : 5.5));
   const i0 = Math.min(NS - 2, Math.floor(clamp(sNow, 0, NS - 1))), f = clamp(sNow - i0, 0, 1), w = sstep(.15, .85, f), A = CH[sNow >= NS - 1 ? NS - 1 : i0], B = CH[sNow >= NS - 1 ? NS - 1 : i0 + 1], ww = sNow >= NS - 1 ? 0 : w;
   U.uA.value = A.s; U.uB.value = B.s; U.uW.value = A.s === B.s ? 0 : ww;
   themeNow += (THEME - themeNow) * Math.min(1, dt * 3.2); const iA = sNow >= NS - 1 ? NS - 1 : i0, iB = sNow >= NS - 1 ? NS - 1 : i0 + 1;
-  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); U.uTA.value.set(...A.tint); U.uTB.value.set(...B.tint); U.uAbsA.value.set(...A.abs); U.uAbsB.value.set(...B.abs); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
+  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); const gl = (c, k) => c[k + 'D'] ? mix3(c[k], c[k + 'D'], themeNow) : c[k]; U.uTA.value.set(...gl(A, 'tint')); U.uTB.value.set(...gl(B, 'tint')); U.uAbsA.value.set(...gl(A, 'abs')); U.uAbsB.value.set(...gl(B, 'abs')); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
   const asp = innerWidth / innerHeight, st = LY.stack;
-  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); U.uOff.value.set(0, (1 - 2 * zc / innerHeight) * 4.6 * .32492); U.uSc.value = zr / ext / (.615 * innerHeight / 2); LY.rpx = zr * 1.22; LY.zc = zc; }
+  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); const tOy = (1 - 2 * zc / innerHeight) * 4.6 * .32492, tSc = zr / ext / (.615 * innerHeight / 2), kk = first ? 1 : Math.min(1, dt * 9);   /* the orb eases to its place, so a late font or layout change never makes it jump */
+    U.uOff.value.set(0, lerp(U.uOff.value.y, tOy, kk)); U.uSc.value = lerp(U.uSc.value, tSc, kk); LY.rpx = 1.22 * ext * U.uSc.value * (.615 * innerHeight / 2); LY.zc = innerHeight * (1 - U.uOff.value.y / (4.6 * .32492)) / 2; }
   else { const oxx = lerp(A.ox, B.ox, ww) * .8, ex = lerp(A.ext, B.ext, ww), cxp = (.5 + .5 * 1.67 * oxx) * innerWidth; U.uOff.value.set(oxx, 0); U.uSc.value = Math.min(lerp(A.sc, B.sc, ww) * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (innerWidth - 10 - cxp) / (.615 * innerHeight / 2 * ex)); }
   /* the orb starts at 80% size and fades in, never as a speck: a tiny orb can't be drawn crisply and looks like a blur until it grows */
-  U.uApp.value = lerp(.8, 1, sstep(0, 1, app)); U.uFade.value = sstep(0, .55, app); U.uTime.value = T;
+  U.uApp.value = lerp(.84, 1, sstep(0, 1, app)); U.uFade.value = sstep(0, .38, app); U.uTime.value = T;
   dragS += (dragT - dragS) * Math.min(1, dt * 14);
   { const sv = (target - svPrev) / Math.max(dt, .001); svPrev = target; svS += (clamp(sv * .09, -1, 1) - svS) * Math.min(1, dt * 6); }
   ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 3); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 3); U.uRot.value.set(ptr.x * .5, ptr.y * .3 + (RM ? 0 : svS * .6));
   /* page tone and type colour: every value is blended, so changing chapter or theme is a cross-fade, never a jump */
-  const white = lerp(lerp(A.w, B.w, ww), 1, themeNow), c3 = (a, b, t) => `${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))}`, NAVY = [14, 23, 48], WH = [255, 255, 255];
+  const white = lerp(lerp(A.w, B.w, ww), 1, themeNow), c3 = (a, b, t) => `${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))}`, NAVY = [45, 48, 65], WH = [246, 241, 230], GOLD = [222, 189, 135];
   setV(root, '--ink', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--mute', `rgba(${c3(NAVY, WH, white)},${lerp(.66, .78, white).toFixed(2)})`); setV(root, '--line', `rgba(${c3(NAVY, WH, white)},${lerp(.2, .24, white).toFixed(2)})`);
-  setV(root, '--btn', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--btnink', `rgb(${c3(WH, NAVY, white)})`); setV(root, '--sheet', c255(bg.map(v => v * (.72 - themeNow * .3))));
+  setV(root, '--btn', `rgb(${c3(NAVY, GOLD, white)})`); setV(root, '--btnink', `rgb(${c3(GOLD, NAVY, white)})`); setV(root, '--sheet', c255(bg.map(v => v * (.72 - themeNow * .3))));
   const bgc = c255(bg); setV(document.body, 'background', bgc); if (bgc !== _bgc) { _bgc = bgc; renderer.setClearColor(new THREE.Color(...bg)); }
   setV(mark, '--ms', sNow < .2 ? '46px' : '17px'); setV(mark, '--msm', sNow < .2 ? '30px' : '17px');
   const near = Math.round(clamp(sNow, 0, NS - 1)), d = Math.abs(sNow - near), op = (1 - sstep(.08, .34, d)) * sstep(.55, 1, app);
