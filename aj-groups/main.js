@@ -17,17 +17,17 @@ let PR = Math.min(devicePixelRatio, MOBILE ? 2 : 1.25); renderer.setPixelRatio(P
 
 /* per chapter: shape, page tone (rgb), text is white (1) or dark (0), orb tint, orb screen position (x offset in screens, 0 = centred) and scale */
 const CH = [
-  /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion). AJ palette: slate blue #2d3041 and beige #debd87; the glass takes the opposite colour to its page so the orb always stands out (tintD/absD: the same glass in the dark theme) */
-  { s: 0, bg: [.176, .188, .255], w: 1, tint: [1, .9, .72], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
-  { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .9, .72], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
-  { s: 1, bg: [.94, .90, .82], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: 1, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [.5, 1.1, 2.8], fe: [0, 0, .45, .08] },     /* marketing: megaphone */
+  /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion). AJ palette: slate blue #2d3041 and beige #e3a98f; the glass takes the opposite colour to its page so the orb always stands out (tintD/absD: the same glass in the dark theme) */
+  { s: 0, bg: [.176, .188, .255], w: 1, tint: [1, .84, .76], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
+  { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .84, .76], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.5, 1.1, 2.8], fe: [0, 0, 1, .07] },
+  { s: 1, bg: [.94, .90, .82], w: 0, tint: [.5, .54, .72], tintD: [1, .74, .6], ox: .24, sc: 1, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .08] },     /* marketing: megaphone */
   { s: 2, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, .65, .5], fe: [0, 0, 1, .13] },     /* photography: clear crystal with colour fringes */
   { s: 5, bg: [.205, .218, .295], w: 1, tint: [1, .86, .66], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, 1.5, 3.8], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze */
-  { s: 3, bg: [.92, .87, .77], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [4.6, 4.4, 3.0], absD: [.7, 1.4, 3.2], fe: [1, 0, .6, .03] },  /* clothing: woven spool */
+  { s: 3, bg: [.92, .87, .77], w: 0, tint: [.5, .54, .72], tintD: [1, .74, .6], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [4.6, 4.4, 3.0], absD: [0.35, 2.1, 3.7], fe: [1, 0, .6, .03] },  /* clothing: woven spool */
   { s: 4, bg: [.176, .188, .255], w: 1, tint: [.66, .7, .88], ox: .24, sc: .86, ps: .85, ext: 1.05, abs: [1.6, 1.5, 1.0], fe: [0, 1, 1, .06] },     /* software: blue glass with a beige circuit grid */
-  { s: 6, bg: [.94, .89, .80], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .7], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [4.6, 4.4, 3.0], absD: [.4, 1.0, 2.2], fe: [0, 0, .4, .03] }, /* kids: toy blocks */
+  { s: 6, bg: [.94, .89, .80], w: 0, tint: [.5, .54, .72], tintD: [1, .78, .58], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [4.6, 4.4, 3.0], absD: [0.2, 1.5, 2.5], fe: [0, 0, .4, .03] }, /* kids: toy blocks */
   { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
-  { s: 0, bg: [.93, .88, .78], w: 0, tint: [.5, .54, .72], tintD: [1, .9, .72], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [.5, 1.1, 2.8], fe: [0, 0, .45, .07] },        /* our story */
+  { s: 0, bg: [.93, .88, .78], w: 0, tint: [.5, .54, .72], tintD: [1, .74, .6], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 7, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.6, .58, .5], fe: [0, 0, 1, .1] },
 ];
 const DARK = [[.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155]];
@@ -104,11 +104,11 @@ vec3 glass(vec3 p, vec3 rd, vec3 tint, vec3 ab, vec4 fe){
   vec3 col = env(r) * tint * F * 1.25 + tr * absorb * (1. - F) * .9 * fe.z;
   vec3 alb = exp(-ab * .22) * tint; float lit = .28 + .6 * max(dot(n, normalize(vec3(-.5, .7, .55))), 0.);
   col += (1. - fe.z) * alb * lit * (1. - F) * 1.1;                                                                            /* the solid part of frosted or glazed materials */
-  col += vec3(.05, .055, .11) * (1. - fr) * .6 * (1. - absorb) * fe.z;
+  col += vec3(.17, .08, .085) * (1. - fr) * .7 * (1. - absorb) * fe.z;
   col += tint * vec3(.55, .4, .3) * pow(fr, 2.) * .3;
   col += vec3(.31, .82, .77) * pow(fr, 3.5) * .24;                                                                             /* the one accent colour: a thin aqua glint on the rim */
   vec3 f3 = abs(fract(q * 3.2) - .5); float ln = smoothstep(.455, .5, max(f3.x, max(f3.y, f3.z)));
-  col += fe.y * ln * vec3(.87, .74, .53) * (.45 + .55 * sin(uTime * 1.6 + q.y * 5.)) * (1. - fr) * .55;                          /* circuit grid inside */
+  col += fe.y * ln * vec3(.89, .66, .56) * (.45 + .55 * sin(uTime * 1.6 + q.y * 5.)) * (1. - fr) * .55;                          /* circuit grid inside */
   return col;
 }
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -158,7 +158,7 @@ let sNow = 0, swF = 0, swDrag = false;
 const NB = 11; fade.innerHTML = Array.from({ length: NB }, () => '<i></i>').join('') + '<div class="tcard"><small></small><b></b></div>'; const blades = [...fade.querySelectorAll('i')], tcard = fade.querySelector('.tcard'), tsm = tcard.querySelector('small'), tb = tcard.querySelector('b'); let jumping = false;
 const TITLES = stopEls.map(el => (el.querySelector('.tag') ? el.querySelector('.tag').textContent : (el.querySelector('h1,h2,.lead') || el).textContent).replace(/\s+/g, ' ').trim());
 const go = i => { if (i === Math.round(sNow) || jumping) return; if (RM) { scrollTo(0, i * vh()); sNow = i; swF = i; return; } jumping = true;
-  const col = stopEls[i].dataset.c || '#debd87', mid = (NB - 1) / 2, fwd = i > sNow, sk = fwd ? -9 : 9; fade.classList.add('on'); tsm.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); tb.textContent = i === 0 ? 'AJ Groups' : TITLES[i];
+  const col = stopEls[i].dataset.c || '#e3a98f', mid = (NB - 1) / 2, fwd = i > sNow, sk = fwd ? -9 : 9; fade.classList.add('on'); tsm.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); tb.textContent = i === 0 ? 'AJ Groups' : TITLES[i];
   blades.forEach((b, k) => { const t = k / (NB - 1); b.style.background = `linear-gradient(${180 + (fwd ? -8 : 8)}deg, color-mix(in srgb, ${col} 82%, #fff) 0%, ${col} 38%, color-mix(in srgb, ${col} 48%, #2d3041) 100%)`; b.style.setProperty('--sh', (t * 100).toFixed(0) + '%'); });
   const ord = k => fwd ? k : NB - 1 - k;
   const up = blades.map((b, k) => b.animate([{ transform: `skewX(${sk}deg) scaleY(0)`, transformOrigin: '50% 100%' }, { transform: `skewX(0deg) scaleY(1)`, transformOrigin: '50% 100%' }], { duration: 240, delay: ord(k) * 11 + Math.abs(k - mid) * 5, easing: 'cubic-bezier(.76,0,.18,1)', fill: 'forwards' }));
@@ -228,8 +228,9 @@ function frame() {
   { const sv = (target - svPrev) / Math.max(dt, .001); svPrev = target; svS += (clamp(sv * .09, -1, 1) - svS) * Math.min(1, dt * 6); }
   ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 3); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 3); U.uRot.value.set(ptr.x * .5, ptr.y * .3 + (RM ? 0 : svS * .6));
   /* page tone and type colour: every value is blended, so changing chapter or theme is a cross-fade, never a jump */
-  const white = lerp(lerp(A.w, B.w, ww), 1, themeNow), c3 = (a, b, t) => `${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))}`, NAVY = [45, 48, 65], WH = [246, 241, 230], GOLD = [222, 189, 135];
-  setV(root, '--ink', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--mute', `rgba(${c3(NAVY, WH, white)},${lerp(.66, .78, white).toFixed(2)})`); setV(root, '--line', `rgba(${c3(NAVY, WH, white)},${lerp(.2, .24, white).toFixed(2)})`);
+  const white = lerp(lerp(A.w, B.w, ww), 1, themeNow), c3 = (a, b, t) => `${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))}`, NAVY = [45, 48, 65], WH = [246, 241, 230], GOLD = [227, 169, 143], BRONZE = [162, 99, 74];
+  setV(root, '--ink', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--mute', `rgba(${c3(NAVY, WH, white)},${lerp(.66, .78, white).toFixed(2)})`); setV(root, '--em', `rgb(${c3(GOLD, BRONZE, white)})`);
+setV(root, '--line', `rgba(${c3(GOLD, BRONZE, white)},${lerp(.34, .38, white).toFixed(2)})`);
   setV(root, '--btn', `rgb(${c3(NAVY, GOLD, white)})`); setV(root, '--btnink', `rgb(${c3(GOLD, NAVY, white)})`); setV(root, '--sheet', c255(bg.map(v => v * (.72 - themeNow * .3))));
   const bgc = c255(bg); setV(document.body, 'background', bgc); if (bgc !== _bgc) { _bgc = bgc; renderer.setClearColor(new THREE.Color(...bg)); }
   setV(mark, '--ms', sNow < .2 ? '46px' : '17px'); setV(mark, '--msm', sNow < .2 ? '30px' : '17px');
