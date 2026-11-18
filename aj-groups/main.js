@@ -13,7 +13,7 @@ const root = document.documentElement;
 const canvas = document.getElementById('c');
 let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' }); } catch (e) { renderer = null; }
 if (!renderer) { stopEls.forEach(e => { e.style.visibility = 'visible'; e.style.position = 'static'; e.style.opacity = 1; e.style.transform = 'none'; e.style.padding = '90px 22px 20px'; }); throw new Error('WebGL unavailable'); }
-let PR = Math.min(devicePixelRatio, MOBILE ? 1.75 : 1.25); renderer.setPixelRatio(PR);
+let PR = Math.min(devicePixelRatio, MOBILE ? 1.2 : 1.25); renderer.setPixelRatio(PR);
 
 /* per chapter: shape, page tone (rgb), text is white (1) or dark (0), orb tint, orb screen position (x offset in screens, 0 = centred) and scale */
 const CH = [
@@ -34,7 +34,7 @@ const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09,
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
-  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 56 : 72 }, uInner: { value: MOBILE ? 26 : 34 }, uDark: { value: 0 } };
+  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 44 : 72 }, uInner: { value: MOBILE ? 18 : 34 }, uDark: { value: 0 } };
 const frag = /* glsl */`
 precision highp float;
 varying vec2 vUv;
@@ -147,7 +147,7 @@ stopEls.forEach((el, k) => { el.dataset.num = String(k + 1).padStart(2, '0') + '
   if (k === 0) { ul = document.createElement('ul'); ul.className = 'svc idx'; ['Alven Studio', 'House of Fovo', 'Clothing', 'AJ Softwares', 'Bun Bun Bakes', 'AJ Little World'].forEach((n, i) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<b>0' + (i + 1) + '</b>' + n; b.addEventListener('click', () => go(i + 2)); li.append(b); ul.append(li); }); }
   else { const src = document.querySelector('.card[data-i="' + k + '"] ul'); if (!src) return; ul = document.createElement('ul'); ul.className = 'svc'; ul.innerHTML = src.innerHTML; }
   el.insertBefore(ul, bd); });
-let sNow = 0, swF = 0;
+let sNow = 0, swF = 0, swDrag = false;
 /* chapter jumps: a row of tall glass blades rises from the centre outward in the destination's colour, the page changes behind them, then they lift away */
 const NB = 11; fade.innerHTML = Array.from({ length: NB }, () => '<i></i>').join('') + '<div class="tcard"><small></small><b></b></div>'; const blades = [...fade.querySelectorAll('i')], tcard = fade.querySelector('.tcard'), tsm = tcard.querySelector('small'), tb = tcard.querySelector('b'); let jumping = false;
 const TITLES = stopEls.map(el => (el.querySelector('.tag') ? el.querySelector('.tag').textContent : (el.querySelector('h1,h2,.lead') || el).textContent).replace(/\s+/g, ' ').trim());
@@ -165,7 +165,7 @@ dotBtns.forEach((b, i) => b.addEventListener('click', () => go(i)));
 const menuEl = document.getElementById('menu'), menuBtn = document.getElementById('menubtn'), sideTab = document.getElementById('sidetab');
 const setMenu = on => { menuEl.classList.toggle('on', on); menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.firstChild.textContent = on ? 'Close' : 'Menu'; };
 menuBtn.addEventListener('click', () => setMenu(!menuEl.classList.contains('on')));
-document.querySelectorAll('.pillnav a,.gbtn,.stop .enter[data-go],.stop[data-i="0"] [data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); a.blur(); go(+a.dataset.go); }));
+document.querySelectorAll('.pillnav a,.gbtn,.stop .enter[data-go],.stop[data-i="0"] [data-go],.vgrid [data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); a.blur(); go(+a.dataset.go); }));
 menuEl.querySelectorAll('a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setMenu(false); go(+a.dataset.go); }));
 sideTab.addEventListener('click', () => go(LAST));
 function fit() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); U.uAsp.value = w / h; }
@@ -194,13 +194,17 @@ const ring = document.getElementById('cursor'), fine = matchMedia('(hover: hover
 if (fine) addEventListener('pointermove', e => { cx = e.clientX; cy = e.clientY; big = e.target.closest('a,button,input,textarea') ? 1 : 0; }, { passive: true }); else ring.remove();
 const countEl = document.getElementById('count'), countN = document.getElementById('countN'), countBar = document.getElementById('countBar'), cards = [...document.querySelectorAll('.card')];
 const orbit = document.getElementById('orbit'), oc1 = orbit.querySelector('.c1'), oc2 = orbit.querySelector('.c2'), od = orbit.querySelector('.dot');
+/* write a style or custom property only when its value changed: rewriting the same :root variables every frame restyles the whole page */
+const _sc = new Map(), setV = (el, k, v) => { let m = _sc.get(el); if (!m) _sc.set(el, m = {}); if (m[k] === v) return; m[k] = v; if (k[0] === '-') el.style.setProperty(k, v); else el.style[k] = v; };
+const setA = (el, k, v) => { const s = String(v); if (el['_a' + k] !== s) { el['_a' + k] = s; el.setAttribute(k, s); } }, setT = (el, v) => { if (el._t !== v) { el._t = v; el.textContent = v; } };
+let _bgc = '';
 const clock = new THREE.Clock(); let first = true, curIdx = -1, fa = 0, fn = 0, svPrev = 0, svS = 0, dragS = 0, dragT = 0; const PRMAX = PR, FIXED = q.has('fixedres');
 function frame() {
   const dt = Math.min(clock.getDelta(), .05), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
-  if (!FIXED && !first) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .027 && PR > .5) { PR = Math.max(.5, PR * .82); renderer.setPixelRatio(PR); fit(); } else if (av < .019 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
+  if (!FIXED && !first) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .022 && PR > .5) { PR = Math.max(.5, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0155 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
   if (app < 1) app = Math.min(1, app + dt * .6);
   const target = !isNaN(PIN) ? clamp(PIN, 0, NS - 1) : LY.stack ? clamp(swF, 0, NS - 1) : clamp(scrollY / vh(), 0, NS - 1);
-  sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? 8 : 5.5));
+  sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? (swDrag ? 32 : 12) : 5.5));
   const i0 = Math.min(NS - 2, Math.floor(clamp(sNow, 0, NS - 1))), f = clamp(sNow - i0, 0, 1), w = sstep(.15, .85, f), A = CH[sNow >= NS - 1 ? NS - 1 : i0], B = CH[sNow >= NS - 1 ? NS - 1 : i0 + 1], ww = sNow >= NS - 1 ? 0 : w;
   U.uA.value = A.s; U.uB.value = B.s; U.uW.value = A.s === B.s ? 0 : ww;
   themeNow += (THEME - themeNow) * Math.min(1, dt * 3.2); const iA = sNow >= NS - 1 ? NS - 1 : i0, iB = sNow >= NS - 1 ? NS - 1 : i0 + 1;
@@ -214,41 +218,42 @@ function frame() {
   ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 3); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 3); U.uRot.value.set(ptr.x * .5, ptr.y * .3 + (RM ? 0 : svS * .6));
   /* page tone and type colour: every value is blended, so changing chapter or theme is a cross-fade, never a jump */
   const white = lerp(lerp(A.w, B.w, ww), 1, themeNow), c3 = (a, b, t) => `${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))}`, NAVY = [14, 23, 48], WH = [255, 255, 255];
-  root.style.setProperty('--ink', `rgb(${c3(NAVY, WH, white)})`); root.style.setProperty('--mute', `rgba(${c3(NAVY, WH, white)},${lerp(.66, .78, white).toFixed(2)})`); root.style.setProperty('--line', `rgba(${c3(NAVY, WH, white)},${lerp(.2, .24, white).toFixed(2)})`);
-  root.style.setProperty('--btn', `rgb(${c3(NAVY, WH, white)})`); root.style.setProperty('--btnink', `rgb(${c3(WH, NAVY, white)})`); root.style.setProperty('--sheet', c255(bg.map(v => v * (.72 - themeNow * .3))));
-  document.body.style.background = c255(bg); renderer.setClearColor(new THREE.Color(...bg));
-  mark.style.setProperty('--ms', sNow < .2 ? '46px' : '17px'); mark.style.setProperty('--msm', sNow < .2 ? '30px' : '17px');
+  setV(root, '--ink', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--mute', `rgba(${c3(NAVY, WH, white)},${lerp(.66, .78, white).toFixed(2)})`); setV(root, '--line', `rgba(${c3(NAVY, WH, white)},${lerp(.2, .24, white).toFixed(2)})`);
+  setV(root, '--btn', `rgb(${c3(NAVY, WH, white)})`); setV(root, '--btnink', `rgb(${c3(WH, NAVY, white)})`); setV(root, '--sheet', c255(bg.map(v => v * (.72 - themeNow * .3))));
+  const bgc = c255(bg); setV(document.body, 'background', bgc); if (bgc !== _bgc) { _bgc = bgc; renderer.setClearColor(new THREE.Color(...bg)); }
+  setV(mark, '--ms', sNow < .2 ? '46px' : '17px'); setV(mark, '--msm', sNow < .2 ? '30px' : '17px');
   const near = Math.round(clamp(sNow, 0, NS - 1)), d = Math.abs(sNow - near), op = (1 - sstep(.08, .34, d)) * sstep(.55, 1, app);
-  stopEls.forEach((el, k) => { const on = k === near; el.style.setProperty('--o', on ? op.toFixed(3) : 0); el.classList.toggle('cur', on && op > .4); });
+  stopEls.forEach((el, k) => { const on = k === near; setV(el, '--o', on ? op.toFixed(3) : '0'); el.classList.toggle('cur', on && op > .4); });
   { const st2 = LY.stack; stopEls.forEach((el, k) => { el.classList.toggle('past', k < near); el.classList.toggle('next', k > near);
       const off = k - sNow, a = Math.abs(off);
       if (st2) {
         if (!RM && a < 1.02) { const out = off < 0; el.classList.add('peek');
           /* cards ahead slide over from the right; cards behind stay solid and recede, so swiping back is the same motion in reverse */
-          el.style.translate = `${(out ? off * 30 : off * 104).toFixed(1)}% 0`; el.style.scale = out ? (1 - .06 * a).toFixed(3) : '1'; el.style.rotate = `${(off * (out ? 2 : 1.2)).toFixed(2)}deg`;
-          el.style.opacity = out ? (1 - Math.min(1, Math.max(0, (a - .62) / .38))).toFixed(3) : '1'; el.style.zIndex = out ? 4 : 5; el.style.filter = ''; }
-        else { el.classList.remove('peek'); el.style.translate = ''; el.style.scale = ''; el.style.rotate = ''; el.style.opacity = ''; el.style.zIndex = ''; el.style.filter = ''; }
+          setV(el, 'translate', `${(out ? off * 30 : off * 104).toFixed(1)}% 0`); setV(el, 'scale', out ? (1 - .06 * a).toFixed(3) : '1'); setV(el, 'rotate', `${(off * (out ? 2 : 1.2)).toFixed(2)}deg`);
+          setV(el, 'opacity', out ? (1 - Math.min(1, Math.max(0, (a - .62) / .38))).toFixed(3) : '1'); setV(el, 'zIndex', out ? '4' : '5'); setV(el, 'filter', ''); }
+        else { el.classList.remove('peek'); setV(el, 'translate', ''); setV(el, 'scale', ''); setV(el, 'rotate', ''); setV(el, 'opacity', ''); setV(el, 'zIndex', ''); setV(el, 'filter', ''); }
         return; }
       el.classList.remove('peek'); el.style.scale = ''; el.style.opacity = ''; el.style.zIndex = '';
       if (k === near && !RM) { el.style.translate = `0 ${(-(sNow - near) * 150).toFixed(1)}px`; el.style.filter = d > .02 ? `blur(${(d * 18).toFixed(1)}px)` : 'none'; } else { el.style.translate = ''; el.style.rotate = ''; el.style.filter = ''; } }); }
   if (near !== curIdx) { updateNav(near); if (curIdx >= 0 && LY.stack && navigator.vibrate) { try { navigator.vibrate(9); } catch (e) {} } curIdx = near; dotBtns.forEach((b, k) => k === near ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')); }
-  top.style.opacity = sstep(.25, .8, app); cue.textContent = LY.stack ? 'Swipe to explore  →' : '↓ Scroll down'; cue.style.opacity = sNow < .1 ? 1 : 0; countEl.style.opacity = sNow > .3 ? 1 : 0; countN.textContent = String(Math.round(sNow) + 1).padStart(2, '0'); countBar.style.transform = `scaleY(${clamp(sNow / (NS - 1)).toFixed(3)})`; { const fo = LAST - sNow, ph = LY.stack && !RM && fo > 0 && fo < 1.02;
+  setV(top, 'opacity', sstep(.25, .8, app).toFixed(3)); setT(cue, LY.stack ? 'Swipe to explore  →' : '↓ Scroll down'); setV(cue, 'opacity', sNow < .1 ? '1' : '0'); setV(countEl, 'opacity', sNow > .3 ? '1' : '0'); setT(countN, String(Math.round(sNow) + 1).padStart(2, '0')); setV(countBar, 'transform', `scaleY(${clamp(sNow / (NS - 1)).toFixed(3)})`); { const fo = LAST - sNow, ph = LY.stack && !RM && fo > 0 && fo < 1.02;
     formEl.classList.toggle('on', sNow > (LY.stack ? LAST - .98 : LAST - .45));
-    if (LY.stack) { formEl.style.setProperty('--fx', (ph ? fo * 1.04 * (innerWidth - 24) : 0).toFixed(1) + 'px'); formEl.style.setProperty('--fr', (ph ? fo * 1.2 : 0).toFixed(2) + 'deg'); dotBtns.forEach((b, k) => b.style.setProperty('--a', clamp(1 - Math.abs(sNow - k), 0, 1).toFixed(3))); } }
+    if (LY.stack) { setV(formEl, '--fx', (ph ? fo * 1.04 * (innerWidth - 24) : 0).toFixed(1) + 'px'); setV(formEl, '--fr', (ph ? fo * 1.2 : 0).toFixed(2) + 'deg'); dotBtns.forEach((b, k) => setV(b, '--a', clamp(1 - Math.abs(sNow - k), 0, 1).toFixed(3))); } }
   if (fine) { rx += (cx - rx) * Math.min(1, dt * 14); ry += (cy - ry) * Math.min(1, dt * 14); ring.style.transform = `translate(${rx}px,${ry}px) scale(${1 + big * 1.4})`; ring.style.opacity = loadDone ? .9 : 0; }
   { const W = innerWidth, H = innerHeight, tanv = .32492, ocx = (.5 + .5 * 1.67 * U.uOff.value.x) * W, ocy = (.5 - .5 * U.uOff.value.y / (4.6 * tanv)) * H, orad = .615 * U.uSc.value * (H / 2) * sstep(0, 1, app);
-    oc1.setAttribute('cx', ocx); oc1.setAttribute('cy', ocy); oc1.setAttribute('r', orad * 1.45); oc2.setAttribute('cx', ocx); oc2.setAttribute('cy', ocy); oc2.setAttribute('r', orad * 2.25);
-    const ang = T * .22 + 1; od.setAttribute('cx', ocx + Math.cos(ang) * orad * 2.25); od.setAttribute('cy', ocy + Math.sin(ang) * orad * 2.25); orbit.style.opacity = sstep(.3, 1, app) * (LY.stack ? .5 : 1);
-    let dd = 1; cards.forEach(c => { if (!c.classList.contains('cur')) return; const r = c.getBoundingClientRect(), dx = Math.max(r.left - (ocx + Math.cos(ang) * orad * 2.25), 0, (ocx + Math.cos(ang) * orad * 2.25) - r.right), dy = Math.max(r.top - (ocy + Math.sin(ang) * orad * 2.25), 0, (ocy + Math.sin(ang) * orad * 2.25) - r.bottom); dd = Math.min(dd, Math.hypot(dx, dy) / 40); }); od.style.opacity = clamp(dd); }
+    setA(oc1, 'cx', ocx.toFixed(1)); setA(oc1, 'cy', ocy.toFixed(1)); setA(oc1, 'r', (orad * 1.45).toFixed(1)); setA(oc2, 'cx', ocx.toFixed(1)); setA(oc2, 'cy', ocy.toFixed(1)); setA(oc2, 'r', (orad * 2.25).toFixed(1));
+    const ang = T * .22 + 1; setA(od, 'cx', (ocx + Math.cos(ang) * orad * 2.25).toFixed(1)); setA(od, 'cy', (ocy + Math.sin(ang) * orad * 2.25).toFixed(1)); setV(orbit, 'opacity', (sstep(.3, 1, app) * (LY.stack ? .5 : 1)).toFixed(3));
+    let dd = 1; if (!LY.stack) cards.forEach(c => { if (!c.classList.contains('cur')) return; const r = c.getBoundingClientRect(), dx = Math.max(r.left - (ocx + Math.cos(ang) * orad * 2.25), 0, (ocx + Math.cos(ang) * orad * 2.25) - r.right), dy = Math.max(r.top - (ocy + Math.sin(ang) * orad * 2.25), 0, (ocy + Math.sin(ang) * orad * 2.25) - r.bottom); dd = Math.min(dd, Math.hypot(dx, dy) / 40); }); setV(od, 'opacity', clamp(dd).toFixed(2)); }
   cards.forEach(c => c.classList.toggle('cur', +c.dataset.i === near && op > .4));
   renderer.render(scene, cam); first = false; requestAnimationFrame(frame);
 }
 /* swipe sideways between businesses on phones; the orb follows the finger and settles on release */
-{ let sx = 0, sy = 0, base = 0, drag = false, lock = '';
-  addEventListener('pointerdown', e => { if (!LY.stack || e.target.closest('input,textarea,.dots,#theme')) return; sx = e.clientX; sy = e.clientY; base = Math.round(swF); drag = true; lock = ''; }, { passive: true });
-  addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - sx, dy = e.clientY - sy; if (!lock && Math.hypot(dx, dy) > 8) lock = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; if (lock === 'x') { swF = clamp(base - dx / (innerWidth * .85), 0, NS - 1); dragT = clamp(dx * .22, -60, 60); } }, { passive: true });
-  const end = e => { if (!drag) return; drag = false; dragT = 0; if (lock === 'x') { const dx = e.clientX - sx; swF = clamp(Math.abs(dx) > 38 ? base + (dx < 0 ? 1 : -1) : base, 0, NS - 1); } };
-  addEventListener('pointerup', end); addEventListener('pointercancel', () => { drag = false; dragT = 0; swF = Math.round(swF); });
+{ let sx = 0, sy = 0, base = 0, drag = false, lock = '', lx = 0, lt = 0, vx = 0;
+  addEventListener('pointerdown', e => { if (!LY.stack || e.target.closest('input,textarea,.dots,#theme')) return; sx = lx = e.clientX; sy = e.clientY; lt = e.timeStamp; vx = 0; base = Math.round(swF); drag = true; lock = ''; }, { passive: true });
+  addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - sx, dy = e.clientY - sy; if (!lock && Math.hypot(dx, dy) > 8) lock = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; const dtm = e.timeStamp - lt; if (dtm > 0) { vx = vx * .6 + (e.clientX - lx) / dtm * .4; lx = e.clientX; lt = e.timeStamp; } if (lock === 'x') { swDrag = true; swF = clamp(base - dx / (innerWidth * .85), 0, NS - 1); dragT = clamp(dx * .22, -60, 60); } }, { passive: true });
+  /* a quick flick commits even when it is short; a slow drag needs a third of the card */
+  const end = e => { if (!drag) return; drag = false; swDrag = false; dragT = 0; if (lock === 'x') { const dx = e.clientX - sx, go1 = Math.abs(dx) > innerWidth * .22 || (Math.abs(vx) > .35 && Math.abs(dx) > 14); swF = clamp(go1 ? base + (dx < 0 ? 1 : -1) : base, 0, NS - 1); } };
+  addEventListener('pointerup', end); addEventListener('pointercancel', () => { drag = false; swDrag = false; dragT = 0; swF = Math.round(swF); });
   addEventListener('keydown', e => { if (!LY.stack) return; if (e.key === 'ArrowRight') swF = clamp(Math.round(swF) + 1, 0, NS - 1); if (e.key === 'ArrowLeft') swF = clamp(Math.round(swF) - 1, 0, NS - 1); }); }
 if (q.get('sw')) swF = +q.get('sw');
 layout(); (document.fonts && document.fonts.ready || Promise.resolve()).then(layout); setTimeout(layout, 400);
