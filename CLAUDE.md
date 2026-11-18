@@ -16,8 +16,8 @@ The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small 
 ## Folder map
 | Folder | What it is |
 |---|---|
-| `/` (`index.html`) | Opens the AJ GROUPS page |
-| `aj-groups/` | Group page: a swipe deck of 11 chapters (ventures, founder, story, contact). Plain folder name, nothing to do with the brand or domain |
+| `/` (`index.html`, `main.js`) | The AJ GROUPS home page, served at the domain root (`https://ajgroups.co/`): a swipe deck of 13 chapters (home, about, vision, ventures, each brand, contact) |
+| `aj-groups/` | Only a redirect to `/`, kept so old links still work |
 | `alven/` | Alven Studio (marketing) |
 | `fovo/` | House of Fovo (photography). `draft-mac/` is an unused earlier version |
 | `bunbun/` | Bun Bun Bakes (bakery). The most developed site. See below |

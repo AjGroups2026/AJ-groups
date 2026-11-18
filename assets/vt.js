@@ -7,7 +7,8 @@
   'use strict';
   var KEY = 'ajvt', RM = matchMedia('(prefers-reduced-motion:reduce)').matches, root = document.documentElement;
   var SITES = { 'aj-groups': ['#9fd0ff', 'AJ GROUPS'], alven: ['#5fe0cd', 'Alven Studio'], fovo: ['#dfe7ff', 'House of Fovo'], clothing: ['#e9a24a', 'Atelier'], bunbun: ['#f2a6c1', 'Bun Bun Bakes'] };
-  var site = function (path) { var m = /\/(aj-groups|alven|fovo|clothing|bunbun)\/?/.exec(path); return m ? m[1] : null; };
+  var BASE = (function () { var p = location.pathname.replace(/index\.html$/, ''), m = /\/(aj-groups|alven|fovo|clothing|bunbun)\//.exec(p); return m ? p.slice(0, m.index + 1) : p; })();
+  var site = function (path) { var m = /\/(aj-groups|alven|fovo|clothing|bunbun)\/?/.exec(path); return m ? m[1] : (path.replace(/index\.html$/, '') === BASE ? 'aj-groups' : null); };
   var EASE = 'cubic-bezier(.76,0,.18,1)';
 
   function sheet(color, title, y, back) {

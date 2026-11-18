@@ -5,7 +5,7 @@ Static site (plain HTML, CSS, JavaScript). No build step.
 | Folder | What it is |
 |---|---|
 | `/` | Opens the AJ GROUPS page |
-| `aj-groups/` | The group page: ventures, founder, our story, contact |
+| `/` (`index.html`) | The group page, served at the domain root: ventures, about, vision, contact. `aj-groups/` is only a redirect to it |
 | `alven/` | Alven Studio |
 | `fovo/` | House of Fovo (`draft-mac/` is an unused earlier version) |
 | `bunbun/` | Bun Bun Bakes. Menu and prices are in `bunbun/menu.js` |

@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
 <script>try{var P=new URLSearchParams(location.search),d=new Date(),xm=P.get("xmas")==="0"?false:(P.has("xmas")||(d.getMonth()===11&&d.getDate()<=26)),q=P.get("theme"),s=localStorage.getItem("bbtheme"),ok=xm?/^x[123]$/:/^[abc]$/,t=ok.test(q)?q:(ok.test(s)?s:(xm?"x1":"a"));document.documentElement.dataset.xmas=xm?"1":"0";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.xmas="0";document.documentElement.dataset.theme="a"}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=5">
-<script src="../assets/vt.js?v=9"></script>
+<script src="../assets/vt.js?v=10"></script>
 <style>
 *{box-sizing:border-box}
 /* palette sampled from the branding document, Option 5 (blue) and Option 3 (navy) */
@@ -382,7 +382,7 @@ a.logo.mo-cur{background:none!important}
 <header class="top" id="top">
   <a class="logo" href="#hero" aria-label="Bun Bun Bakes home"><i class="mk"></i><i class="wm"></i></a>
   <nav class="pill" aria-label="Main"><a href="#occasions">Occasions</a><a href="#build">Cake studio</a><a href="#menu">Menu</a><a href="#packaging">Packaging</a><a href="#order">Order <b class="bagn">0</b></a></nav>
-  <div class="right"><div class="sw" role="group" aria-label="Choose a look"><button type="button" data-t="a" title="Periwinkle: light and soft" style="--sw:linear-gradient(135deg,#aab6cc 50%,#19253b 50%)"><i></i><span>Periwinkle</span></button><button type="button" data-t="b" title="Midnight: night and luxury" style="--sw:linear-gradient(135deg,#19253b 50%,#fff0c1 50%)"><i></i><span>Midnight</span></button><button type="button" data-t="c" title="Buttercream: bright and bakery" style="--sw:linear-gradient(135deg,#fff0c1 50%,#aab6cc 50%)"><i></i><span>Buttercream</span></button></div><a class="btn ghost" href="../aj-groups/">AJ GROUPS ↗</a></div>
+  <div class="right"><div class="sw" role="group" aria-label="Choose a look"><button type="button" data-t="a" title="Periwinkle: light and soft" style="--sw:linear-gradient(135deg,#aab6cc 50%,#19253b 50%)"><i></i><span>Periwinkle</span></button><button type="button" data-t="b" title="Midnight: night and luxury" style="--sw:linear-gradient(135deg,#19253b 50%,#fff0c1 50%)"><i></i><span>Midnight</span></button><button type="button" data-t="c" title="Buttercream: bright and bakery" style="--sw:linear-gradient(135deg,#fff0c1 50%,#aab6cc 50%)"><i></i><span>Buttercream</span></button></div><a class="btn ghost" href="../">AJ GROUPS ↗</a></div>
 </header>
 <canvas id="cake" width="640" height="640" aria-hidden="true"></canvas>
 <main>
@@ -557,7 +557,7 @@ a.logo.mo-cur{background:none!important}
     </div>
   </section>
 </main>
-<footer class="foot"><span>© 2026 Bun Bun Bakes · part of AJ GROUPS</span><a href="../aj-groups/">← Back to AJ GROUPS</a></footer>
+<footer class="foot"><span>© 2026 Bun Bun Bakes · part of AJ GROUPS</span><a href="../">← Back to AJ GROUPS</a></footer>
 <script>window.MOTION={accent:'#aab6cc',par:'.mo-none',reveal:'.mo-none',press:'.btn,.chip,.tools button,.ac',mag:'.btn',titles:{hero:'Bun Bun Bakes',occasions:'Occasions',remind:'Save a date',build:'Cake studio',menu:'The menu',packaging:'Packaging',how:'How it works',bakers:'The bakers',order:'Order'},dock:[{l:'Home',h:'#hero',i:'<svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg>'},{l:'Occasions',h:'#occasions',i:'<svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="2"/><path d="M12 9v11M4 14h16M12 9c-2-4-6-3-5 0M12 9c2-4 6-3 5 0"/></svg>'},{l:'Design',h:'#build',i:'<svg viewBox="0 0 24 24"><path d="M5 20h14M7 20v-7h10v7M9 13V9h6v4M12 9V5"/></svg>'},{l:'Menu',h:'#menu',i:'<svg viewBox="0 0 24 24"><path d="M6 3v8M9 3v8M6 7h3M7.5 11v10M16 3c-2 2-2 6 0 8v10"/></svg>'},{l:'Order',h:'#order',i:'<svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7zM9 8a3 3 0 0 1 6 0"/></svg>'}]};</script>
 <script>(function(){if(document.documentElement.dataset.xmas!=='1')return;var t=document.getElementById('xmasT'),o=document.getElementById('occasions');if(t&&o)o.parentNode.insertBefore(t.content.cloneNode(true),o);
 var p=document.querySelector('.pill');if(p)p.insertAdjacentHTML('afterbegin','<a href="#xmas">Christmas</a>');
