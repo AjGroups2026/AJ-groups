@@ -34,11 +34,11 @@ const DARK = [[.045, .06, .10], [.05, .065, .11], [.035, .085, .105], [.07, .09,
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
-  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 52 : 72 }, uInner: { value: MOBILE ? 22 : 34 }, uTr: { value: 0 }, uPx: { value: .003 }, uDark: { value: 0 } };
+  uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 52 : 72 }, uInner: { value: MOBILE ? 22 : 34 }, uTr: { value: 0 }, uPx: { value: .003 }, uFade: { value: 0 }, uDark: { value: 0 } };
 const frag = /* glsl */`
 precision highp float;
 varying vec2 vUv;
-uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot;
+uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx, uFade; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot;
 float smin(float a, float b, float k){ float h = max(k - abs(a - b), 0.) / k; return min(a, b) - h * h * k * .25; }
 mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float sdRound(vec3 p, vec3 b, float r){ vec3 q = abs(p) - b; return length(max(q, 0.)) + min(max(q.x, max(q.y, q.z)), 0.) - r; }
@@ -133,13 +133,13 @@ void main(){
   float a = hit ? 1. : 0.; bool near = !hit && uTr > .5 && mind < uPx * 1.6;
   if (near) { p = pm; a = 1. - smoothstep(0., uPx * 1.6, mind); }
   vec3 col = bg;                                                                          /* the page tone is already in display colour */
-  if (hit || near) { col = glass(p, rd, mix(uTA, uTB, uW), mix(uAbsA, uAbsB, uW), mix(uFeA, uFeB, uW)); col = aces(col * 1.05); col = pow(col, vec3(.4545)); }
+  if (hit || near) { col = glass(p, rd, mix(uTA, uTB, uW), mix(uAbsA, uAbsB, uW), mix(uFeA, uFeB, uW)); col = aces(col * 1.05); col = pow(col, vec3(.4545)); col = mix(bg, col, uTr > .5 ? 1. : uFade); a *= uFade; }
   col += (hash(gl_FragCoord.xy + fract(uTime) * 91.) - .5) * .02;                          /* film grain */
   gl_FragColor = uTr > .5 ? vec4(col * a, a) : vec4(col, 1.);
 }`;
 const scene = new THREE.Scene(), cam = new THREE.Camera();
 scene.add(Object.assign(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: U, vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }', fragmentShader: frag, depthTest: false, depthWrite: false })), { frustumCulled: false }));
-renderer.setClearColor(0x9fb0ba);
+renderer.setClearColor(0x9fb0ba); renderer.compile(scene, cam);   /* build the shader before the first frame so the opening isn't a stutter */
 
 /* group each chapter's text and button in a panel (a glass sheet on phones, invisible on laptops) */
 stopEls.forEach(el => { const items = [...el.querySelectorAll(':scope > .lead, :scope > .line, :scope > .enter')]; if (!items.length) return; const b = document.createElement('div'); b.className = 'body'; items[0].before(b); items.forEach(x => b.append(x)); });
@@ -167,12 +167,12 @@ const go = i => { if (i === Math.round(sNow) || jumping) return; if (RM) { scrol
     const dn = blades.map((b, k) => b.animate([{ transform: 'skewX(0deg) scaleY(1)', transformOrigin: '50% 0%' }, { transform: `skewX(${-sk}deg) scaleY(0)`, transformOrigin: '50% 0%' }], { duration: 280, delay: 100 + ord(k) * 10, easing: 'cubic-bezier(.65,0,.2,1)', fill: 'forwards' }));
     Promise.all(dn.map(a => a.finished).concat(co.finished)).then(() => { fade.classList.remove('on'); blades.concat(tcard).forEach(b => b.getAnimations().forEach(a => a.cancel())); jumping = false; }); }); };
 dotBtns.forEach((b, i) => b.addEventListener('click', () => go(i)));
-const menuEl = document.getElementById('menu'), menuBtn = document.getElementById('menubtn'), sideTab = document.getElementById('sidetab');
+const menuEl = document.getElementById('menu'), menuBtn = document.getElementById('menubtn');
 const setMenu = on => { menuEl.classList.toggle('on', on); menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.firstChild.textContent = on ? 'Close' : 'Menu'; };
 menuBtn.addEventListener('click', () => setMenu(!menuEl.classList.contains('on')));
 document.querySelectorAll('.pillnav a,.gbtn,.stop .enter[data-go],.stop[data-i="0"] [data-go],.vgrid [data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); a.blur(); go(+a.dataset.go); }));
 menuEl.querySelectorAll('a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setMenu(false); go(+a.dataset.go); }));
-sideTab.addEventListener('click', () => go(LAST));
+
 function fit() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); U.uAsp.value = w / h; }
 const LY = { stack: false, short: false, zone: [70, 400], zone8: [70, 400] };
 function fitLists() { stopEls.forEach(el => { const sv = el.querySelector('.svc'); if (!sv) return; sv.classList.remove('off'); if (!LY.stack) return; const bd = el.querySelector('.body'), top0 = (el.querySelector('h1,h2') || el.querySelector('.tag') || el).getBoundingClientRect(), svr = sv.getBoundingClientRect(), bdr = bd.getBoundingClientRect(); if (svr.top < (el.querySelector('h1,h2') ? top0.bottom + 150 : top0.top + 70) || svr.bottom > bdr.top) sv.classList.add('off'); }); }
@@ -206,10 +206,10 @@ const orbit = document.getElementById('orbit'), oc1 = orbit.querySelector('.c1')
 const _sc = new Map(), setV = (el, k, v) => { let m = _sc.get(el); if (!m) _sc.set(el, m = {}); if (m[k] === v) return; m[k] = v; if (k[0] === '-') el.style.setProperty(k, v); else el.style[k] = v; };
 const setA = (el, k, v) => { const s = String(v); if (el['_a' + k] !== s) { el['_a' + k] = s; el.setAttribute(k, s); } }, setT = (el, v) => { if (el._t !== v) { el._t = v; el.textContent = v; } };
 let _bgc = '';
-const clock = new THREE.Clock(); let first = true, curIdx = -1, fa = 0, fn = 0, svPrev = 0, svS = 0, dragS = 0, dragT = 0; const PRMAX = PR, FIXED = q.has('fixedres');
+const clock = new THREE.Clock(); let first = true, curIdx = -1, fa = 0, fn = 0, svPrev = 0, svS = 0, dragS = 0, dragT = 0; const PRMAX = PR, PFLOOR = Math.max(.75, PR * .6), FIXED = q.has('fixedres');
 function frame() {
   const dt = Math.min(clock.getDelta(), .05), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
-  if (!FIXED && !first) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .022 && PR > .5) { PR = Math.max(.5, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0155 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
+  if (!FIXED && !first && clock.elapsedTime > 3 && dt < .05) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .024 && PR > PFLOOR) { PR = Math.max(PFLOOR, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0185 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
   if (app < 1) app = Math.min(1, app + dt * .6);
   const target = !isNaN(PIN) ? clamp(PIN, 0, NS - 1) : LY.stack ? clamp(swF, 0, NS - 1) : clamp(scrollY / vh(), 0, NS - 1);
   sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? (swDrag ? 32 : 12) : 5.5));
@@ -220,7 +220,8 @@ function frame() {
   const asp = innerWidth / innerHeight, st = LY.stack;
   if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); U.uOff.value.set(0, (1 - 2 * zc / innerHeight) * 4.6 * .32492); U.uSc.value = zr / ext / (.615 * innerHeight / 2); LY.rpx = zr * 1.22; LY.zc = zc; }
   else { const oxx = lerp(A.ox, B.ox, ww) * .8, ex = lerp(A.ext, B.ext, ww), cxp = (.5 + .5 * 1.67 * oxx) * innerWidth; U.uOff.value.set(oxx, 0); U.uSc.value = Math.min(lerp(A.sc, B.sc, ww) * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (innerWidth - 10 - cxp) / (.615 * innerHeight / 2 * ex)); }
-  { } U.uApp.value = sstep(0, 1, app); U.uTime.value = T;
+  /* the orb starts at 80% size and fades in, never as a speck: a tiny orb can't be drawn crisply and looks like a blur until it grows */
+  U.uApp.value = lerp(.8, 1, sstep(0, 1, app)); U.uFade.value = sstep(0, .55, app); U.uTime.value = T;
   dragS += (dragT - dragS) * Math.min(1, dt * 14);
   { const sv = (target - svPrev) / Math.max(dt, .001); svPrev = target; svS += (clamp(sv * .09, -1, 1) - svS) * Math.min(1, dt * 6); }
   ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 3); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 3); U.uRot.value.set(ptr.x * .5, ptr.y * .3 + (RM ? 0 : svS * .6));

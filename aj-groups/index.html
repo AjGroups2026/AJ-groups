@@ -45,8 +45,8 @@ em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:40
 .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);z-index:60;padding:12px 20px;border-radius:999px;background:var(--btn);color:var(--btnink);font-size:13px;opacity:0;pointer-events:none;transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}.toast.on{opacity:1;transform:translate(-50%,0)}
 /* every control answers a touch, and lists build in rather than appear */
 button,.enter,.gbtn,.menu a{-webkit-tap-highlight-color:transparent}
-.menubtn,.sidetab,.theme,.gbtn,.enter,.form button{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background .3s,color .3s,opacity .4s}
-.menubtn:active,.sidetab:active,.theme:active,.gbtn:active,.enter:active,.form button:active{transform:scale(.94)}
+.menubtn,.theme,.gbtn,.enter,.form button{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background .3s,color .3s,opacity .4s}
+.menubtn:active,.theme:active,.gbtn:active,.enter:active,.form button:active{transform:scale(.94)}
 .menubtn i{transition:transform .45s cubic-bezier(.2,.8,.2,1),border-width .3s,height .3s}.menubtn[aria-expanded="true"] i{height:0;border-bottom-width:0;transform:rotate(0)}
 .stack .menu a,.menu a{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .5s ease,transform .8s cubic-bezier(.16,1,.3,1),filter .5s ease,padding-left .35s cubic-bezier(.2,.8,.2,1),color .3s}
 .menu.on a{opacity:1;transform:none;filter:none}.menu.on a:nth-child(1){transition-delay:.05s}.menu.on a:nth-child(2){transition-delay:.1s}.menu.on a:nth-child(3){transition-delay:.15s}.menu.on a:nth-child(4){transition-delay:.2s}.menu.on a:nth-child(5){transition-delay:.25s}.menu.on a:nth-child(6){transition-delay:.3s}.menu.on a:nth-child(7){transition-delay:.35s}
@@ -144,7 +144,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 @media (max-width:1000px){.gbtn{display:none}.pillnav a{padding:8px 11px}}
 @media (max-width:760px){.pillnav{display:none}.top{grid-template-columns:1fr auto}}
 /* stacked layout (phones, portrait). composition: floating glass bar, big orb, centred headline and call to action, swipe sideways */
-.body{display:contents}.menubtn,.sidetab,.menu{display:none}
+.body{display:contents}.menubtn,.menu{display:none}
 .stack,.stack body{overflow:hidden;height:100%;overscroll-behavior:none;touch-action:pan-y;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}.stack body{position:fixed;inset:0;width:100%}.stack .spacer{display:none}
 .stack .top{top:12px;left:12px;right:12px;padding:8px 8px 8px 16px;grid-template-columns:1fr auto;border:1px solid var(--line);border-radius:20px;background:var(--pill);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 .stack .pillnav,.stack .card,.stack .plus,.stack .halftone,.stack .count,.stack .gbtn,.stack .nav{display:none}
@@ -155,7 +155,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .menu.on{opacity:1;pointer-events:auto}
 .stack .menu a{color:var(--ink);text-decoration:none;font-size:clamp(38px,12vw,58px);letter-spacing:-.045em;line-height:1.15;border-bottom:1px solid var(--line);padding:6px 0}.stack .menu a em{font-size:.9em}
 .stack .menu small{color:var(--mute);font-size:12px;margin-top:18px}
-.stack .sidetab{display:block;position:fixed;right:0;top:46%;z-index:6;writing-mode:vertical-rl;padding:16px 9px;border:0;border-radius:12px 0 0 12px;background:var(--btn);color:var(--btnink);font:inherit;font-size:12px;letter-spacing:.04em;cursor:pointer;transition:opacity .4s}
 .stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{left:12px;right:12px;top:calc(var(--hb,72px) + 10px);bottom:calc(64px + env(safe-area-inset-bottom));width:auto;transform:none;text-align:left;padding:22px 16px 20px;display:grid;grid-template-rows:auto auto 1fr auto;align-content:stretch;pointer-events:none;border:1px solid var(--line);border-radius:28px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);box-shadow:0 24px 70px rgba(8,16,32,.16),inset 0 1px 0 rgba(255,255,255,.28)}
 .stack .stop.cur{pointer-events:none}.stack .stop.cur .body{pointer-events:auto}
 .stack .stop .tag{grid-row:1;justify-self:start;margin-bottom:14px;padding:6px 12px 6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--pill);font-size:12px}
@@ -188,7 +187,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .short .form{top:57%;--fs:min(72vh,440px);gap:6px;padding:calc(var(--fs)*.12) calc(var(--fs)*.15)}.short .form input{padding:7px 12px}.short .form textarea,.short .form select{display:none}.short .stop{top:56%}
 /* phone deck: translucent frosted glass instead of a block */
 .stack .stop.peek{visibility:visible}
-.stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{border:0;border-radius:36px;overflow:hidden;will-change:translate,scale,rotate,opacity;contain:layout paint;
+.stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{border:0;border-radius:36px;overflow:hidden;will-change:translate,scale,rotate;
  background:radial-gradient(130% 70% at 0% 0%,rgba(255,255,255,.3),rgba(255,255,255,0) 58%),radial-gradient(90% 60% at 100% 100%,rgba(255,255,255,.12),rgba(255,255,255,0) 60%),linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));
  -webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);
  box-shadow:0 34px 90px rgba(6,12,30,.3),0 8px 24px rgba(6,12,30,.12),inset 0 0 0 1px rgba(255,255,255,.16),inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.08)}
@@ -300,6 +299,17 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .vs{display:none}
 @media (max-width:359px){.vl{display:none}.vs{display:inline}}
 @media (max-height:600px){.stack .stop[data-i="1"]::after{display:none}}
+/* phones: everything on one centre axis (laptops keep text on the left because the orb sits on the right) */
+.stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{text-align:center}
+.stack .stop .tag{justify-self:center}
+.stack h1,.stack h2{text-align:center}
+.stack h1 em,.stack h2 em,.stack .stop[data-i="1"] h1 em{margin-left:0}
+.stack .body .lead,.stack .body .line{text-align:center;margin-inline:auto}
+.stack .stop[data-i="0"] .hglass{text-align:center}.stack .stop[data-i="0"] .lead{text-align:center;margin-inline:auto;max-width:16ch}
+.stack .chips{justify-content:center}
+.stack .vc,.stack .svc{text-align:left}
+/* the landing is never faded as a whole: a faded layer cannot see the orb behind it, so its frosted cards would switch on and off */
+.stack .stop[data-i="0"]{opacity:1}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -316,7 +326,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <header class="top" id="top"><a class="mark" id="mark" href="./"><i>AJ</i>AJ Groups</a>
   <nav class="pillnav" aria-label="Main"><i class="ind" aria-hidden="true"></i><a href="#" data-go="1">Ventures</a><a href="#" data-go="8">Founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a></nav>
   <div class="right"><a class="gbtn" href="#" data-go="10">Talk to us</a><button class="menubtn" id="menubtn" type="button" aria-expanded="false">Menu<i></i></button><button class="theme" id="theme" type="button" aria-label="Switch between light and dark theme"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg></button></div></header><div class="cursor" id="cursor" aria-hidden="true"></div>
-<button class="sidetab" id="sidetab" type="button">Talk to us</button>
 <div class="menu" id="menu"><a href="#" data-go="1">Our <em>ventures</em></a><a href="#" data-go="2">Alven Studio</a><a href="#" data-go="3">House of Fovo</a><a href="#" data-go="4">Bun Bun Bakes</a><a href="#" data-go="8">The founder</a><a href="#" data-go="9">Our story</a><a href="#" data-go="10">Contact</a><small>AJ GROUPS · built and led by Allwyn</small></div>
 <nav class="dots" id="dots" aria-label="Chapters"></nav>
 <div class="count" id="count"><span><b id="countN">01</b> / 11</span><i><u id="countBar"></u></i></div>
@@ -357,6 +366,6 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 <aside class="card" data-i="7"><small>06 · What we do</small><b>AJ Little World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="Which business"><option value="">Which business?</option><option>Alven Studio</option><option>House of Fovo</option><option>Clothing</option><option>AJ Softwares</option><option>Bun Bun Bakes</option><option>AJ Little World</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=26"></script>
+<script type="module" src="main.js?v=28"></script>
 </body>
 </html>
