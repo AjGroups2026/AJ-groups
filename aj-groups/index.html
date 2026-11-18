@@ -156,7 +156,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .menu a{color:var(--ink);text-decoration:none;font-size:clamp(38px,12vw,58px);letter-spacing:-.045em;line-height:1.15;border-bottom:1px solid var(--line);padding:6px 0}.stack .menu a em{font-size:.9em}
 .stack .menu small{color:var(--mute);font-size:12px;margin-top:18px}
 .stack .sidetab{display:block;position:fixed;right:0;top:46%;z-index:6;writing-mode:vertical-rl;padding:16px 9px;border:0;border-radius:12px 0 0 12px;background:var(--btn);color:var(--btnink);font:inherit;font-size:12px;letter-spacing:.04em;cursor:pointer;transition:opacity .4s}
-.stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{left:12px;right:12px;top:calc(var(--hb,72px) + 10px);bottom:calc(64px + env(safe-area-inset-bottom));width:auto;transform:none;text-align:left;padding:22px 20px 20px;display:grid;grid-template-rows:auto auto 1fr auto;align-content:stretch;pointer-events:none;border:1px solid var(--line);border-radius:28px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);box-shadow:0 24px 70px rgba(8,16,32,.16),inset 0 1px 0 rgba(255,255,255,.28)}
+.stack .stop,.stack .stop[data-i="0"],.stack .stop[data-i="1"]{left:12px;right:12px;top:calc(var(--hb,72px) + 10px);bottom:calc(64px + env(safe-area-inset-bottom));width:auto;transform:none;text-align:left;padding:22px 16px 20px;display:grid;grid-template-rows:auto auto 1fr auto;align-content:stretch;pointer-events:none;border:1px solid var(--line);border-radius:28px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);box-shadow:0 24px 70px rgba(8,16,32,.16),inset 0 1px 0 rgba(255,255,255,.28)}
 .stack .stop.cur{pointer-events:none}.stack .stop.cur .body{pointer-events:auto}
 .stack .stop .tag{grid-row:1;justify-self:start;margin-bottom:14px;padding:6px 12px 6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--pill);font-size:12px}
 .stack h1,.stack h2{grid-row:2;font-size:clamp(40px,min(14.5vw,8.8vh),84px);line-height:.94;letter-spacing:-.055em;margin:0;text-align:left}
@@ -166,7 +166,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .stop[data-i="0"] .lead{font-size:clamp(26px,8vw,38px);line-height:1.12;font-weight:400;letter-spacing:-.035em;max-width:14ch;margin:0}
 .stack .stop[data-i="10"] .body{display:none}
 .svc{display:none}
-.stack .stop::after{content:attr(data-num);position:absolute;top:26px;right:20px;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+.stack .stop::after{content:attr(data-num);position:absolute;top:26px;right:16px;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
 .stack .svc{display:block;grid-row:3;align-self:end;margin:0 0 20px;padding:0;list-style:none;opacity:0;transform:translateY(14px);transition:opacity .7s ease .35s,transform .8s cubic-bezier(.2,.8,.2,1) .35s}
 .stack .svc.off{display:none}.stack .stop.cur .svc{opacity:1;transform:none}.stack .stop.cur .svc{pointer-events:auto}
 .stack .svc li{text-shadow:0 0 14px var(--sheet);display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:14px;color:var(--ink)}.stack .svc li:last-child{border-bottom:1px solid var(--line)}
@@ -180,7 +180,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .dots button{width:26px;height:34px}
 .stack .dots button::after{width:calc(5px + 13px * var(--a,0));border-radius:999px;opacity:calc(.35 + .65 * var(--a,0));box-shadow:none;transition:none}
 .stack .dots button[aria-current="step"]::after{width:calc(5px + 13px * var(--a,1));opacity:calc(.35 + .65 * var(--a,1));box-shadow:none}
-.stack .form{left:50%;top:var(--zy,36%);width:min(88vw,380px);height:var(--zh,300px);border-radius:28px;padding:16px 22px;gap:8px}
+.stack .form{left:50%;top:var(--zy,36%);width:min(calc(100vw - 24px),420px);height:var(--zh,300px);border-radius:28px;padding:16px 16px;gap:8px}
 .stack .form input,.stack .form select{padding:9px 14px}.stack .form textarea{height:40px}.stack .form h3{font-size:19px;margin:0}
 /* short landscape windows */
 .short .top{padding:8px var(--pad);grid-template-columns:1fr auto}.short .pillnav{display:none}.short .card{display:none}@media (max-height:360px){.count{display:none}}.short .line{display:none}.short .tag{margin-bottom:8px}
@@ -248,7 +248,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 @media (prefers-reduced-motion:reduce){.vc.live .vc-st i{animation:none}}
 /* landing chapter: calm layered cards (frosted glass, soft white, ink) over the orb */
 .stop[data-i="0"]{width:min(440px,38vw);bottom:9vh;display:grid;gap:10px}
-.hglass{padding:26px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);box-shadow:0 24px 70px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.3)}
+.hglass{padding:26px 16px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);box-shadow:0 24px 70px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.3)}
 .stop[data-i="0"] .lead{margin:0 0 18px;max-width:none;font-size:clamp(25px,2.3vw,34px);line-height:1.12;font-weight:300;letter-spacing:-.04em}
 .stop[data-i="0"] .lead em{letter-spacing:-.015em;font-size:1.04em}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -276,16 +276,30 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack .stop[data-i="0"]{width:auto;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:0;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .stack .stop.cur[data-i="0"] .hglass,.stack .stop.cur[data-i="0"] .hc{pointer-events:auto}
 .stack .stop[data-i="0"] .lead{max-width:none;margin:0 0 22px;font-size:clamp(29px,8.8vw,40px);font-weight:300;letter-spacing:-.045em;line-height:1.08}
-@media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hglass{padding:18px 18px 16px}}
+@media (max-height:700px){.stack .stop[data-i="0"] .lead{font-size:25px;margin-bottom:14px}.hc button{min-height:118px}.hglass{padding:18px 16px 16px}}
 /* phones: a plain tone with a soft glow and shade; the orb is drawn on its own transparent canvas above it */
 #bgfx{display:none}
 .stack #bgfx{display:block;position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(90% 52% at 50% 24%,rgba(255,255,255,.12),transparent 72%),radial-gradient(120% 55% at 50% 108%,rgba(0,0,0,.2),transparent 70%)}
 /* phones, open layout: the orb shows sharp between the headline and a compact glass panel (add ?sheet=1 for the old full-height sheet) */
-.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]){background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:10px 8px 0}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]){background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:10px 16px 0}
 .stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) h2{text-shadow:0 0 22px var(--sheet)}
-.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) .body{padding:16px 16px 14px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 18px 50px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.28)}
-.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"])::after{top:16px;right:12px}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) .body{margin-inline:-16px;padding:16px 16px 14px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07));-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 18px 50px rgba(8,16,32,.14),inset 0 1px 0 rgba(255,255,255,.28)}
+.stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"])::after{top:16px;right:16px}
 .stack:not(.sheet) .stop:is([data-i="2"],[data-i="3"],[data-i="4"],[data-i="5"],[data-i="6"],[data-i="7"],[data-i="8"],[data-i="9"]) .svc{display:none}
+/* Six businesses fits every height: laptops anchor it under the header and centre it in the free band; phones let the cards share the space left in the sheet */
+.stop[data-i="1"]{top:104px;bottom:36px;transform:none;display:flex;flex-direction:column;justify-content:center}
+.stop[data-i="1"] .vgrid{margin-top:clamp(14px,3vh,26px)}
+.stop[data-i="1"] .vc{min-height:clamp(104px,16.5vh,152px)}
+.stop[data-i="1"] h1{font-size:clamp(30px,min(5.6vw,8.2vh),100px)}
+@media (max-height:700px){.stop[data-i="1"] .line{display:none}}
+.short .stop[data-i="1"]{top:62px;bottom:16px}.short .stop[data-i="1"] .vc{min-height:98px}
+.stack .stop[data-i="1"]{grid-template-rows:auto auto auto minmax(0,1fr)}
+.stack .stop[data-i="1"] .vgrid{grid-template-rows:repeat(3,minmax(0,1fr));min-height:0}
+.stack .stop[data-i="1"] .vc{min-height:0;overflow:hidden}
+@media (max-height:600px){.stack .stop[data-i="1"] .tag{display:none}}
+.vs{display:none}
+@media (max-width:359px){.vl{display:none}.vs{display:inline}}
+@media (max-height:600px){.stack .stop[data-i="1"]::after{display:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -318,9 +332,9 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
       <a class="vc live" role="listitem" href="../alven/" style="--c:#5fe0cd"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l6 4V6L7 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg></span><span class="vc-st"><i></i>Live</span></span><span class="vc-tx"><b>Alven Studio</b><small>Ideas that get seen</small></span><u class="vc-go" aria-hidden="true">→</u></a>
       <a class="vc live" role="listitem" href="../fovo/" style="--c:#8fb4ff"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="12" rx="2.5"/><circle cx="12" cy="13" r="3.4"/><path d="M8.5 7l1.2-2.2h4.6L15.5 7"/></svg></span><span class="vc-st"><i></i>Live</span></span><span class="vc-tx"><b>House of Fovo</b><small>Photography, seen properly</small></span><u class="vc-go" aria-hidden="true">→</u></a>
       <a class="vc live" role="listitem" href="../bunbun/" style="--c:#f08a4f"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-5h14v5z"/><path d="M7.5 15v-4h9v4"/><path d="M12 11V8.2"/><circle cx="12" cy="6.8" r="1.4"/><path d="M3.5 20h17"/></svg></span><span class="vc-st"><i></i>Live</span></span><span class="vc-tx"><b>Bun Bun Bakes</b><small>Baked fresh, every morning</small></span><u class="vc-go" aria-hidden="true">→</u></a>
-      <button class="vc" type="button" role="listitem" data-go="5" style="--c:#e9a24a"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3.5" width="12" height="2.5" rx="1.2"/><rect x="6" y="18" width="12" height="2.5" rx="1.2"/><path d="M8.5 6v12M15.5 6v12"/><path d="M8.5 10l7 2M8.5 13l7 2"/></svg></span><span class="vc-st"><i></i>Coming soon</span></span><span class="vc-tx"><b>Clothing</b><small>Cut by hand, finished by eye</small></span><u class="vc-go" aria-hidden="true">→</u></button>
-      <button class="vc" type="button" role="listitem" data-go="6" style="--c:#a58bff"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8L4.5 12l4 4M15.5 8l4 4-4 4M13.5 6l-3 12"/></svg></span><span class="vc-st"><i></i>Coming soon</span></span><span class="vc-tx"><b>AJ Softwares</b><small>Built carefully, shipped steadily</small></span><u class="vc-go" aria-hidden="true">→</u></button>
-      <button class="vc" type="button" role="listitem" data-go="7" style="--c:#ef6f8d"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.5"/><rect x="8.2" y="3.8" width="7.5" height="7.5" rx="1.5" transform="rotate(8 12 7.5)"/></svg></span><span class="vc-st"><i></i>Coming soon</span></span><span class="vc-tx"><b>AJ Little World</b><small>Stories worth sitting still for</small></span><u class="vc-go" aria-hidden="true">→</u></button>
+      <button class="vc" type="button" role="listitem" data-go="5" style="--c:#e9a24a"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3.5" width="12" height="2.5" rx="1.2"/><rect x="6" y="18" width="12" height="2.5" rx="1.2"/><path d="M8.5 6v12M15.5 6v12"/><path d="M8.5 10l7 2M8.5 13l7 2"/></svg></span><span class="vc-st"><i></i><span class="vl">Coming soon</span><span class="vs">Soon</span></span></span><span class="vc-tx"><b>Clothing</b><small>Cut by hand, finished by eye</small></span><u class="vc-go" aria-hidden="true">→</u></button>
+      <button class="vc" type="button" role="listitem" data-go="6" style="--c:#a58bff"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8L4.5 12l4 4M15.5 8l4 4-4 4M13.5 6l-3 12"/></svg></span><span class="vc-st"><i></i><span class="vl">Coming soon</span><span class="vs">Soon</span></span></span><span class="vc-tx"><b>AJ Softwares</b><small>Built carefully, shipped steadily</small></span><u class="vc-go" aria-hidden="true">→</u></button>
+      <button class="vc" type="button" role="listitem" data-go="7" style="--c:#ef6f8d"><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.5"/><rect x="8.2" y="3.8" width="7.5" height="7.5" rx="1.5" transform="rotate(8 12 7.5)"/></svg></span><span class="vc-st"><i></i><span class="vl">Coming soon</span><span class="vs">Soon</span></span></span><span class="vc-tx"><b>AJ Little World</b><small>Stories worth sitting still for</small></span><u class="vc-go" aria-hidden="true">→</u></button>
     </div>
   </article>
   <article class="stop" data-i="2" data-c="#5fe0cd"><p class="tag"><i></i>Alven Studio</p><h2>Ideas that <em>get seen</em></h2><p class="line">Strategy, social and advertising that make your brand easy to find.</p><a class="enter" href="../alven/">Enter Alven Studio →</a></article>
