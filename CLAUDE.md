@@ -8,8 +8,9 @@ Last updated: 16 Nov 2026.
 The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small businesses, each with its own site, all in one repo.
 
 - Static HTML, CSS and vanilla JavaScript. **No build step.**
-- Live at `https://roosewelt-nacth.github.io/AJ-groups/` (GitHub Pages, branch `main`, repo root).
-- Repo: `https://github.com/Roosewelt-nacth/AJ-groups` (public). Anything committed is public, so **never commit secrets, access codes, phone numbers or customer data.**
+- **Official site:** `https://ajgroups2026.github.io/AJ-groups/` (GitHub Pages, branch `main`, repo root), repo `https://github.com/AjGroups2026/AJ-groups`. Git remote name: `official`.
+- **Testing copy:** `https://roosewelt-nacth.github.io/AJ-groups/`, repo `https://github.com/Roosewelt-nacth/AJ-groups` (remote `origin`). Try changes here first, then push the same `main` to `official`. Sign-in is through `gh auth login` for each account; never share or store passwords here.
+- Both repos are public. Anything committed is public, so **never commit secrets, access codes, phone numbers or customer data.**
 - Target launch: **22 Nov 2026** (AJ GROUPS, Bun Bun Bakes, Fovo, Alven first). Do not publish this date on the sites until Allwyn approves it.
 
 ## Folder map
