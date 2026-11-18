@@ -14,7 +14,7 @@ Until this is set up, everything still works in demo mode (orders stay on one de
 3. **Connect the storage.** In the worker, open *Settings → Bindings → Add → KV namespace*. Variable name: `ORDERS` (exactly, capitals). Namespace: `bunbun-orders`. Save.
 4. **Set the secrets.** In *Settings → Variables and Secrets* add:
    - `BAKER_CODE` as a **Secret**: a long private access code for the baker page (12 or more characters).
-   - `ALLOW_ORIGIN` as a Text variable: the website address only, for example `https://ajgroups2026.github.io`. Later, your own domain.
+   - `ALLOW_ORIGIN` as a Text variable: the website address only, for example `https://ajgroups.co`. Later, your own domain.
    - Optional alerts to the baker's phone (free): `TELEGRAM_BOT_TOKEN` (Secret) and `TELEGRAM_CHAT_ID` (Text). See "Telegram alerts" below.
 5. **Copy the worker address.** It looks like `https://bunbun-orders.YOURNAME.workers.dev`.
 6. **Connect the website.** Put that address in `bunbun/menu.js`, in `BACKEND = { url: '...' }`, and publish the site. (You can send me the address; it is not secret. Never send me the access code.)
