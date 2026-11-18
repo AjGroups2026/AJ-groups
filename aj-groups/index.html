@@ -414,6 +414,37 @@ h1 em,h2 em,.stop .lead em{color:var(--em,#debd87)}
 .vc:nth-child(2){--i:1}.vc:nth-child(3){--i:2}.vc:nth-child(4){--i:3}.vc:nth-child(5){--i:4}.vc:nth-child(6){--i:5}.vc:nth-child(7){--i:6}.vc:nth-child(8){--i:7}
 .stop[data-i="0"] .lead em{display:block;margin-left:0}
 
+
+/* landing type: one clear hierarchy (eyebrow, headline, paragraph), one shared inner edge */
+.stop[data-i="0"] .hglass{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:22px 22px 24px}
+.stop[data-i="0"] .tagl{order:0;margin:0 0 16px;padding-bottom:12px;width:100%;border-bottom:1px solid var(--line);font-size:10.5px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--em,#debd87)}
+.stop[data-i="0"] .lead{order:1;margin:0 0 14px;font-size:clamp(34px,3.1vw,48px);font-weight:400;letter-spacing:-.045em;line-height:1.02;max-width:none}
+.stop[data-i="0"] .lead em{display:block;margin:0;font-size:1.02em;letter-spacing:-.02em}
+.stop[data-i="0"] .sub{order:2;margin:0;max-width:40ch;font-size:14px;line-height:1.6;color:var(--mute);opacity:1}
+.hc button{padding:16px 18px 14px}.hc-b{font-weight:400;letter-spacing:-.02em;line-height:1.12}
+.stack .stop[data-i="0"] .hglass{align-items:center;text-align:center;padding:20px 18px 22px}
+.stack .stop[data-i="0"] .tagl{text-align:center;font-size:9.5px;letter-spacing:.12em;white-space:nowrap}
+.stack .stop[data-i="0"] .lead{font-size:clamp(32px,9.4vw,42px)}.stack .stop[data-i="0"] .sub{max-width:34ch;font-size:13.5px}
+html:not(.stack):not(.short) .stop[data-i="0"]{width:min(500px,46vw)}
+html:not(.stack):not(.short) .stop[data-i="0"] .tagl{white-space:nowrap;font-size:10px;letter-spacing:.12em}
+@media (max-width:1100px){html:not(.stack):not(.short) .stop[data-i="0"] .tagl{white-space:normal;letter-spacing:.09em;line-height:1.5}}
+.hc{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.hc button{padding:16px 16px 14px 22px}
+.stack .hc button{padding:16px 14px 14px}
+.stack .stop[data-i="0"] .tagl{letter-spacing:.08em;padding-inline:0 0}
+/* compact landing card: sized to its text */
+html:not(.stack):not(.short) .stop[data-i="0"]{width:fit-content;max-width:min(440px,46vw);gap:8px}
+.stop[data-i="0"] .hglass{padding:16px 20px 18px}
+.stop[data-i="0"] .tagl{margin:0 0 12px;padding-bottom:10px}
+.stop[data-i="0"] .lead{margin:0 0 10px;font-size:clamp(30px,2.7vw,42px)}
+.stop[data-i="0"] .sub{font-size:13.5px;line-height:1.55;max-width:36ch}
+.hc{gap:8px}.hc button{min-height:80px;padding:12px 14px 12px 20px;border-radius:20px}
+.hc i{width:30px;height:30px;font-size:14px}.hc-b{font-size:clamp(17px,1.5vw,20px)}
+.hc-w::before{display:none}
+.stack .stop[data-i="0"] .hglass{padding:16px 16px 18px}.stack .stop[data-i="0"] .lead{font-size:clamp(30px,8.6vw,38px)}
+.stack .hc button{min-height:84px;padding:12px 12px 12px}
+@media (max-height:700px){.hc button{min-height:72px}}
+.stop[data-i="0"] .sub{text-wrap:balance}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
@@ -437,9 +468,8 @@ h1 em,h2 em,.stop .lead em{color:var(--em,#debd87)}
 <div class="cue" id="cue">↓ Scroll <span style="opacity:.6">down</span></div>
 <main>
   <article class="stop" data-i="0">
-    <div class="hglass"><p class="lead">One stop <em>solution.</em></p>
-      <p class="sub">We see possibilities where others see ideas. From creative ventures to emerging industries, we turn ambition into brands that make their mark.</p>
-      <p class="tagl">One group · Many identities · Limitless possibilities</p></div>
+    <div class="hglass"><p class="tagl">One group · Many identities · Limitless possibilities</p><p class="lead">One stop <em>solution.</em></p>
+      <p class="sub">We see possibilities where others see ideas. From creative ventures to emerging industries, we turn ambition into brands that make their mark.</p></div>
     <div class="hc"><button type="button" class="hc-w" data-go="3"><span class="hc-b">Discover<br>our ventures</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="12"><span class="hc-b">Let’s<br>connect</span><i aria-hidden="true">→</i></button></div>
   </article>
   <article class="stop" data-i="2" data-c="#debd87"><p class="tag"><i></i>About AJ Groups</p><h2>A different approach to <em>building businesses</em></h2><p class="line">AJ Groups is a multi-venture business group bringing independent brands together under one parent identity. Every brand deserves its own identity, its own direction and the freedom to grow.</p><a class="enter" href="#" data-go="2">Our vision →</a></article>
@@ -478,6 +508,6 @@ h1 em,h2 em,.stop .lead em{color:var(--em,#debd87)}
 <aside class="card" data-i="11"><small>08 · Inside</small><b>Digital Products</b><ul><li>Digital resources</li><li>Everyday needs</li><li>Practical tools</li></ul></aside>
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="What is this about"><option value="">What is this about?</option><option>Business enquiry</option><option>Partnership or collaboration</option><option>Career opportunity</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.<br><span>(Demo: nothing is sent yet)</span></p></div></form>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=64"></script>
+<script type="module" src="main.js?v=70"></script>
 </body>
 </html>
