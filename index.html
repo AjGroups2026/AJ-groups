@@ -503,16 +503,18 @@ html:not(.stack):not(.short) .stop[data-i="1"]{bottom:84px}
 @media (max-height:420px){.short .stop[data-i="1"] .tag,.short .stop[data-i="1"] .line{display:none}.short .stop[data-i="1"] h1{font-size:clamp(20px,6.4vh,26px);margin-bottom:6px;line-height:1.05}.short .stop[data-i="1"] .vc{min-height:62px}.short .vc-top{inset:4px 4px auto 4px}.short .vc-ic{display:none}.short .vc-st{font-size:8.5px;padding:2px 6px}}
 @media (max-height:420px){.short .stop[data-i="1"]{top:72px;bottom:8px;left:6px;right:6px;width:auto;padding:0 var(--pad)}}
 
-/* ---- opening sequence: orb, then header, then the card, its headline, and the buttons ---- */
+/* ---- opening sequence: everything eases in, nothing snaps. Orb, header, the card, its headline, then the buttons ---- */
 html:not(.ready) .stop[data-i="0"] .hglass,html:not(.ready) .stop[data-i="0"] .hc{opacity:0!important;transform:translateY(22px)!important;transition:none!important}
 html:not(.ready) .stop[data-i="0"] .w>span{transform:translateY(112%) rotate(6deg)!important;opacity:0!important;transition:none!important}
-html.ready .stop.cur[data-i="0"] .hglass{transition:opacity .9s ease .55s,transform 1s cubic-bezier(.16,1,.3,1) .55s}
-html.ready .stop.cur[data-i="0"] .hc{transition:opacity .9s ease 1.05s,transform 1s cubic-bezier(.16,1,.3,1) 1.05s}
-html.ready .stop.cur[data-i="0"] .w>span{filter:none;transition-delay:calc(.8s + var(--k) * 70ms)}
+html.ready .stop.cur[data-i="0"] .hglass{transition:opacity 1.3s cubic-bezier(.4,0,.2,1) .95s,transform 1.4s cubic-bezier(.4,0,.2,1) .95s}
+html.ready .stop.cur[data-i="0"] .hc{transition:opacity 1.2s cubic-bezier(.4,0,.2,1) 1.7s,transform 1.3s cubic-bezier(.4,0,.2,1) 1.7s}
+html.ready .stop.cur[data-i="0"] .w>span{filter:none;transition:transform 1.2s cubic-bezier(.4,0,.2,1),opacity 1s cubic-bezier(.4,0,.2,1);transition-delay:calc(1.15s + var(--k) * 120ms)}
 .stop[data-i="0"] .w>span{filter:none}
+html:not(.ready) :is(#bgfx,.grid,.plus,.halftone,.orbit,.cue){opacity:0!important}
+:is(#bgfx,.grid,.plus,.halftone){transition:opacity 1.8s cubic-bezier(.4,0,.2,1)}
 @media (prefers-reduced-motion:reduce){html.ready .stop.cur[data-i="0"] .hglass,html.ready .stop.cur[data-i="0"] .hc,html.ready .stop.cur[data-i="0"] .w>span{transition-delay:0s}}
 html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
-.dots{transition:opacity .9s ease .9s}
+.dots{transition:opacity 1.2s cubic-bezier(.4,0,.2,1) 1.2s}
 </style>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -589,6 +591,6 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><input type="text" name="_honey" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="What is this about"><option value="">What is this about?</option><option>Business enquiry</option><option>Partnership or collaboration</option><option>Career opportunity</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite" role="status"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.</p></div></form>
 <footer class="legal" id="legal">© 2026 AJ GROUPS. All rights reserved. · <a href="privacy/">Privacy</a> · <a href="terms/">Terms</a> · <a href="https://www.instagram.com/aj_dynamics_software_sol/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a></footer>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=81"></script>
+<script type="module" src="main.js?v=82"></script>
 </body>
 </html>

@@ -219,7 +219,7 @@ function frame() {
   const dt = Math.min(clock.getDelta(), .05), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
   if (!FIXED && !first && clock.elapsedTime > 3 && dt < .05) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .024 && PR > PFLOOR) { PR = Math.max(PFLOOR, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0185 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
   frames++; if (!ready && frames > 3 && fontsOk) { ready = true; root.classList.add('ready'); }
-  if (ready && app < 1) app = Math.min(1, app + dt * .6);
+  if (ready && app < 1) app = Math.min(1, app + dt * .4);
   const target = !isNaN(PIN) ? clamp(PIN, 0, NS - 1) : LY.stack ? clamp(swF, 0, NS - 1) : clamp(scrollY / vh(), 0, NS - 1);
   sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? (swDrag ? 32 : 12) : 5.5));
   const i0 = Math.min(NS - 2, Math.floor(clamp(sNow, 0, NS - 1))), f = clamp(sNow - i0, 0, 1), w = sstep(.15, .85, f), A = CH[sNow >= NS - 1 ? NS - 1 : i0], B = CH[sNow >= NS - 1 ? NS - 1 : i0 + 1], ww = sNow >= NS - 1 ? 0 : w;
@@ -231,7 +231,7 @@ function frame() {
     U.uOff.value.set(0, lerp(U.uOff.value.y, tOy, kk)); U.uSc.value = lerp(U.uSc.value, tSc, kk); LY.rpx = 1.22 * ext * U.uSc.value * (.615 * innerHeight / 2); LY.zc = innerHeight * (1 - U.uOff.value.y / (4.6 * .32492)) / 2; }
   else { const oxx = lerp(A.ox, B.ox, ww) * .8, ex = lerp(A.ext, B.ext, ww), cxp = (.5 + .5 * 1.67 * oxx) * innerWidth; U.uOff.value.set(oxx, 0); U.uSc.value = Math.min(lerp(A.sc, B.sc, ww) * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (innerWidth - 10 - cxp) / (.615 * innerHeight / 2 * ex)); }
   /* the orb starts at 80% size and fades in, never as a speck: a tiny orb can't be drawn crisply and looks like a blur until it grows */
-  U.uApp.value = lerp(.84, 1, sstep(0, 1, app)); U.uFade.value = sstep(0, .5, app); U.uTime.value = T;
+  U.uApp.value = lerp(.8, 1, sstep(0, 1, sstep(0, 1, app))); U.uFade.value = sstep(0, 1, sstep(.04, .8, app)); U.uTime.value = T;
   dragS += (dragT - dragS) * Math.min(1, dt * 14);
   { const sv = (target - svPrev) / Math.max(dt, .001); svPrev = target; svS += (clamp(sv * .09, -1, 1) - svS) * Math.min(1, dt * 6); }
   ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 3); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 3); U.uRot.value.set(ptr.x * .5, ptr.y * .3 + (RM ? 0 : svS * .6));
@@ -256,7 +256,7 @@ setV(root, '--line', `rgba(${c3(GOLD, BRONZE, white)},${lerp(.34, .38, white).to
       el.classList.remove('peek'); el.style.scale = ''; el.style.opacity = ''; el.style.zIndex = '';
       if (k === near && !RM) { el.style.translate = `0 ${(-(sNow - near) * 150).toFixed(1)}px`; el.style.filter = d > .02 ? `blur(${(d * 18).toFixed(1)}px)` : 'none'; } else { el.style.translate = ''; el.style.rotate = ''; el.style.filter = ''; } }); }
   if (near !== curIdx) { updateNav(near); if (curIdx >= 0 && LY.stack && navigator.vibrate) { try { navigator.vibrate(9); } catch (e) {} } curIdx = near; dotBtns.forEach((b, k) => k === near ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')); }
-  setV(top, 'opacity', sstep(.25, .8, app).toFixed(3)); setT(cue, LY.stack ? 'Swipe to explore  →' : '↓ Scroll down'); setV(cue, 'opacity', sNow < .1 ? '1' : '0'); setV(countEl, 'opacity', sNow > .3 ? '1' : '0'); setT(countN, String(Math.round(sNow) + 1).padStart(2, '0')); setV(countBar, 'transform', `scaleY(${clamp(sNow / (NS - 1)).toFixed(3)})`); { const fo = LAST - sNow, ph = LY.stack && !RM && fo > 0 && fo < 1.02;
+  setV(top, 'opacity', sstep(0, 1, sstep(.34, .92, app)).toFixed(3)); setT(cue, LY.stack ? 'Swipe to explore  →' : '↓ Scroll down'); setV(cue, 'opacity', sNow < .1 ? '1' : '0'); setV(countEl, 'opacity', sNow > .3 ? '1' : '0'); setT(countN, String(Math.round(sNow) + 1).padStart(2, '0')); setV(countBar, 'transform', `scaleY(${clamp(sNow / (NS - 1)).toFixed(3)})`); { const fo = LAST - sNow, ph = LY.stack && !RM && fo > 0 && fo < 1.02;
     { const _on = sNow > (LY.stack ? LAST - .98 : LAST - .45); formEl.classList.toggle('on', _on); if (legalEl) legalEl.classList.toggle('on', _on); }
     if (LY.stack) { setV(formEl, '--fx', (ph ? fo * 1.04 * (innerWidth - 24) : 0).toFixed(1) + 'px'); setV(formEl, '--fr', (ph ? fo * 1.2 : 0).toFixed(2) + 'deg'); dotBtns.forEach((b, k) => setV(b, '--a', clamp(1 - Math.abs(sNow - k), 0, 1).toFixed(3))); } }
   if (fine) { rx += (cx - rx) * Math.min(1, dt * 14); ry += (cy - ry) * Math.min(1, dt * 14); ring.style.transform = `translate(${rx}px,${ry}px) scale(${1 + big * 1.4})`; ring.style.opacity = loadDone ? .9 : 0; }
