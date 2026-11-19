@@ -151,7 +151,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 @media (max-width:760px){.rv{transform:translateY(34px) scale(.98)}}
 @media (prefers-reduced-motion:reduce){.rv,.card.rv{filter:none;transition:none}}
 </style>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js"}}</script>
 <link rel="stylesheet" href="../assets/vt.css?v=4">
 <script src="../assets/vt.js?v=10"></script>
 <link rel="stylesheet" href="../assets/menu.css?v=3"><script src="../assets/menu.js?v=1" defer></script>
@@ -214,20 +214,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 
   <section class="s" id="contact">
     <div class="ct">
-      <div class="rv"><span class="lab">Contact</span><h2 class="big2">Let’s <em>talk</em></h2><p class="note">Tell us what you want people to see. We reply within a working day.<br><br>hello@alvenstudio.example<br>+00 00000 00000<br><span style="opacity:.7">(placeholder contact details)</span></p></div>
+      <div class="rv"><span class="lab">Contact</span><h2 class="big2">Let’s <em>talk</em></h2><p class="note">Tell us what you want people to see. We reply within a working day.<br><br><a href="mailto:ajgroups.official2026@gmail.com">ajgroups.official2026@gmail.com</a></p></div>
       <form class="rv" id="form" onsubmit="return false" novalidate>
         <div class="f"><label for="nm">Name</label><input id="nm" placeholder="Your name" autocomplete="name"></div>
         <div class="f"><label for="em">E-mail</label><input id="em" type="email" placeholder="you@company.com" autocomplete="email"></div>
         <div class="f"><span class="t">What do you need?</span><div class="opts"><label><input type="checkbox"><span>Strategy</span></label><label><input type="checkbox"><span>Social</span></label><label><input type="checkbox"><span>Ads</span></label><label><input type="checkbox"><span>Content</span></label><label><input type="checkbox"><span>Website</span></label></div></div>
         <div class="f"><label for="ms">Message</label><textarea id="ms" placeholder="A few lines about your business and goals"></textarea></div>
         <button class="send" type="submit"><span>Send brief</span><span>↗</span></button>
-        <p class="ok" id="ok">Thank you. This is a placeholder form, so nothing was sent yet.</p>
+        <p class="ok" id="ok">Thank you. Your brief has been sent, and we reply within a working day.</p>
       </form>
     </div>
   </section>
 </main>
-<footer><span>© 2026 Alven Studio · part of AJ GROUPS</span><span><a href="../">← Back to AJ GROUPS</a></span></footer>
-<script type="module" src="main.js?v=4"></script>
+<footer><span>© 2026 Alven Studio · part of AJ GROUPS. All rights reserved.</span><span><a href="../">← Back to AJ GROUPS</a> · <a href="../privacy/">Privacy</a> · <a href="../terms/">Terms</a></span></footer>
+<script src="../assets/send.js?v=1"></script>
+<script type="module" src="main.js?v=5"></script>
 <script>window.MOTION={accent:'#5fe0cd',par:'.hero .ht,.hero .tag',reveal:'.mo-none',press:'.btn,button,a.enter,.cue',mag:'.btn,.cue',titles:{hero:'Alven Studio',idea:'The idea',services:'Services',process:'Process',contact:'Contact'},dock:[{"l": "Home", "h": "#hero", "i": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 11l8-7 8 7v9H4z\"/></svg>"}, {"l": "Idea", "h": "#idea", "i": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"11\" r=\"5\"/><path d=\"M9 19h6M10 22h4\"/></svg>"}, {"l": "Services", "h": "#services", "i": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"13\" y=\"13\" width=\"7\" height=\"7\" rx=\"1.5\"/></svg>"}, {"l": "Process", "h": "#process", "i": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>"}, {"l": "Contact", "h": "#contact", "i": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 6h16v12H4z\"/><path d=\"M4 7l8 6 8-6\"/></svg>"}]};</script>
 <script src="../assets/motion.js?v=8"></script>
 </body>

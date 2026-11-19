@@ -153,7 +153,14 @@ sb.forEach((b, i) => b.addEventListener('click', () => { manual = true; clearTim
 show(0, true); arm();
 
 /* ---------- form (placeholder) ---------- */
-$('form').addEventListener('submit', e => { e.preventDefault(); $('ok').classList.add('on'); });
+$('form').addEventListener('submit', e => { e.preventDefault(); const f = e.target, ok = $('ok'), nm = $('nm').value.trim(), em = $('em').value.trim();
+  const say = (t, good) => { ok.textContent = t; ok.classList.add('on'); ok.style.color = good ? '' : '#ff9d9d'; };
+  if (!nm || !/^\S+@\S+\.\S+$/.test(em)) { say('Please add your name and a valid email.', false); return; }
+  const needs = [...f.querySelectorAll('.opts input:checked')].map(i => i.nextElementSibling ? i.nextElementSibling.textContent : '').filter(Boolean).join(', ') || 'Not specified';
+  const btn = f.querySelector('button[type=submit]'); if (btn) btn.disabled = true; say('Sending…', true);
+  AJSend('Alven Studio brief', { name: nm, email: em, needs: needs, message: $('ms').value.trim() || '(no message)', _honey: '' })
+    .then(() => { f.reset(); say('Thank you. Your brief has been sent, and we reply within a working day.', true); }, () => say('Sorry, that did not send. Please email ajgroups.official2026@gmail.com instead.', false))
+    .then(() => { if (btn) btn.disabled = false; }); });
 
 /* ---------- the idea: a field of people, lit by the lens ---------- */
 const audEl = $('aud'), actx = audEl.getContext('2d'), ideaEl = $('idea'); let dots = [], seenN = 0, audVis = false, audW = 0, audH = 0, audDpr = 1, audShown = 0;

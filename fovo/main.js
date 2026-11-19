@@ -125,10 +125,14 @@ if (renderer) {
 /* hero photograph reveals at once */
 requestAnimationFrame(() => { const h = document.querySelector('.ph1'); if (h) { h.classList.add('in'); setTimeout(() => h.classList.add('done'), 1900); } });
 
-/* booking form (demo) */
+/* booking form: sent by e-mail to the studio inbox */
 $('bf').addEventListener('submit', (e) => {
-  e.preventDefault(); const f = e.target;
-  $('st').textContent = !f.n.value.trim() || !/\S+@\S+\.\S+/.test(f.e.value) ? 'Please add your name and a valid email.' : 'Thank you. Booking requests are not wired up yet, so nothing was sent.';
+  e.preventDefault(); const f = e.target, st = $('st');
+  if (!f.n.value.trim() || !/\S+@\S+\.\S+/.test(f.e.value)) { st.textContent = 'Please add your name and a valid email.'; return; }
+  const btn = f.querySelector('button[type=submit]'); if (btn) btn.disabled = true; st.textContent = 'Sending…';
+  AJSend('House of Fovo booking request', { name: f.n.value.trim(), email: f.e.value.trim(), shoot_type: f.t.value, message: f.m.value.trim() || '(no message)', _honey: '' })
+    .then(() => { f.reset(); st.textContent = 'Thank you. Your request has been sent, and we reply within a working day.'; }, () => { st.textContent = 'Sorry, that did not send. Please email ajgroups.official2026@gmail.com instead.'; })
+    .then(() => { if (btn) btn.disabled = false; });
 });
 
 /* ---------- parallax inside every frame ---------- */

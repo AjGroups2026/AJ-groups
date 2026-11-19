@@ -2,7 +2,7 @@
 
 Read this first. It records where the project stands, how it is built, the decisions already made, and what is still open, so a new Claude Code session (or a new account) can carry on without the old conversation.
 
-Last updated: 16 Nov 2026.
+Last updated: 19 Nov 2026.
 
 ## What this is
 The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small businesses, each with its own site, all in one repo.
@@ -16,14 +16,15 @@ The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small 
 ## Folder map
 | Folder | What it is |
 |---|---|
-| `/` (`index.html`, `main.js`) | The AJ GROUPS home page, served at the domain root (`https://ajgroups.co/`): a swipe deck of 13 chapters (home, about, vision, ventures, each brand, contact) |
+| `/` (`index.html`, `main.js`) | The AJ GROUPS home page, served at the domain root (`https://ajgroups.co/`): a swipe deck of 15 chapters (home, about, founder, founder note, vision, ventures, each of the eight brands, contact) |
 | `aj-groups/` | Only a redirect to `/`, kept so old links still work |
 | `alven/` | Alven Studio (marketing) |
 | `fovo/` | House of Fovo (photography). `draft-mac/` is an unused earlier version |
 | `bunbun/` | Bun Bun Bakes (bakery). The most developed site. See below |
 | `bunbun/baker/` | Baker dashboard (installable web app, hidden from search) |
 | `clothing/` | Atelier. Not linked yet and hidden from search |
-| `assets/` | Shared `motion.js`, `vt.js` (v=6), `vt.css`, and images |
+| `assets/` | Shared `motion.js`, `vt.js` (?v=10), `vt.css`, `menu.css/js`, `send.js` (form sender), `fonts.css` plus `fonts/` (self-hosted Inter and Instrument Serif), `legal.css`, and images (`ventures/` holds the venture card photos as WebP) |
+| `privacy/`, `terms/` | Privacy Policy and Terms and Conditions pages |
 | `server/` | `worker.js` (Cloudflare Worker for orders) and `SETUP.md` (plain-language setup) |
 | `tools/` | Helper scripts (`prep_photos.py` prepares menu photos) |
 | `client/` | Scratch and review files, not part of the public site |
@@ -77,6 +78,15 @@ UPI deep link (`upi://pay?...` with the order number in the note) or a payment l
 - Email: start with Zoho Mail free plan (up to 5 mailboxes); Google Workspace Base is the upgrade (about 99 rupees per user per month before GST, per Google's page; other figures were from resellers and unverified).
 - Gift hampers for Bun Bun: planned, not built. Three tiers (Petite, Classic with plum cake, Grand), a build-your-own option, a corporate enquiry form, aim for 40 to 50 percent cost, FSSAI and alcohol labelling checked, an alcohol-free option. Waiting on Allwyn's ideas, costs and capacity.
 - Mobile "swipe card" redesign for the group page (dark glass card stack with a stats row, tag chip, ✓/✕ actions, floating pill nav) was **prototyped and then reverted by request** to keep the page simple. The prototype is not in the repo. If it is wanted again, rebuild it as a separate mobile-only layout and do not show internal facts such as the launch date or chapter count as "stats".
+
+## Added 19 Nov 2026
+- **Group page order:** Home, About, Meet the founder, A note from the founder, Vision, Ventures, then Bun Bun Cafe, Alven Studio, House of Fovo, AJ Little Wonder World, Clothing Brand, AJ Software Solutions, Online Course, Digital Products, Contact. Every venture card jumps to that brand's own slide; only Bun Bun's slide links out to `/bunbun/`. The others show "Coming soon" until they launch. Slide numbers in `data-go` match the slide order in `index.html`, so renumber them if slides move.
+- **Forms** (group contact, Alven brief, Fovo booking) send by e-mail to `ajgroups.official2026@gmail.com` through FormSubmit (`assets/send.js`). The address must confirm the one-time activation e-mail from FormSubmit before messages arrive. Bun Bun orders use their own system (see Order flow).
+- **Legal:** `privacy/` and `terms/` pages, a footer on the contact slide and on every brand page, `THIRD-PARTY.md` (licence check), `sitemap.xml`.
+- **Social:** Instagram `https://www.instagram.com/aj_dynamics_software_sol/?hl=en` is linked. **A Facebook page link has not been given yet.**
+- **Speed:** venture photos are WebP (about 190 KB in total), Inter and Instrument Serif are self-hosted on the group page, three.js loads the minified build with a preload.
+- **Size check:** open `/?audit=1`; the page title then reports overlaps for that screen size (checked 320 to 1920 wide plus landscape phones).
+- **Still to do:** founder photo (the slide has a monogram placeholder, put `<img>` inside `.fphoto`), Facebook link, real contact phone, names to confirm (Bun Bun Cafe on the group page against Bun Bun Bakes on the Bun Bun site), lawyer review of the legal pages.
 
 ## Open items (waiting on people, not on code)
 1. **Allwyn:** pick and buy the domain in his own registrar account, turn on two-step login, set up email. Then the site needs: a `CNAME` file, the Pages custom domain with HTTPS, canonical links, `sitemap.xml`, and `ALLOW_ORIGIN` set to the new domain.

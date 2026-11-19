@@ -1,10 +1,10 @@
 Venture card photos, from Unsplash (free to use under the Unsplash License, no attribution required; credited here as a courtesy).
-bun.jpg      Conor Brown          https://unsplash.com/photos/a-bunch-of-croissants-that-are-on-a-table-sqkXyyj4WdE
-alven.jpg    Balazs Ketyi         photo-1561070791-2526d30994b5
-fovo.jpg     Coppertist Wu        https://unsplash.com/photos/a-close-up-of-a-camera-with-a-lens-aUz4Z3QbHlQ
-software.jpg Vishnu Kalanad       https://unsplash.com/photos/computer-screen-displaying-colorful-code-evzHeMgbKOg
-digital.jpg  Nick Morrison        https://unsplash.com/photos/macbook-pro-near-white-open-book-FHnnjk1Yj7Y
-fashion.jpg  Clark Street Mercantile  https://unsplash.com/photos/clothing-boutique-interior-with-hanging-racks-qnKhZJPKFD8
-little.jpg    Karl Abuid       photo-1638802538115-041e14d28d6a
-course.jpg    Nick Morrison    macbook-pro-near-white-open-book-FHnnjk1Yj7Y
-digital.jpg   felirbe          photo-1610731826702-6ded935d39a2
+bun.webp      Conor Brown          https://unsplash.com/photos/a-bunch-of-croissants-that-are-on-a-table-sqkXyyj4WdE
+alven.webp    Balazs Ketyi         photo-1561070791-2526d30994b5
+fovo.webp     Coppertist Wu        https://unsplash.com/photos/a-close-up-of-a-camera-with-a-lens-aUz4Z3QbHlQ
+software.webp Vishnu Kalanad       https://unsplash.com/photos/computer-screen-displaying-colorful-code-evzHeMgbKOg
+digital.webp  Nick Morrison        https://unsplash.com/photos/macbook-pro-near-white-open-book-FHnnjk1Yj7Y
+fashion.webp  Clark Street Mercantile  https://unsplash.com/photos/clothing-boutique-interior-with-hanging-racks-qnKhZJPKFD8
+little.webp    Karl Abuid       photo-1638802538115-041e14d28d6a
+course.webp    Nick Morrison    macbook-pro-near-white-open-book-FHnnjk1Yj7Y
+digital.webp   felirbe          photo-1610731826702-6ded935d39a2

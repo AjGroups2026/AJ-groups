@@ -3,3 +3,5 @@ Allow: /
 Disallow: /clothing/
 Disallow: /fovo/draft-mac/
 Disallow: /bunbun/baker/
+
+Sitemap: https://ajgroups.co/sitemap.xml

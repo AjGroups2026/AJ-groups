@@ -6,7 +6,7 @@ import * as THREE from 'three';
 
 const MOBILE = matchMedia('(max-width: 760px), (pointer: coarse)').matches, RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t, sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
-const stopEls = [...document.querySelectorAll('.stop')], NS = stopEls.length; document.documentElement.style.setProperty('--n', NS); const LAST = NS - 1;
+const stopEls = [...document.querySelectorAll('.stop')], NS = stopEls.length; document.documentElement.style.setProperty('--n', NS); const LAST = NS - 1, IV = stopEls.findIndex(e => e.dataset.i === '1');
 const q = new URLSearchParams(location.search), PIN = parseFloat(q.get('s')), TFIX = parseFloat(q.get('t'));
 const root = document.documentElement; if (q.get('sheet')) root.classList.add('sheet');   /* ?sheet=1 keeps the old full-height frosted sheet on phones */
 
@@ -20,6 +20,8 @@ const CH = [
   /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion). AJ palette: slate blue #2d3041 and beige #debd87; the glass takes the opposite colour to its page so the orb always stands out (tintD/absD: the same glass in the dark theme) */
   { s: 0, bg: [.176, .188, .255], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
   { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
+  { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
+  { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
   { s: 5, bg: [.205, .218, .295], w: 1, tint: [1, .86, .66], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, 1.5, 3.8], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze */
@@ -32,7 +34,7 @@ const CH = [
   { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 7, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.6, .58, .5], fe: [0, 0, 1, .1] },
 ];
-const DARK = [[.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155]];
+const DARK = [[.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155]];
 const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches ? 1 : 0, CHOSEN = false; try { const sv = localStorage.getItem('ajtheme'); if (sv) { THEME = sv === 'dark' ? 1 : 0; CHOSEN = true; } } catch (e) {} if (q.get('theme')) THEME = q.get('theme') === 'dark' ? 1 : 0;
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
@@ -152,7 +154,7 @@ const dotBtns = [...dotsEl.children]; dotBtns[0].setAttribute('aria-current', 's
 stopEls.forEach(el => { if (el.dataset.c) el.style.setProperty('--c', el.dataset.c); }); stopEls.forEach((el, k) => { const t = el.querySelector('.tag'); if (t) t.dataset.ix = k - 1; });
 /* phone only: fill the card with a short list (what each business does, or an index of all six) */
 stopEls.forEach((el, k) => { el.dataset.num = String(k + 1).padStart(2, '0') + ' / ' + String(NS).padStart(2, '0'); const bd = el.querySelector('.body'); if (!bd) return; let ul;
-  if (k === 0) { ul = document.createElement('ul'); ul.className = 'svc idx'; ['Alven Studio', 'House of Fovo', 'Clothing', 'AJ Softwares', 'Bun Bun Bakes', 'AJ Little World'].forEach((n, i) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<b>0' + (i + 1) + '</b>' + n; b.addEventListener('click', () => go(i + 2)); li.append(b); ul.append(li); }); }
+  if (k === 0) { ul = document.createElement('ul'); ul.className = 'svc idx'; ['Alven Studio', 'House of Fovo', 'Clothing', 'AJ Softwares', 'Bun Bun Bakes', 'AJ Little Wonder World'].forEach((n, i) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<b>0' + (i + 1) + '</b>' + n; b.addEventListener('click', () => go(i + 2)); li.append(b); ul.append(li); }); }
   else { const src = document.querySelector('.card[data-i="' + k + '"] ul'); if (!src) return; ul = document.createElement('ul'); ul.className = 'svc'; ul.innerHTML = src.innerHTML; }
   el.insertBefore(ul, bd); });
 let sNow = 0, swF = 0, swDrag = false;
@@ -184,7 +186,7 @@ function layout() {
   LY.stack = W / H < 1 || (W <= 760 && H >= 560); LY.short = !LY.stack && H < 570; root.classList.toggle('stack', LY.stack); root.classList.toggle('short', LY.short);
   if (LY.stack) { const tb = top.getBoundingClientRect().bottom; LY.hb = tb; root.style.setProperty('--hb', tb + 'px'); const cr = stopEls[1].getBoundingClientRect();
     if (root.classList.contains('sheet')) { const cc = (cr.top + cr.bottom) / 2, R = Math.min(W * .58, (cr.bottom - cr.top) * .38); LY.zone = [cc - R, cc + R]; }
-    else { let ha = 0, bb = Infinity; for (let k = 1; k < LAST; k++) { if (k === 3) continue; const h = stopEls[k].querySelector('h2'), b = stopEls[k].querySelector('.body'); if (h) ha = Math.max(ha, h.getBoundingClientRect().bottom); if (b) bb = Math.min(bb, b.getBoundingClientRect().top); }
+    else { let ha = 0, bb = Infinity; for (let k = 1; k < LAST; k++) { if (k === IV || k === 2 || k === 3) continue; const h = stopEls[k].querySelector('h2'), b = stopEls[k].querySelector('.body'); if (h) ha = Math.max(ha, h.getBoundingClientRect().bottom); if (b) bb = Math.min(bb, b.getBoundingClientRect().top); }
       const a0 = ha + 8, b0 = bb - 8, mid = (a0 + b0) / 2, R = Math.min(W * .5, Math.max(80, (b0 - a0) / 2)); LY.zone = [mid - R, mid + R]; }
     const h8 = stopEls[LAST].querySelector('h2').getBoundingClientRect().bottom; LY.zone8 = [h8 + 10, cr.bottom - 14];
     fitLists(); const z = LY.zone8, zh = Math.max(226, Math.min(340, z[1] - z[0])); formEl.style.setProperty('--zh', zh + 'px'); formEl.style.setProperty('--zy', Math.max(z[0] + zh / 2, (z[0] + z[1]) / 2) + 'px'); }
@@ -203,7 +205,7 @@ document.querySelectorAll('h1,h2,.stop[data-i="0"] .lead').forEach(hd => { let k
 /* a soft cursor ring on laptops */
 const ring = document.getElementById('cursor'), fine = matchMedia('(hover: hover) and (pointer: fine)').matches; let cx = -50, cy = -50, rx = -50, ry = -50, big = 0;
 if (fine) addEventListener('pointermove', e => { cx = e.clientX; cy = e.clientY; big = e.target.closest('a,button,input,textarea') ? 1 : 0; }, { passive: true }); else ring.remove();
-const countEl = document.getElementById('count'), countN = document.getElementById('countN'), countBar = document.getElementById('countBar'), cards = [...document.querySelectorAll('.card')];
+const legalEl = document.getElementById('legal'), countEl = document.getElementById('count'), countN = document.getElementById('countN'), countBar = document.getElementById('countBar'), cards = [...document.querySelectorAll('.card')];
 const orbit = document.getElementById('orbit'), oc1 = orbit.querySelector('.c1'), oc2 = orbit.querySelector('.c2'), od = orbit.querySelector('.dot');
 /* write a style or custom property only when its value changed: rewriting the same :root variables every frame restyles the whole page */
 const _sc = new Map(), setV = (el, k, v) => { let m = _sc.get(el); if (!m) _sc.set(el, m = {}); if (m[k] === v) return; m[k] = v; if (k[0] === '-') el.style.setProperty(k, v); else el.style[k] = v; };
@@ -251,7 +253,7 @@ setV(root, '--line', `rgba(${c3(GOLD, BRONZE, white)},${lerp(.34, .38, white).to
       if (k === near && !RM) { el.style.translate = `0 ${(-(sNow - near) * 150).toFixed(1)}px`; el.style.filter = d > .02 ? `blur(${(d * 18).toFixed(1)}px)` : 'none'; } else { el.style.translate = ''; el.style.rotate = ''; el.style.filter = ''; } }); }
   if (near !== curIdx) { updateNav(near); if (curIdx >= 0 && LY.stack && navigator.vibrate) { try { navigator.vibrate(9); } catch (e) {} } curIdx = near; dotBtns.forEach((b, k) => k === near ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')); }
   setV(top, 'opacity', sstep(.25, .8, app).toFixed(3)); setT(cue, LY.stack ? 'Swipe to explore  →' : '↓ Scroll down'); setV(cue, 'opacity', sNow < .1 ? '1' : '0'); setV(countEl, 'opacity', sNow > .3 ? '1' : '0'); setT(countN, String(Math.round(sNow) + 1).padStart(2, '0')); setV(countBar, 'transform', `scaleY(${clamp(sNow / (NS - 1)).toFixed(3)})`); { const fo = LAST - sNow, ph = LY.stack && !RM && fo > 0 && fo < 1.02;
-    formEl.classList.toggle('on', sNow > (LY.stack ? LAST - .98 : LAST - .45));
+    { const _on = sNow > (LY.stack ? LAST - .98 : LAST - .45); formEl.classList.toggle('on', _on); if (legalEl) legalEl.classList.toggle('on', _on); }
     if (LY.stack) { setV(formEl, '--fx', (ph ? fo * 1.04 * (innerWidth - 24) : 0).toFixed(1) + 'px'); setV(formEl, '--fr', (ph ? fo * 1.2 : 0).toFixed(2) + 'deg'); dotBtns.forEach((b, k) => setV(b, '--a', clamp(1 - Math.abs(sNow - k), 0, 1).toFixed(3))); } }
   if (fine) { rx += (cx - rx) * Math.min(1, dt * 14); ry += (cy - ry) * Math.min(1, dt * 14); ring.style.transform = `translate(${rx}px,${ry}px) scale(${1 + big * 1.4})`; ring.style.opacity = loadDone ? .9 : 0; }
   { const W = innerWidth, H = innerHeight, tanv = .32492, ocx = (.5 + .5 * 1.67 * U.uOff.value.x) * W, ocy = (.5 - .5 * U.uOff.value.y / (4.6 * tanv)) * H, orad = .615 * U.uSc.value * (H / 2) * sstep(0, 1, app);
@@ -284,7 +286,7 @@ if (q.has('audit')) setTimeout(() => {
   if (!phone && pill.width) { if (mk.right > pill.left - 6) out.push('mark/nav touch'); if (pill.right > rt.left - 6) out.push('nav/right touch'); }
   if (document.documentElement.scrollWidth > W + 1) out.push('horizontal scroll ' + document.documentElement.scrollWidth);
   stopEls.forEach((el, k) => {
-    stopEls.forEach((o, j) => o.classList.toggle('cur', j === k)); cards.forEach(c => c.classList.toggle('cur', +c.dataset.i === k)); formEl.classList.toggle('on', k === LAST);
+    stopEls.forEach((o, j) => o.classList.toggle('cur', j === k)); cards.forEach(c => c.classList.toggle('cur', +c.dataset.i === k)); { const _on = k === LAST; formEl.classList.toggle('on', _on); if (legalEl) legalEl.classList.toggle('on', _on); }
     const c = CH[k], z = k === LAST ? LY.zone8 : LY.zone, uSc = phone ? Math.min((z[1] - z[0]) / 2 * .96, W * .56) / c.ext / (.615 * H / 2) : Math.min(c.sc * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (W - 10 - (.5 + .5 * 1.67 * c.ox * .8) * W) / (.615 * H / 2 * c.ext)), ox = phone ? 0 : c.ox * .8, oy = phone ? (1 - (z[0] + z[1]) / H) * 4.6 * .32492 : 0;
     const cx = (.5 + .5 * 1.67 * ox) * W, cy = (.5 - .5 * oy / (4.6 * .32492)) * H, r = .615 * uSc * (H / 2) * c.ext, O = { left: cx - r, right: cx + r, top: cy - r, bottom: cy + r };
     if (phone) { const h2 = el.querySelector('h1,h2'), bd = el.querySelector('.body'), H2 = h2 && R(h2), BD = bd && getComputedStyle(bd).display !== 'none' ? R(bd) : null, nt = [];
@@ -327,24 +329,27 @@ if (!RM) {
 
 /* pages that are not built yet say so instead of doing nothing */
 { const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.append(t); let tt = 0;
-  document.querySelectorAll('.enter[href^="#"]:not([data-go])').forEach(a => a.addEventListener('click', e => { e.preventDefault(); t.textContent = 'This page is being built next. Check back soon.'; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2600); })); }
+  document.querySelectorAll('.enter[href^="#"]:not([data-go])').forEach(a => a.addEventListener('click', e => { e.preventDefault(); t.textContent = 'This brand is coming soon. Please check back.'; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2600); })); }
 
-/* contact form: checks, gentle error shake, a sending beat and a drawn tick (nothing is sent yet) */
+/* contact form: checks, gentle error shake, a sending beat and a drawn tick (sent by e-mail) */
 { const f = document.getElementById('form'); f.addEventListener('submit', e => { e.preventDefault(); const n = f.elements.n, em = f.elements.e; let ok = true;
     [[n, !n.value.trim()], [em, !/^\S+@\S+\.\S+$/.test(em.value.trim())]].forEach(([el, bad]) => { const w = el.closest('.f'); w.classList.toggle('bad', bad); if (bad) { ok = false; w.classList.remove('shake'); void w.offsetWidth; w.classList.add('shake'); } });
-    if (!ok) { (n.value.trim() ? em : n).focus(); return; } f.classList.add('sending'); setTimeout(() => { f.classList.remove('sending'); f.classList.add('sent'); f.reset(); setTimeout(() => f.classList.remove('sent'), 6000); }, 700); }); }
+    if (!ok) { (n.value.trim() ? em : n).focus(); return; } f.classList.add('sending'); const data = { name: n.value.trim(), email: em.value.trim(), topic: (f.elements.b && f.elements.b.value) || 'Not specified', message: (f.elements.m && f.elements.m.value.trim()) || '(no message)', _subject: 'AJ GROUPS website enquiry', _template: 'table', _captcha: 'false', _honey: f.elements._honey ? f.elements._honey.value : '' };
+      const done = () => { f.classList.remove('sending'); f.classList.add('sent'); f.reset(); setTimeout(() => f.classList.remove('sent'), 7000); };
+      const fail = () => { f.classList.remove('sending'); const t = document.querySelector('.toast'); if (t) { t.textContent = 'Sorry, that did not send. Please email ajgroups.official2026@gmail.com instead.'; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 6000); } };
+      fetch('https://formsubmit.co/ajax/ajgroups.official2026@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()).then(d => (d.success === true || d.success === 'true') ? done() : fail()).catch(fail); }); }
 
 /* contact form: a soft light follows the pointer across the glass */
 { const f = document.getElementById('form'); f.addEventListener('pointermove', e => { const r = f.getBoundingClientRect(); f.style.setProperty('--gx', (e.clientX - r.left) + 'px'); f.style.setProperty('--gy', (e.clientY - r.top) + 'px'); }); }
 
 /* ---------- nav: always shows where you are (laptop pill, phone menu) ---------- */
 const pillEl = document.querySelector('.pillnav'), pillLinks = pillEl ? [...pillEl.querySelectorAll('a')] : [], indEl = pillEl && pillEl.querySelector('.ind'), menuLinks = [...document.querySelectorAll('#menu a[data-go]')];
-const navOf = (n) => (n <= 0 ? -1 : n === 1 ? 0 : n === 2 ? 1 : n < LAST ? 2 : 3);
+const navOf = (n) => (n <= 0 ? -1 : n <= 3 ? 0 : n === 4 ? 1 : n < LAST ? 2 : 3);
 function placeInd(k) { if (!indEl) return; const a = pillLinks[k]; if (!a || !pillEl.offsetWidth) { indEl.style.opacity = 0; return; } indEl.style.opacity = 1; indEl.style.width = a.offsetWidth + 'px'; indEl.style.transform = `translateX(${a.offsetLeft}px)`; }
 function updateNav(n) {
   const k = navOf(n); pillLinks.forEach((a, i) => { a.classList.toggle('on', i === k); if (i === k) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); }); placeInd(k);
   const exact = menuLinks.some((a) => +a.dataset.go === n);
-  menuLinks.forEach((a) => { const on = +a.dataset.go === n || (!exact && +a.dataset.go === 3 && n >= 3 && n < LAST); a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  menuLinks.forEach((a) => { const on = +a.dataset.go === n || (!exact && ((+a.dataset.go === 1 && n >= 1 && n <= 3) || (+a.dataset.go === IV && n >= IV && n < LAST))); a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
 }
 addEventListener('resize', () => placeInd(navOf(Math.round(clamp(sNow, 0, NS - 1)))));
 (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => placeInd(navOf(Math.round(clamp(sNow, 0, NS - 1)))));
