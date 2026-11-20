@@ -2,7 +2,7 @@
 
 Read this first. It records where the project stands, how it is built, the decisions already made, and what is still open, so a new Claude Code session (or a new account) can carry on without the old conversation.
 
-Last updated: 19 Nov 2026.
+Last updated: 20 Nov 2026.
 
 ## What this is
 The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small businesses, each with its own site, all in one repo.
@@ -87,6 +87,15 @@ UPI deep link (`upi://pay?...` with the order number in the note) or a payment l
 - **Speed:** venture photos are WebP (about 190 KB in total), Inter and Instrument Serif are self-hosted on the group page, three.js loads the minified build with a preload.
 - **Size check:** open `/?audit=1`; the page title then reports overlaps for that screen size (checked 320 to 1920 wide plus landscape phones).
 - **Still to do:** founder photo (the slide has a monogram placeholder, put `<img>` inside `.fphoto`), Facebook link, real contact phone, names to confirm (Bun Bun Cafe on the group page against Bun Bun Bakes on the Bun Bun site), lawyer review of the legal pages.
+
+## Rebrand, 20 Nov 2026 (AJ GROUPS identity)
+- **Logo kit** (from Allwyn, "AJ Dynamics rebranding.zip"): a calligraphic A and J monogram with a looping tail, a serif wordmark "AJ GROUPS" and the tagline **"INFINITE POSSIBILITIES"**. Two colourways: **beige** (a cream-to-gold gradient, for dark backgrounds) and **blue** (flat navy `#2d3041`, for light backgrounds). Lock-ups supplied: horizontal, compact, stacked, wordmark, and the monogram alone ("secondary logo").
+- **Web files** are in `assets/brand/` (WebP): `logo-horizontal-gold|navy`, `logo-mark-gold|navy`, `logo-stacked-gold|navy`, plus `app-icon-512.png`. `assets/favicon-32.png`, `favicon.svg` (a PNG embedded in an SVG), `apple-touch-icon.png` and `og-aj-groups.png` (share image) were rebuilt from the monogram and the stacked lock-up. Rebuild script lived outside the repo; originals are in the zip.
+- **Header logo** (`index.html`, `.mark`): two stacked images, gold and navy. `main.js` sets `--lw` (1 on dark pages, 0 on light ones) and the CSS crossfades them, so the logo follows the chapter and the dark/light theme. Size is `1.3em` of `--ms` (40px on the home chapter, 24px elsewhere; 20px in the phone bar). Privacy and terms pages use the gold logo on their navy field.
+- **Tagline:** the home card and the share text now say "Infinite possibilities" (it was "Limitless possibilities") to match the logo. Revert if Allwyn prefers the old line.
+- **Do not use** the "Compact lock-up (blue)": it reads "Software Solutions" and belongs to AJ Software Solutions, not the group.
+- Sub-brand sites (Bun Bun, Alven, Fovo, Atelier) keep their own looks; they only pick up the new favicon through the shared files.
+- `main.js` is at `?v=83`.
 
 ## Open items (waiting on people, not on code)
 1. **Allwyn:** pick and buy the domain in his own registrar account, turn on two-step login, set up email. Then the site needs: a `CNAME` file, the Pages custom domain with HTTPS, canonical links, `sitemap.xml`, and `ALLOW_ORIGIN` set to the new domain.

@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website"><meta property="og:site_name" content="AJ GROUPS">
 <meta property="og:title" content="AJ GROUPS | One-stop solution for independent brands">
-<meta property="og:description" content="One group. Many identities. Limitless possibilities.">
+<meta property="og:description" content="One group. Many identities. Infinite possibilities.">
 <meta property="og:url" content="https://ajgroups.co/">
 <meta property="og:image" content="https://ajgroups.co/assets/og-aj-groups.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -35,8 +35,11 @@ em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:40
 .grid i{position:absolute;background:var(--line);opacity:.8}
 .grid .v1{left:50%;top:0;bottom:0;width:1px}.grid .h1{top:50%;left:0;right:0;height:1px}
 .top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:flex-start;justify-content:space-between;padding:22px var(--pad);transition:opacity 1s}
-.mark{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;font-weight:400;letter-spacing:-.02em;font-size:var(--ms,46px);line-height:1;transition:font-size .6s cubic-bezier(.2,.7,.2,1)}
-.mark i{width:max(.62em,24px);height:max(.62em,24px);border:1.5px solid currentColor;border-radius:.2em;display:grid;place-items:center;font-style:normal;font-size:max(.2em,9px);flex:none;letter-spacing:0;font-weight:500}
+/* the AJ GROUPS logo: gold lock-up on dark chapters, navy on light ones; main.js sets --lw (0 light page, 1 dark page) so the two fade into each other */
+.mark{position:relative;display:block;color:var(--ink);text-decoration:none;font-size:var(--ms,46px);line-height:1;transition:font-size .6s cubic-bezier(.2,.7,.2,1)}
+.mark .lg{display:block;height:1.3em;width:auto;aspect-ratio:900/196;user-select:none;-webkit-user-drag:none}
+.mark .lg-gold{opacity:var(--lw,1)}
+.mark .lg-navy{position:absolute;left:0;top:0;opacity:calc(1 - var(--lw,1))}
 .right{display:flex;align-items:center;gap:22px}.nav{display:flex;gap:26px;font-size:12px;color:var(--mute)}
 .theme{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background .3s,transform .3s}.theme:hover{background:var(--line);transform:rotate(18deg)}
 .theme svg{grid-area:1/1;width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:opacity .35s,transform .5s}
@@ -157,7 +160,7 @@ h1,h2{font-size:clamp(34px,min(6.4vw,10.5vh),122px)}
 .stack,.stack body{overflow:hidden;height:100%;overscroll-behavior:none;touch-action:pan-y;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}.stack body{position:fixed;inset:0;width:100%}.stack .spacer{display:none}
 .stack .top{top:12px;left:12px;right:12px;padding:8px 8px 8px 16px;grid-template-columns:1fr auto;border:1px solid var(--line);border-radius:20px;background:var(--pill);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 .stack .pillnav,.stack .card,.stack .plus,.stack .halftone,.stack .count,.stack .gbtn,.stack .nav{display:none}
-.stack .mark{font-size:18px;transition:none;white-space:nowrap}.stack .right{gap:8px}
+.stack .mark{font-size:20px;transition:none;white-space:nowrap}.stack .right{gap:8px}
 .stack .menubtn{display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 16px;border:0;border-radius:999px;background:var(--btn);color:var(--btnink);font:inherit;font-size:13px;font-weight:400;cursor:pointer}
 .stack .menubtn i{display:block;width:14px;height:8px;border-top:1.5px solid currentColor;border-bottom:1.5px solid currentColor}
 .stack .menu{display:flex;flex-direction:column;justify-content:center;gap:6px;position:fixed;inset:0;z-index:12;padding:90px 28px 40px;background:var(--sheet);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);opacity:0;pointer-events:none;transition:opacity .4s}
@@ -531,7 +534,7 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <div class="halftone" aria-hidden="true"></div>
 <div class="grid" aria-hidden="true"><i class="v1"></i><i class="h1"></i></div>
 <div class="fade" id="fade"></div>
-<header class="top" id="top"><a class="mark" id="mark" href="./"><i>AJ</i>AJ Groups</a>
+<header class="top" id="top"><a class="mark" id="mark" href="./" aria-label="AJ GROUPS, infinite possibilities"><img class="lg lg-gold" src="assets/brand/logo-horizontal-gold.webp" alt="" width="900" height="196" decoding="async"><img class="lg lg-navy" src="assets/brand/logo-horizontal-navy.webp" alt="" width="900" height="196" decoding="async"></a>
   <nav class="pillnav" aria-label="Main"><i class="ind" aria-hidden="true"></i><a href="#" data-go="1">About</a><a href="#" data-go="4">Vision</a><a href="#" data-go="5">Ventures</a><a href="#" data-go="14">Contact</a></nav>
   <div class="right"><a class="gbtn" href="#" data-go="14">Talk to us</a><button class="menubtn" id="menubtn" type="button" aria-expanded="false">Menu<i></i></button><button class="theme" id="theme" type="button" aria-label="Switch between light and dark theme"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg></button></div></header><div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="menu" id="menu"><a href="#" data-go="1">About <em>us</em></a><a href="#" data-go="2">The founder</a><a href="#" data-go="4">Vision and mission</a><a href="#" data-go="5">Our <em>ventures</em></a><a href="#" data-go="6">Bun Bun Cafe</a><a href="#" data-go="14">Contact</a><a href="https://www.instagram.com/aj_dynamics_software_sol/?hl=en" target="_blank" rel="noopener noreferrer">Instagram ↗</a><small>© 2026 AJ GROUPS · <a href="privacy/">Privacy</a> · <a href="terms/">Terms</a></small></div>
@@ -540,7 +543,7 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <div class="cue" id="cue">↓ Scroll <span style="opacity:.6">down</span></div>
 <main>
   <article class="stop" data-i="0">
-    <div class="hglass"><p class="tagl">One group · Many identities · Limitless possibilities</p><p class="lead">One-stop <em>solution.</em></p>
+    <div class="hglass"><p class="tagl">One group · Many identities · Infinite possibilities</p><p class="lead">One-stop <em>solution.</em></p>
       <p class="sub">We see possibilities where others see ideas. From creative ventures to emerging industries, we turn ambition into brands that make their mark.</p></div>
     <div class="hc"><button type="button" class="hc-w" data-go="5"><span class="hc-b">Discover<br>our ventures</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="14"><span class="hc-b">Let’s<br>connect</span><i aria-hidden="true">→</i></button></div>
   </article>
@@ -591,6 +594,6 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><input type="text" name="_honey" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="What is this about"><option value="">What is this about?</option><option>Business enquiry</option><option>Partnership or collaboration</option><option>Career opportunity</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite" role="status"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.</p></div></form>
 <footer class="legal" id="legal">© 2026 AJ GROUPS. All rights reserved. · <a href="privacy/">Privacy</a> · <a href="terms/">Terms</a> · <a href="https://www.instagram.com/aj_dynamics_software_sol/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a></footer>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=82"></script>
+<script type="module" src="main.js?v=83"></script>
 </body>
 </html>
