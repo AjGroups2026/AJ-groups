@@ -18,11 +18,11 @@ let PR = Math.min(devicePixelRatio, MOBILE ? 2 : 1.25); renderer.setPixelRatio(P
 /* per chapter: shape, page tone (rgb), text is white (1) or dark (0), orb tint, orb screen position (x offset in screens, 0 = centred) and scale */
 const CH = [
   /* s shape, bg page tone, w white text, tint, ox orb offset, sc scale, ps phone scale, ext shape extent, abs absorption colour, fe (weave, grid, transmission, dispersion). AJ palette: slate blue #2d3041 and beige #debd87; the glass takes the opposite colour to its page so the orb always stands out (tintD/absD: the same glass in the dark theme) */
-  { s: 0, bg: [.176, .188, .255], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
+  { s: 9, bg: [.176, .188, .255], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.0, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
   { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
   { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
-  { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
-  { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
+  { s: 9, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
+  { s: 9, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
   { s: 5, bg: [.205, .218, .295], w: 1, tint: [1, .86, .66], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, 1.5, 3.8], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze */
   { s: 1, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .08] },     /* marketing: megaphone */
@@ -31,7 +31,7 @@ const CH = [
   { s: 3, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: .92, ps: .9, ext: 1.02, abs: [4.6, 4.4, 3.0], absD: [0.35, 2.1, 3.7], fe: [1, 0, .6, .03] },  /* clothing: woven spool */
   { s: 4, bg: [.176, .188, .255], w: 1, tint: [.66, .7, .88], ox: .24, sc: .86, ps: .85, ext: 1.05, abs: [1.6, 1.5, 1.0], fe: [0, 1, 1, .06] },     /* software: blue glass with a beige circuit grid */
   { s: 8, bg: [.205, .218, .295], w: 1, tint: [1, .92, .78], ox: .24, sc: .96, ps: .92, ext: 1.07, abs: [.5, .9, 1.9], fe: [0, 0, 1, .1] },     /* founder: warm crystal */
-  { s: 0, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
+  { s: 9, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 7, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .26, sc: 1.05, ps: .74, ext: 1.5, abs: [.6, .58, .5], fe: [0, 0, 1, .1] },
 ];
 const DARK = [[.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.12, .128, .172], [.098, .105, .145], [.105, .113, .155]];
@@ -39,10 +39,37 @@ const SYS = matchMedia('(prefers-color-scheme: dark)'); let THEME = SYS.matches 
 let themeNow = THEME; root.dataset.theme = THEME ? 'dark' : 'light';
 const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 * 36 * Math.PI / 180) }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: 0 }, uBG: { value: new THREE.Vector3() }, uTA: { value: new THREE.Vector3(1, 1, 1) }, uTB: { value: new THREE.Vector3(1, 1, 1) },
   uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 52 : 72 }, uInner: { value: MOBILE ? 22 : 34 }, uTr: { value: 0 }, uPx: { value: .003 }, uFade: { value: 0 }, uDark: { value: 0 } };
+/* the AJ logo as a 3D object: its silhouette becomes a signed-distance texture (built once, here) that the shader extrudes into a slab */
+U.uLogo = { value: Object.assign(new THREE.DataTexture(new Uint16Array([THREE.DataUtils.toHalfFloat(1)]), 1, 1, THREE.RedFormat, THREE.HalfFloatType), { needsUpdate: true }) }; U.uLogoOn = { value: 0 };
+(function () {
+  const N = 512, M = 512, UNIT = 2.5 / N, img = new Image();
+  const dt1 = (f, n, d, v, z) => { let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20; for (let q = 1; q < n; q++) { let s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); while (s <= z[k]) { k--; s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); } k++; v[k] = q; z[k] = s; z[k + 1] = 1e20; } k = 0; for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; d[q] = (q - v[k]) * (q - v[k]) + f[v[k]]; } };
+  const edt = (g) => { const f = new Float64Array(N), d = new Float64Array(N), v = new Int32Array(N), z = new Float64Array(N + 1);
+    for (let x = 0; x < N; x++) { for (let y = 0; y < N; y++) f[y] = g[y * N + x]; dt1(f, N, d, v, z); for (let y = 0; y < N; y++) g[y * N + x] = d[y]; }
+    for (let y = 0; y < N; y++) { for (let x = 0; x < N; x++) f[x] = g[y * N + x]; dt1(f, N, d, v, z); for (let x = 0; x < N; x++) g[y * N + x] = d[x]; } };
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas'); c.width = c.height = N; const cx = c.getContext('2d', { willReadFrequently: true }); cx.drawImage(img, 0, 0, N, N);
+      const px = cx.getImageData(0, 0, N, N).data, inside = new Uint8Array(N * N), A = new Float32Array(N * N), B = new Float32Array(N * N);
+      for (let i = 0; i < N * N; i++) { const on = px[i * 4] > 127; inside[i] = on ? 1 : 0; A[i] = on ? 0 : 1e9; B[i] = on ? 1e9 : 0; }
+      edt(A); edt(B);                                                   /* A: distance to the logo, B: distance to the outside */
+      const sd = new Float32Array(M * M);
+      for (let k = 0; k < N * N; k++) sd[k] = (inside[k] ? -(Math.sqrt(B[k]) - .5) : Math.sqrt(A[k]) - .5) * UNIT;
+      const bl = new Float32Array(M * M);                                  /* one light blur keeps the gradient smooth, so the glass shows no facets */
+      for (let y = 0; y < M; y++) for (let x = 0; x < M; x++) { let s = 0, n = 0; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const xx = x + i, yy = y + j; if (xx >= 0 && xx < M && yy >= 0 && yy < M) { s += sd[yy * M + xx]; n++; } } bl[y * M + x] = s / n; }
+      const out = new Uint16Array(M * M);
+      for (let y = 0; y < M; y++) for (let x = 0; x < M; x++) out[(M - 1 - y) * M + x] = THREE.DataUtils.toHalfFloat(bl[y * M + x]);   /* row 0 of a data texture is the bottom */
+      const t = new THREE.DataTexture(out, M, M, THREE.RedFormat, THREE.HalfFloatType);
+      t.minFilter = t.magFilter = THREE.LinearFilter; t.generateMipmaps = false; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.needsUpdate = true;
+      U.uLogo.value = t; U.uLogoOn.value = 1;
+    } catch (e) { /* no logo texture: the shape stays the orb */ }
+  };
+  img.src = 'assets/brand/logo-silhouette.png';
+})();
 const frag = /* glsl */`
 precision highp float;
 varying vec2 vUv;
-uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx, uFade; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot;
+uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx, uFade, uLogoOn; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot; uniform sampler2D uLogo;
 float smin(float a, float b, float k){ float h = max(k - abs(a - b), 0.) / k; return min(a, b) - h * h * k * .25; }
 mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float sdRound(vec3 p, vec3 b, float r){ vec3 q = abs(p) - b; return length(max(q, 0.)) + min(max(q.x, max(q.y, q.z)), 0.) - r; }
@@ -76,6 +103,11 @@ float shape(int id, vec3 p){
     q1.xz *= rot(.35); q2.xz *= rot(-.3); q3.xz *= rot(.8); q3.xy *= rot(.12);
     return min(min(sdRound(q1, vec3(.3), .06), sdRound(q2, vec3(.3), .06)), sdRound(q3, vec3(.3), .06)) / 1.35; }
   if (id == 8) { vec3 q = p.xzy; float body = sdCylY(q, .98, .22) - .05, hole = sdCylY(q, .52, .6), core = length(p) - .34; return smin(max(body, -hole), core, .1); }   /* founder: a warm clear crystal disc */
+  if (id == 9) {                                                                                                                                                /* the AJ monogram as a rounded 3D slab; falls back to the orb until the logo texture is ready */
+    if (uLogoOn < .5) return length(p) - .92;
+    vec2 q = p.xy; float d2 = texture2D(uLogo, q / 2.5 + .5).r - .032 + length(max(abs(q) - 1.25, 0.));
+    float h = .26, r = .11; vec2 w = vec2(d2 + r, abs(p.z) - h + r);
+    return min(max(w.x, w.y), 0.) + length(max(w, 0.)) - r; }
   float d = sdTorus(p.xzy, 1.28, .07); return d;                                                                                                              /* contact: a ring */
 }
 float noise3(vec3 p){ return sin(p.x * 5. + uTime * .9) * sin(p.y * 5.3 - uTime * .7) * sin(p.z * 4.7 + uTime * .8); }
@@ -225,7 +257,7 @@ function frame() {
   const i0 = Math.min(NS - 2, Math.floor(clamp(sNow, 0, NS - 1))), f = clamp(sNow - i0, 0, 1), w = sstep(.15, .85, f), A = CH[sNow >= NS - 1 ? NS - 1 : i0], B = CH[sNow >= NS - 1 ? NS - 1 : i0 + 1], ww = sNow >= NS - 1 ? 0 : w;
   U.uA.value = A.s; U.uB.value = B.s; U.uW.value = A.s === B.s ? 0 : ww;
   themeNow += (THEME - themeNow) * Math.min(1, dt * 3.2); const iA = sNow >= NS - 1 ? NS - 1 : i0, iB = sNow >= NS - 1 ? NS - 1 : i0 + 1;
-  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); const gl = (c, k) => c[k + 'D'] ? mix3(c[k], c[k + 'D'], themeNow) : c[k]; U.uTA.value.set(...gl(A, 'tint')); U.uTB.value.set(...gl(B, 'tint')); U.uAbsA.value.set(...gl(A, 'abs')); U.uAbsB.value.set(...gl(B, 'abs')); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
+  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); const gl = (c, k) => c[k + 'D'] ? mix3(c[k], c[k + 'D'], themeNow) : c[k]; U.uTA.value.set(...gl(A, 'tint')); U.uTB.value.set(...gl(B, 'tint')); U.uAbsA.value.set(...gl(A, 'abs').map(v => v * (A.s === 9 ? 3.3 : 1))); U.uAbsB.value.set(...gl(B, 'abs').map(v => v * (B.s === 9 ? 3.3 : 1))); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
   const asp = innerWidth / innerHeight, st = LY.stack;
   if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); const tOy = (1 - 2 * zc / innerHeight) * 4.6 * .32492, tSc = zr / ext / (.615 * innerHeight / 2), kk = first ? 1 : Math.min(1, dt * 9);   /* the orb eases to its place, so a late font or layout change never makes it jump */
     U.uOff.value.set(0, lerp(U.uOff.value.y, tOy, kk)); U.uSc.value = lerp(U.uSc.value, tSc, kk); LY.rpx = 1.22 * ext * U.uSc.value * (.615 * innerHeight / 2); LY.zc = innerHeight * (1 - U.uOff.value.y / (4.6 * .32492)) / 2; }
