@@ -2,7 +2,7 @@
 
 Read this first. It records where the project stands, how it is built, the decisions already made, and what is still open, so a new Claude Code session (or a new account) can carry on without the old conversation.
 
-Last updated: 20 Nov 2026.
+Last updated: 22 Nov 2026.
 
 ## What this is
 The websites for **AJ GROUPS**, founded and led by **Allwyn**. A group of small businesses, each with its own site, all in one repo.
@@ -123,3 +123,9 @@ UPI deep link (`upi://pay?...` with the order number in the note) or a payment l
 - Keep it simple and premium. Avoid childish or cluttered decoration.
 - Check every page and every screen size (phone included) before calling work done.
 - Say plainly what was not verified. Prefer free options and explain costs in plain words.
+
+## Notes (22 Nov 2026)
+- Bun Bun is closed as upcoming: the venture card and chapter say Coming soon with no link; `bunbun/index.html` carries noindex and redirects to the home page; it is out of `sitemap.xml` and the 404 page. Remove the two lines at the top of `bunbun/index.html` to reopen it.
+- The Bun Bun chapter's 3D object is shape 10: the Bun Bun mark (`assets/bunbun/logo-silhouette.png`) built into a second SDF texture (`uLogo2`) by `buildLogoSDF`, same slab treatment as the AJ logo (shape 9).
+- Phones: on the landing the logo sits in `LY.zone0`, the space between the page counter and the hero card. The hero stop never gets the frosted peek blur, the counter and the swipe hint fade in last, and an inline head script sets `--bg0` from the theme so the first frame does not flash.
+- Hero headline and page title: "Diverse ventures, one vision". Use `?audit` to get a layout report in the tab title, and `?s=<chapter>&t=3` to pin a chapter for screenshots.

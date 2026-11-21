@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AJ GROUPS | One-stop solution for independent brands</title>
+<title>AJ GROUPS | Diverse ventures, one vision</title>
 <meta name="description" content="AJ GROUPS is a multi-venture business group in India, home to Bun Bun Cafe, Alven Studio, House of Fovo and more. One group, many identities.">
 <meta name="theme-color" content="#2d3041">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website"><meta property="og:site_name" content="AJ GROUPS">
-<meta property="og:title" content="AJ GROUPS | One-stop solution for independent brands">
+<meta property="og:title" content="AJ GROUPS | Diverse ventures, one vision">
 <meta property="og:description" content="One group. Many identities. Infinite possibilities.">
 <meta property="og:url" content="https://ajgroups.co/">
 <meta property="og:image" content="https://ajgroups.co/assets/og-aj-groups.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -16,7 +16,7 @@
 <meta property="og:locale" content="en_IN">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"Organization","@id":"https://ajgroups.co/#org","name":"AJ GROUPS","alternateName":"AJ Groups","url":"https://ajgroups.co/","logo":"https://ajgroups.co/assets/apple-touch-icon.png","image":"https://ajgroups.co/assets/og-aj-groups.png","description":"A multi-venture business group bringing independent brands together under one parent identity.","slogan":"One-stop solution","email":"ajgroups.official2026@gmail.com","founder":{"@type":"Person","name":"Allwyn Jerold","jobTitle":"Founder & Entrepreneur"},"sameAs":["https://www.instagram.com/aj_dynamics_software_sol/"],"areaServed":"IN"},
+{"@type":"Organization","@id":"https://ajgroups.co/#org","name":"AJ GROUPS","alternateName":"AJ Groups","url":"https://ajgroups.co/","logo":"https://ajgroups.co/assets/apple-touch-icon.png","image":"https://ajgroups.co/assets/og-aj-groups.png","description":"A multi-venture business group bringing independent brands together under one parent identity.","slogan":"Diverse ventures, one vision","email":"ajgroups.official2026@gmail.com","founder":{"@type":"Person","name":"Allwyn Jerold","jobTitle":"Founder & Entrepreneur"},"sameAs":["https://www.instagram.com/aj_dynamics_software_sol/"],"areaServed":"IN"},
 {"@type":"WebSite","@id":"https://ajgroups.co/#site","url":"https://ajgroups.co/","name":"AJ GROUPS","alternateName":"AJ Groups","publisher":{"@id":"https://ajgroups.co/#org"},"inLanguage":"en-IN"}]}
 </script>
 <link rel="canonical" href="https://ajgroups.co/">
@@ -24,11 +24,11 @@
 <link rel="preload" href="assets/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/instrumentserif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts.css">
-<script>setTimeout(function(){document.documentElement.classList.add("ready")},5000)</script>
+<script>(function(){var d=document.documentElement;try{var s=localStorage.getItem("ajtheme"),k=s?s==="dark":matchMedia("(prefers-color-scheme: dark)").matches;d.style.setProperty("--bg0",k?"#1b1d28":"#2d3041");}catch(e){}})();setTimeout(function(){document.documentElement.classList.add("ready")},5000)</script>
 <style>
 *{box-sizing:border-box}
 :root{--ink:#f4f1ea;--mute:#a6a29a;--line:rgba(255,255,255,.28);--pill:rgba(255,255,255,.14);--btn:#2d3041;--ac:#debd87;--btnink:#fff;--pad:clamp(22px,4.2vw,64px)}
-html,body{margin:0;background:#2d3041;color:var(--ink);font-family:Inter,system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+html,body{margin:0;background:var(--bg0,#2d3041);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400}
 #c{position:fixed;inset:0;width:100vw;height:100vh;height:100svh;display:block;z-index:0}
 .grid{position:fixed;inset:0;z-index:1;pointer-events:none}
@@ -518,6 +518,37 @@ html:not(.ready) :is(#bgfx,.grid,.plus,.halftone,.orbit,.cue){opacity:0!importan
 @media (prefers-reduced-motion:reduce){html.ready .stop.cur[data-i="0"] .hglass,html.ready .stop.cur[data-i="0"] .hc,html.ready .stop.cur[data-i="0"] .w>span{transition-delay:0s}}
 html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 .dots{transition:opacity 1.2s cubic-bezier(.4,0,.2,1) 1.2s}
+
+/* ---- ventures: smaller headline, and cards that line up at every size ---- */
+.stop[data-i="1"] h1{font-size:clamp(28px,min(4.2vw,6.4vh),64px);line-height:1.04}
+.stack .stop[data-i="1"] h1{font-size:clamp(20px,min(6.6vw,4.2vh),30px);line-height:1.06}
+.stack:not(.short) .stop[data-i="1"] .vgrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));gap:8px;width:100%;max-width:none;justify-self:stretch;align-self:stretch}
+.stack:not(.short) .vc{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;justify-content:stretch;justify-items:stretch;align-content:stretch;padding:0;min-height:0;border-radius:16px}
+.stack:not(.short) .vc-img,.stack:not(.short) .vc-tx{width:100%;min-width:0;box-sizing:border-box}
+.stack:not(.short) .vc-img{position:relative;inset:auto;z-index:0;height:auto;min-height:0}
+.stack:not(.short) .vc-tx{margin:0;border:0;border-radius:0;box-shadow:none;padding:6px 8px;min-height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;-webkit-backdrop-filter:none;backdrop-filter:none;background:color-mix(in srgb,var(--sheet,#2d3041) 80%,transparent)}
+.stack:not(.short) .vc-tx b{font-size:13px;line-height:1.15;text-wrap:balance}
+.stack:not(.short) .vc-k{display:none}
+/* ---- opening: the hero never sits under a frosted pane, and the counter and swipe hint arrive last ---- */
+.stack .stop[data-i="0"].peek{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.stack .stop::after{transition:opacity .8s cubic-bezier(.4,0,.2,1)}
+html:not(.ready) .stack .stop::after{opacity:0}
+html.ready:not(.settled) .stack .stop[data-i="0"]::after{transition-delay:1.6s}
+html.ready:not(.settled) .cue{transition:opacity 1s cubic-bezier(.4,0,.2,1) 2.9s}
+/* ---- laptop venture cards: every glass panel starts at the same line, so names and details align across a row ---- */
+html:not(.stack):not(.short) .stop[data-i="1"] .vc-tx{position:absolute;left:8px;right:8px;bottom:8px;top:40%;margin:0;align-content:start;overflow:hidden}
+html:not(.stack):not(.short) .stop[data-i="1"] .vc-d{display:none}
+html:not(.stack):not(.short) .stop[data-i="1"] .vc-tx{top:50%}html:not(.stack):not(.short) .stop[data-i="1"] .vc-tx small{display:none}
+@media (min-width:761px) and (max-height:860px){html:not(.stack):not(.short) .stop[data-i="1"] .vc-tx{top:46%}}
+.stop[data-i="1"] h1 em{color:#e3c48f}
+/* laptops: a soft glow behind headlines that follows the letters (no boxes), so they stay readable over the 3D object */
+html:not(.stack) .stop h1,html:not(.stack) .stop h2{filter:drop-shadow(0 0 16px rgba(20,22,32,.6))}
+/* founder chapter on shorter laptop screens */
+@media (min-width:761px) and (max-height:800px){html:not(.stack) .stop[data-i="13"] h2{font-size:clamp(34px,7.2vh,58px)}html:not(.stack) .stop[data-i="13"] .line:not(.fwho){font-size:14px;line-height:1.5}html:not(.stack) .stop[data-i="13"] .fwho{margin-bottom:10px}}
+/* founder's note on short phones: the quote and its button stay inside the card */
+@media (max-height:700px){.stack .fquote{font-size:16.5px!important;line-height:1.42;padding-top:22px!important}.stack .fquote::before{font-size:50px!important;top:-8px!important}}
+.stop h1,.stop h1 *,.stop h2,.stop h2 *,.stop[data-i="1"] .line{text-shadow:none!important}
+@media (min-width:600px){.stack:not(.short) .vc-tx{min-height:60px}.stack:not(.short) .vc-tx b{font-size:15px}.stack:not(.short) .vc-k{display:block;font-size:9.5px}}
 </style>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -543,15 +574,16 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <div class="cue" id="cue">↓ Scroll <span style="opacity:.6">down</span></div>
 <main>
   <article class="stop" data-i="0">
-    <div class="hglass"><p class="tagl">One group · Many identities · Infinite possibilities</p><p class="lead">One-stop <em>solution.</em></p>
+    <div class="hglass"><p class="tagl">One group · Many identities · Infinite possibilities</p><p class="lead">Diverse ventures, <em>one vision.</em></p>
       <p class="sub">We see possibilities where others see ideas. From creative ventures to emerging industries, we turn ambition into brands that make their mark.</p></div>
     <div class="hc"><button type="button" class="hc-w" data-go="5"><span class="hc-b">Discover<br>our ventures</span><i aria-hidden="true">→</i></button><button type="button" class="hc-d" data-go="14"><span class="hc-b">Let’s<br>connect</span><i aria-hidden="true">→</i></button></div>
   </article>
   <article class="stop" data-i="2" data-c="#debd87"><p class="tag"><i></i>About AJ Groups</p><h2>A different approach to <em>building businesses</em></h2><p class="line">AJ Groups is a multi-venture business group bringing independent brands together under one parent identity. Every brand deserves its own identity, its own direction and the freedom to grow.</p><a class="enter" href="#" data-go="2">Meet the founder →</a></article>
   <article class="stop" data-i="13" data-c="#debd87"><p class="tag"><i></i>About · Founder</p><h2>Meet the <em>founder</em></h2>
     <div class="line fwho"><span class="fphoto" aria-hidden="true">AJ</span><span class="fwho-tx"><b>Allwyn Jerold</b><small>Founder &amp; Entrepreneur – AJ Groups</small></span></div>
-    <p class="line">Allwyn began his entrepreneurial journey in 2022 with AJ Dynamics. Driven by a passion for building businesses and creating new opportunities, he is now developing AJ Groups as a parent identity for independent brands and emerging ventures.</p>
-    <p class="line fbio2">His focus is on building strong foundations, creating distinctive brands and turning ideas into businesses with the potential to grow.</p>
+    <p class="line">My journey began in 2022 with AJ Dynamics, driven by a passion for building something meaningful and turning ideas into opportunities.</p>
+    <p class="line fbio2">Over time, that vision evolved into AJ Groups — a platform to bring diverse ideas to life, build distinctive brands, and create ventures with the potential to grow.</p>
+    <p class="line fbio2">Today, I’m focused on building something bigger, one idea and one venture at a time.</p>
     <a class="enter" href="#" data-go="3">A note from him →</a></article>
   <article class="stop" data-i="14" data-c="#debd87"><p class="tag"><i></i>A note from the founder</p><h2>In his <em>words</em></h2>
     <blockquote class="line fquote">Don’t wait for the perfect moment to build something great. Start with what you have, learn through what you face, and keep building until your vision becomes reality.</blockquote>
@@ -560,7 +592,7 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
   <article class="stop" data-i="3" data-c="#debd87"><p class="tag"><i></i>Vision · Mission · Values</p><h2>To build a legacy <em>beyond industries</em></h2><p class="line">To establish AJ Groups as a respected business group known for building distinctive brands, exploring new opportunities and creating lasting value. Our mission: make every idea count.</p><a class="enter" href="#" data-go="5">Meet our ventures →</a></article>
   <article class="stop" data-i="1"><p class="tag"><i></i>Our ventures</p><h1>Different industries,<br><em>distinct identities</em></h1><p class="line">A growing portfolio of independent brands, each with its own identity, purpose and ambition. Different experiences. One group.</p>
     <div class="vgrid" role="list" aria-label="Our ventures">
-      <a class="vc live" role="listitem" href="#" data-go="6" aria-label="Bun Bun Cafe: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/bun.webp" alt="Fresh croissants on baking paper" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40h32M10 40V28h28v12"/><path d="M10 28c3 3.5 6 3.5 9 0s6-3.5 9 0 6 3.5 10 0"/><path d="M24 28v-6"/><path d="M24 11c3 3.4 3.6 6 0 10-3.6-4-3-6.600 0-10z" fill="var(--em,#debd87)" stroke="none"/><path d="M16 34h16" opacity=".5"/></svg></span><span class="vc-st"><i></i><span class="vl">Open now</span><span class="vs">Open</span></span></span><span class="vc-tx"><span class="vc-n">01</span><b>Bun Bun Cafe</b><span class="vc-k">Food &amp; Beverage</span><small>Delicious treats and delightful food experiences.</small><span class="vc-d">Rebranding launch · Nov 29</span></span><u class="vc-go" aria-hidden="true">→</u></a>
+      <a class="vc soon" role="listitem" href="#" data-go="6" aria-label="Bun Bun Cafe: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/bun.webp?v=2" alt="Cookie dough balls baking in an oven" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40h32M10 40V28h28v12"/><path d="M10 28c3 3.5 6 3.5 9 0s6-3.5 9 0 6 3.5 10 0"/><path d="M24 28v-6"/><path d="M24 11c3 3.4 3.6 6 0 10-3.6-4-3-6.600 0-10z" fill="var(--em,#debd87)" stroke="none"/><path d="M16 34h16" opacity=".5"/></svg></span><span class="vc-st"><i></i><span class="vl">Coming soon</span><span class="vs">Soon</span></span></span><span class="vc-tx"><span class="vc-n">01</span><b>Bun Bun Cafe</b><span class="vc-k">Food &amp; Beverage</span><small>Delicious treats and delightful food experiences.</small></span><u class="vc-go" aria-hidden="true">→</u></a>
       <a class="vc soon" role="listitem" href="#" data-go="7" aria-label="Alven Studio: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/alven.webp" alt="Colour swatches and a design tablet" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 20v8h6l13 9V11L13 20z"/><path d="M26 11v26L13 28v-8z" fill="var(--em,#debd87)" opacity=".3" stroke="none"/><path d="M32 19a7 7 0 0 1 0 10M36.500 14.500a13 13 0 0 1 0 19"/><path d="M13 28l2 9h4l-2-7"/></svg></span><span class="vc-st"><i></i><span class="vl">Dec 6</span><span class="vs">Dec 6</span></span></span><span class="vc-tx"><span class="vc-n">02</span><b>Alven Studio</b><span class="vc-k">Creative &amp; Digital Marketing</span><small>Creative solutions that help brands build their identity and grow.</small><span class="vc-d">Brand launch · Dec 6</span></span><u class="vc-go" aria-hidden="true">→</u></a>
       <a class="vc soon" role="listitem" href="#" data-go="8" aria-label="House of Fovo: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/fovo.webp" alt="Close-up of a camera and lens" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="14" width="38" height="25" rx="5"/><path d="M16 14l2.500-5h11L32 14"/><circle cx="24" cy="26.500" r="8"/><circle cx="24" cy="26.500" r="3.600" fill="var(--em,#debd87)" stroke="none"/><circle cx="37" cy="19" r="1.400" fill="var(--em,#debd87)" stroke="none"/></svg></span><span class="vc-st"><i></i><span class="vl">Dec 13</span><span class="vs">Dec 13</span></span></span><span class="vc-tx"><span class="vc-n">03</span><b>House of Fovo</b><span class="vc-k">Photography &amp; Videography</span><small>Capturing stories, emotions and unforgettable moments.</small><span class="vc-d">Brand launch · Dec 13</span></span><u class="vc-go" aria-hidden="true">→</u></a>
       <a class="vc soon" role="listitem" href="#" data-go="9" aria-label="AJ Little Wonder World: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/little.webp" alt="Colourful wooden blocks stacked up" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="27" width="16" height="15" rx="3"/><rect x="26" y="27" width="16" height="15" rx="3"/><rect x="15" y="8" width="16" height="15" rx="3" transform="rotate(8 23 16)" fill="var(--em,#debd87)" opacity=".45"/></svg></span><span class="vc-st"><i></i><span class="vl long">Date to be announced</span><span class="vs">TBA</span></span></span><span class="vc-tx"><span class="vc-n">04</span><b>AJ Little Wonder World</b><span class="vc-k">Stories, Learning &amp; Play</span><small>Stories, learning videos and play, made for children and tried out with them.</small><span class="vc-d">Date to be announced</span></span><u class="vc-go" aria-hidden="true">→</u></a>
@@ -570,7 +602,7 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
       <a class="vc soon" role="listitem" href="#" data-go="13" aria-label="Digital Products: see the details" style="--c:#debd87"><span class="vc-img"><img src="assets/ventures/digital.webp" alt="An e-reader on a wooden table" loading="lazy" decoding="async" width="720" height="480"></span><span class="vc-top"><span class="vc-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="5" width="24" height="38" rx="4"/><rect x="17" y="12" width="14" height="4" rx="1" fill="var(--em,#debd87)" opacity=".5" stroke="none"/><path d="M17 22h14M17 28h14M17 34h8"/><circle cx="24" cy="39.500" r="1.200" fill="var(--em,#debd87)" stroke="none"/></svg></span><span class="vc-st"><i></i><span class="vl">Coming soon</span><span class="vs">Soon</span></span></span><span class="vc-tx"><span class="vc-n">08</span><b>Digital Products</b><span class="vc-k">Digital Products</span><small>Practical digital resources for everyday needs.</small></span><u class="vc-go" aria-hidden="true">→</u></a>
     </div>
   </article>
-  <article class="stop" data-i="4" data-c="#debd87"><p class="tag"><i></i>Bun Bun Cafe</p><h2>Food &amp; <em>Beverage</em></h2><p class="line">Delicious treats and delightful food experiences. Rebranding launch: November 29, 2026.</p><a class="enter" href="bunbun/">Enter Bun Bun Cafe →</a></article>
+  <article class="stop" data-i="4" data-c="#debd87"><p class="tag"><i></i>Bun Bun Cafe</p><h2>Food &amp; <em>Beverage</em></h2><p class="line">Delicious treats and delightful food experiences. Opening soon.</p><span class="enter" role="note" aria-disabled="true" style="pointer-events:none;opacity:.62">Coming soon</span></article>
   <article class="stop" data-i="5" data-c="#debd87"><p class="tag"><i></i>Alven Studio</p><h2>Creative &amp; <em>Digital Marketing</em></h2><p class="line">Creative solutions that help brands build their identity and grow. Brand launch: December 6, 2026.</p><a class="enter" href="#soon">Coming soon</a></article>
   <article class="stop" data-i="6" data-c="#debd87"><p class="tag"><i></i>House of Fovo</p><h2>Photography &amp; <em>Videography</em></h2><p class="line">Capturing stories, emotions and unforgettable moments. Brand launch: December 13, 2026.</p><a class="enter" href="#soon">Coming soon</a></article>
   <article class="stop" data-i="7" data-c="#debd87"><p class="tag"><i></i>AJ Little Wonder World</p><h2>Stories, learning <em>and play</em></h2><p class="line">Stories, learning videos and play, made for children and tried out with them. Launch date to be announced.</p><a class="enter" href="#soon">Coming soon</a></article>
@@ -583,7 +615,7 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <aside class="card" data-i="1"><small>About</small><b>AJ Groups</b><ul><li>Independent brands</li><li>Shared ambition</li><li>Diverse industries</li></ul></aside>
 <aside class="card" data-i="2"><small>Founder</small><b>Allwyn Jerold</b><ul><li>AJ Dynamics, 2022</li><li>Builds AJ Groups</li><li>Strong foundations</li></ul></aside>
 <aside class="card" data-i="4"><small>Our mission</small><b>Make every idea count</b><ul><li>Promising ideas into sustainable businesses</li><li>Brands that connect with people</li><li>Collaboration and innovation</li><li>Quality, trust and integrity</li></ul></aside>
-<aside class="card" data-i="6"><small>01 · Inside</small><b>Bun Bun Cafe</b><ul><li>Delicious treats</li><li>Food experiences</li><li>Rebranding launch Nov 29</li></ul></aside>
+<aside class="card" data-i="6"><small>01 · Inside</small><b>Bun Bun Cafe</b><ul><li>Delicious treats</li><li>Food experiences</li><li>Opening soon</li></ul></aside>
 <aside class="card" data-i="7"><small>02 · Inside</small><b>Alven Studio</b><ul><li>Brand identity</li><li>Creative solutions</li><li>Digital marketing</li></ul></aside>
 <aside class="card" data-i="8"><small>03 · Inside</small><b>House of Fovo</b><ul><li>Photography</li><li>Videography</li><li>Stories and moments</li></ul></aside>
 <aside class="card" data-i="9"><small>04 · Inside</small><b>AJ Little Wonder World</b><ul><li>Stories for children</li><li>Learning videos</li><li>Creative play</li></ul></aside>
@@ -594,6 +626,6 @@ html:not(.ready) .top,html:not(.ready) .dots{opacity:0!important}
 <form class="form" id="form" novalidate><h3>Talk <em>to us</em></h3><input type="text" name="_honey" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><label class="f"><input name="n" placeholder="Name" aria-label="Name" autocomplete="name" required></label><label class="f"><input name="e" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></label><label class="f"><select name="b" aria-label="What is this about"><option value="">What is this about?</option><option>Business enquiry</option><option>Partnership or collaboration</option><option>Career opportunity</option><option>Something else</option></select></label><label class="f"><textarea name="m" placeholder="Message" aria-label="Message"></textarea></label><button type="submit"><span>Send message</span><i aria-hidden="true">→</i></button><div class="thx" aria-live="polite" role="status"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-17"/></svg><b>Thank you</b><p>We reply within a working day.</p></div></form>
 <footer class="legal" id="legal">© 2026 AJ GROUPS. All rights reserved. · <a href="privacy/">Privacy</a> · <a href="terms/">Terms</a> · <a href="https://www.instagram.com/aj_dynamics_software_sol/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a></footer>
 <div class="spacer" aria-hidden="true"></div>
-<script type="module" src="main.js?v=85"></script>
+<script type="module" src="main.js?v=88"></script>
 </body>
 </html>

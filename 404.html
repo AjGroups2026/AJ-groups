@@ -12,8 +12,8 @@ h1{margin:0 0 8px;font-weight:300;font-size:clamp(44px,12vw,110px);letter-spacin
 </style>
 </head>
 <body><main><h1>Lost?</h1><p>We could not find that page. These are open:</p>
-<div class="row"><a href="/">AJ GROUPS</a><a class="g" id="a" href="/alven/">Alven Studio</a><a class="g" id="f" href="/fovo/">House of Fovo</a><a class="g" id="b" href="/bunbun/">Bun Bun Bakes</a></div></main>
+<div class="row"><a href="/">AJ GROUPS</a><a class="g" id="a" href="/alven/">Alven Studio</a><a class="g" id="f" href="/fovo/">House of Fovo</a></div></main>
 <script>/* work out the site's base folder, so the links also work while the site lives in a project folder */
 var parts=location.pathname.split('/').filter(Boolean),i=parts.findIndex(function(x){return['aj-groups','alven','fovo','bunbun','clothing'].indexOf(x)>-1}),base=i>0?'/'+parts.slice(0,i).join('/')+'/':(location.hostname.indexOf('github.io')>-1&&parts.length?'/'+parts[0]+'/':'/');
-[['a','alven/'],['f','fovo/'],['b','bunbun/']].forEach(function(p){document.getElementById(p[0]).href=base+p[1]});document.querySelector('.row a').href=base;</script></body>
+[['a','alven/'],['f','fovo/']].forEach(function(p){document.getElementById(p[0]).href=base+p[1]});document.querySelector('.row a').href=base;</script></body>
 </html>

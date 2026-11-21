@@ -24,7 +24,7 @@ const CH = [
   { s: 9, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 9, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1.05, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .07] },        /* our story */
   { s: 0, bg: [.205, .218, .295], w: 1, tint: [1, .9, .74], ox: 0, sc: 1.18, ps: 1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },
-  { s: 5, bg: [.205, .218, .295], w: 1, tint: [1, .86, .66], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, 1.5, 3.8], fe: [0, 0, .32, .02] },    /* bakery: glossy golden glaze */
+  { s: 10, bg: [.205, .218, .295], w: 1, tint: [1, .9, .74], ox: .24, sc: 1.28, ps: 1.1, ext: 1, abs: [.3, .6, 1.8], fe: [0, 0, 1, .07] },    /* Bun Bun: its own mark as a glass slab */
   { s: 1, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .68], ox: .24, sc: 1, ps: 1, ext: 1, abs: [4.6, 4.4, 3.0], absD: [0.25, 1.7, 3.2], fe: [0, 0, .45, .08] },     /* marketing: megaphone */
   { s: 2, bg: [.176, .188, .255], w: 1, tint: [.95, .96, 1], ox: .24, sc: 1, ps: 1, ext: 1.07, abs: [.7, .65, .5], fe: [0, 0, 1, .13] },     /* photography: clear crystal with colour fringes */
   { s: 6, bg: [.957, .945, .918], w: 0, tint: [.5, .54, .72], tintD: [1, .88, .66], ox: .24, sc: .95, ps: .95, ext: 1.1, abs: [4.6, 4.4, 3.0], absD: [0.2, 1.5, 2.5], fe: [0, 0, .4, .03] }, /* kids: toy blocks */
@@ -41,7 +41,8 @@ const U = { uTime: { value: 0 }, uAsp: { value: 1 }, uTan: { value: Math.tan(.5 
   uOff: { value: new THREE.Vector2() }, uSc: { value: 1 }, uApp: { value: 0 }, uRot: { value: new THREE.Vector2() }, uTheme: { value: 0 }, uAbsA: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uAbsB: { value: new THREE.Vector3(3.6, 2.6, 1.3) }, uFeA: { value: new THREE.Vector4(0, 0, 1, .07) }, uFeB: { value: new THREE.Vector4(0, 0, 1, .07) }, uSteps: { value: MOBILE ? 52 : 72 }, uInner: { value: MOBILE ? 22 : 34 }, uTr: { value: 0 }, uPx: { value: .003 }, uFade: { value: 0 }, uDark: { value: 0 } };
 /* the AJ logo as a 3D object: its silhouette becomes a signed-distance texture (built once, here) that the shader extrudes into a slab */
 U.uLogo = { value: Object.assign(new THREE.DataTexture(new Uint16Array([THREE.DataUtils.toHalfFloat(1)]), 1, 1, THREE.RedFormat, THREE.HalfFloatType), { needsUpdate: true }) }; U.uLogoOn = { value: 0 };
-(function () {
+U.uLogo2 = { value: Object.assign(new THREE.DataTexture(new Uint16Array([THREE.DataUtils.toHalfFloat(1)]), 1, 1, THREE.RedFormat, THREE.HalfFloatType), { needsUpdate: true }) }; U.uLogo2On = { value: 0 };   /* the Bun Bun mark, same treatment */
+const buildLogoSDF = function (src, done) {
   const N = 512, M = 512, UNIT = 2.5 / N, img = new Image();
   const dt1 = (f, n, d, v, z) => { let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20; for (let q = 1; q < n; q++) { let s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); while (s <= z[k]) { k--; s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); } k++; v[k] = q; z[k] = s; z[k + 1] = 1e20; } k = 0; for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; d[q] = (q - v[k]) * (q - v[k]) + f[v[k]]; } };
   const edt = (g) => { const f = new Float64Array(N), d = new Float64Array(N), v = new Int32Array(N), z = new Float64Array(N + 1);
@@ -61,15 +62,17 @@ U.uLogo = { value: Object.assign(new THREE.DataTexture(new Uint16Array([THREE.Da
       for (let y = 0; y < M; y++) for (let x = 0; x < M; x++) out[(M - 1 - y) * M + x] = THREE.DataUtils.toHalfFloat(bl[y * M + x]);   /* row 0 of a data texture is the bottom */
       const t = new THREE.DataTexture(out, M, M, THREE.RedFormat, THREE.HalfFloatType);
       t.minFilter = t.magFilter = THREE.LinearFilter; t.generateMipmaps = false; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.needsUpdate = true;
-      U.uLogo.value = t; U.uLogoOn.value = 1;
+      done(t);
     } catch (e) { /* no logo texture: the shape stays the orb */ }
   };
-  img.src = 'assets/brand/logo-silhouette.png';
-})();
+  img.src = src;
+};
+buildLogoSDF('assets/brand/logo-silhouette.png', t => { U.uLogo.value = t; U.uLogoOn.value = 1; });
+buildLogoSDF('assets/bunbun/logo-silhouette.png', t => { U.uLogo2.value = t; U.uLogo2On.value = 1; });
 const frag = /* glsl */`
 precision highp float;
 varying vec2 vUv;
-uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx, uFade, uLogoOn; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot; uniform sampler2D uLogo;
+uniform float uTime, uAsp, uTan, uA, uB, uW, uSc, uApp, uSteps, uInner, uDark, uTheme, uTr, uPx, uFade, uLogoOn, uLogo2On; uniform vec3 uBG, uTA, uTB, uAbsA, uAbsB; uniform vec4 uFeA, uFeB; uniform vec2 uOff, uRot; uniform sampler2D uLogo, uLogo2;
 float smin(float a, float b, float k){ float h = max(k - abs(a - b), 0.) / k; return min(a, b) - h * h * k * .25; }
 mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float sdRound(vec3 p, vec3 b, float r){ vec3 q = abs(p) - b; return length(max(q, 0.)) + min(max(q.x, max(q.y, q.z)), 0.) - r; }
@@ -106,6 +109,11 @@ float shape(int id, vec3 p){
   if (id == 9) {                                                                                                                                                /* the AJ monogram as a rounded 3D slab; falls back to the orb until the logo texture is ready */
     if (uLogoOn < .5) return length(p) - .92;
     vec2 q = p.xy; float d2 = texture2D(uLogo, q / 2.5 + .5).r - .032 + length(max(abs(q) - 1.25, 0.));
+    float h = .26, r = .11; vec2 w = vec2(d2 + r, abs(p.z) - h + r);
+    return min(max(w.x, w.y), 0.) + length(max(w, 0.)) - r; }
+  if (id == 10) {                                                                                                                                                /* the Bun Bun mark as a rounded 3D slab; falls back to the orb until the logo texture is ready */
+    if (uLogo2On < .5) return length(p) - .92;
+    vec2 q = p.xy; float d2 = texture2D(uLogo2, q / 2.5 + .5).r - .032 + length(max(abs(q) - 1.25, 0.));
     float h = .26, r = .11; vec2 w = vec2(d2 + r, abs(p.z) - h + r);
     return min(max(w.x, w.y), 0.) + length(max(w, 0.)) - r; }
   float d = sdTorus(p.xzy, 1.28, .07); return d;                                                                                                              /* contact: a ring */
@@ -221,6 +229,7 @@ function layout() {
     else { let ha = 0, bb = Infinity; for (let k = 1; k < LAST; k++) { if (k === IV || k === 2 || k === 3) continue; const h = stopEls[k].querySelector('h2'), b = stopEls[k].querySelector('.body'); if (h) ha = Math.max(ha, h.getBoundingClientRect().bottom); if (b) bb = Math.min(bb, b.getBoundingClientRect().top); }
       const a0 = ha + 8, b0 = bb - 8, mid = (a0 + b0) / 2, R = Math.min(W * .5, Math.max(80, (b0 - a0) / 2)); LY.zone = [mid - R, mid + R]; }
     const h8 = stopEls[LAST].querySelector('h2').getBoundingClientRect().bottom; LY.zone8 = [h8 + 10, cr.bottom - 14];
+    { const hg = stopEls[0].querySelector('.hglass'); LY.zone0 = null; if (hg) { const a0 = Math.max(tb + 10, stopEls[0].offsetTop + 46), b0 = stopEls[0].offsetTop + hg.offsetTop - 20, mid = (a0 + b0) / 2, R = Math.min(W * .42, (b0 - a0) / 2) / 1.1; if (R > 40) LY.zone0 = [mid - R, mid + R]; } }   /* the landing: the logo sits in the space above the hero card */
     fitLists(); const z = LY.zone8, zh = Math.max(226, Math.min(340, z[1] - z[0])); formEl.style.setProperty('--zh', zh + 'px'); formEl.style.setProperty('--zy', Math.max(z[0] + zh / 2, (z[0] + z[1]) / 2) + 'px'); }
 }
 fit(); addEventListener('resize', () => { fit(); layout(); });
@@ -250,16 +259,16 @@ let first = true, curIdx = -1, fa = 0, fn = 0, svPrev = 0, svS = 0, dragS = 0, d
 function frame() {
   const dt = Math.min(clock.getDelta(), .05), T = !isNaN(TFIX) ? TFIX : (RM ? 0 : clock.elapsedTime);
   if (!FIXED && !first && clock.elapsedTime > 3 && dt < .05) { fa += dt; fn++; if (fn >= 40) { const av = fa / fn; if (av > .024 && PR > PFLOOR) { PR = Math.max(PFLOOR, PR * .85); renderer.setPixelRatio(PR); fit(); } else if (av < .0185 && PR < PRMAX) { PR = Math.min(PRMAX, PR * 1.1); renderer.setPixelRatio(PR); fit(); } fa = 0; fn = 0; } }
-  frames++; if (!ready && frames > 3 && fontsOk) { ready = true; root.classList.add('ready'); }
+  frames++; if (!ready && frames > 3 && fontsOk) { ready = true; root.classList.add('ready'); setTimeout(() => root.classList.add('settled'), 4500); }
   if (ready && app < 1) app = Math.min(1, app + dt * .4);
   const target = !isNaN(PIN) ? clamp(PIN, 0, NS - 1) : LY.stack ? clamp(swF, 0, NS - 1) : clamp(scrollY / vh(), 0, NS - 1);
   sNow = first ? target : sNow + (target - sNow) * Math.min(1, dt * (LY.stack ? (swDrag ? 32 : 12) : 5.5));
   const i0 = Math.min(NS - 2, Math.floor(clamp(sNow, 0, NS - 1))), f = clamp(sNow - i0, 0, 1), w = sstep(.15, .85, f), A = CH[sNow >= NS - 1 ? NS - 1 : i0], B = CH[sNow >= NS - 1 ? NS - 1 : i0 + 1], ww = sNow >= NS - 1 ? 0 : w;
   U.uA.value = A.s; U.uB.value = B.s; U.uW.value = A.s === B.s ? 0 : ww;
   themeNow += (THEME - themeNow) * Math.min(1, dt * 3.2); const iA = sNow >= NS - 1 ? NS - 1 : i0, iB = sNow >= NS - 1 ? NS - 1 : i0 + 1;
-  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); const gl = (c, k) => c[k + 'D'] ? mix3(c[k], c[k + 'D'], themeNow) : c[k]; U.uTA.value.set(...gl(A, 'tint')); U.uTB.value.set(...gl(B, 'tint')); const kLogo = c => c.s === 9 ? (c.absD ? lerp(3.3, 1.4, themeNow) : 3.3) : 1; U.uAbsA.value.set(...gl(A, 'abs').map(v => v * kLogo(A))); U.uAbsB.value.set(...gl(B, 'abs').map(v => v * kLogo(B))); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
+  const bg = mix3(mix3(A.bg, B.bg, ww), mix3(DARK[iA], DARK[iB], ww), themeNow); U.uBG.value.set(...bg); const gl = (c, k) => c[k + 'D'] ? mix3(c[k], c[k + 'D'], themeNow) : c[k]; U.uTA.value.set(...gl(A, 'tint')); U.uTB.value.set(...gl(B, 'tint')); const kLogo = c => (c.s === 9 || c.s === 10) ? (c.absD ? lerp(3.3, 1.4, themeNow) : 3.3) : 1; U.uAbsA.value.set(...gl(A, 'abs').map(v => v * kLogo(A))); U.uAbsB.value.set(...gl(B, 'abs').map(v => v * kLogo(B))); U.uFeA.value.set(...A.fe); U.uFeB.value.set(...B.fe); U.uTheme.value = themeNow; U.uDark.value = 1 - lerp(A.w, B.w, ww);
   const asp = innerWidth / innerHeight, st = LY.stack;
-  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); const tOy = (1 - 2 * zc / innerHeight) * 4.6 * .32492, tSc = zr / ext / (.615 * innerHeight / 2), kk = first ? 1 : Math.min(1, dt * 9);   /* the orb eases to its place, so a late font or layout change never makes it jump */
+  if (st) { const z = sNow > LAST - .5 ? LY.zone8 : sNow < .5 && LY.zone0 ? LY.zone0 : LY.zone, zc = (z[0] + z[1]) / 2, zr = Math.min((z[1] - z[0]) / 2 * .96, innerWidth * .56), ext = lerp(A.ext, B.ext, ww); const tOy = (1 - 2 * zc / innerHeight) * 4.6 * .32492, tSc = zr / ext / (.615 * innerHeight / 2), kk = first ? 1 : Math.min(1, dt * 9);   /* the orb eases to its place, so a late font or layout change never makes it jump */
     U.uOff.value.set(0, lerp(U.uOff.value.y, tOy, kk)); U.uSc.value = lerp(U.uSc.value, tSc, kk); LY.rpx = 1.22 * ext * U.uSc.value * (.615 * innerHeight / 2); LY.zc = innerHeight * (1 - U.uOff.value.y / (4.6 * .32492)) / 2; }
   else { const oxx = lerp(A.ox, B.ox, ww) * .8, ex = lerp(A.ext, B.ext, ww), cxp = (.5 + .5 * 1.67 * oxx) * innerWidth; U.uOff.value.set(oxx, 0); U.uSc.value = Math.min(lerp(A.sc, B.sc, ww) * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (innerWidth - 10 - cxp) / (.615 * innerHeight / 2 * ex)); }
   /* the orb starts at 80% size and fades in, never as a speck: a tiny orb can't be drawn crisply and looks like a blur until it grows */
@@ -323,12 +332,13 @@ if (q.has('audit')) setTimeout(() => {
   if (document.documentElement.scrollWidth > W + 1) out.push('horizontal scroll ' + document.documentElement.scrollWidth);
   stopEls.forEach((el, k) => {
     stopEls.forEach((o, j) => o.classList.toggle('cur', j === k)); cards.forEach(c => c.classList.toggle('cur', +c.dataset.i === k)); { const _on = k === LAST; formEl.classList.toggle('on', _on); if (legalEl) legalEl.classList.toggle('on', _on); }
-    const c = CH[k], z = k === LAST ? LY.zone8 : LY.zone, uSc = phone ? Math.min((z[1] - z[0]) / 2 * .96, W * .56) / c.ext / (.615 * H / 2) : Math.min(c.sc * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (W - 10 - (.5 + .5 * 1.67 * c.ox * .8) * W) / (.615 * H / 2 * c.ext)), ox = phone ? 0 : c.ox * .8, oy = phone ? (1 - (z[0] + z[1]) / H) * 4.6 * .32492 : 0;
+    const c = CH[k], z = k === LAST ? LY.zone8 : k === 0 && LY.zone0 ? LY.zone0 : LY.zone, uSc = phone ? Math.min((z[1] - z[0]) / 2 * .96, W * .56) / c.ext / (.615 * H / 2) : Math.min(c.sc * (asp < 1.3 ? clamp(asp / 1.3 + .25) : 1), (W - 10 - (.5 + .5 * 1.67 * c.ox * .8) * W) / (.615 * H / 2 * c.ext)), ox = phone ? 0 : c.ox * .8, oy = phone ? (1 - (z[0] + z[1]) / H) * 4.6 * .32492 : 0;
     const cx = (.5 + .5 * 1.67 * ox) * W, cy = (.5 - .5 * oy / (4.6 * .32492)) * H, r = .615 * uSc * (H / 2) * c.ext, O = { left: cx - r, right: cx + r, top: cy - r, bottom: cy + r };
     if (phone) { const h2 = el.querySelector('h1,h2'), bd = el.querySelector('.body'), H2 = h2 && R(h2), BD = bd && getComputedStyle(bd).display !== 'none' ? R(bd) : null, nt = [];
       if (H2) { const sp = [...h2.querySelectorAll('.w')].map(R); if (sp.some(r => r.right > W - 6 || r.left < 6)) nt.push('headline off sides'); if (H2.top < hb) nt.push('headline under header'); if (BD && H2.bottom > BD.top + 2) nt.push('headline over panel'); }
       if (BD && (BD.bottom > H - 60 || BD.left < 6 || BD.right > W - 6)) nt.push('panel off/under dots'); { const SR = R(el); if (H2 && BD && H2.bottom > BD.top - 8) nt.push('headline touches text'); if (SR.top < hb) nt.push('card under header'); }
       if (k === LAST) { const F = R(formEl); const hh = el.querySelector('h2'), SC = R(el); if (hh && F.top < hh.getBoundingClientRect().bottom - 2) nt.push('form over headline'); if (F.bottom > SC.bottom - 8) nt.push('form past card'); if (F.bottom > H - 56 || F.left < 4 || F.right > W - 4) nt.push('form off'); }
+      if (k === 0) { const hg = el.querySelector('.hglass'); if (hg && O.bottom > el.offsetTop + hg.offsetTop + 4) nt.push('orb under hero card by ' + Math.round(O.bottom - el.offsetTop - hg.offsetTop)); }
       if (O.top < hb - 6 || O.bottom > H - 40) nt.push(`orb cut off (${Math.round(O.left)},${Math.round(O.top)},${Math.round(O.right)},${Math.round(O.bottom)})`);
       if (nt.length) out.push(k + ': ' + nt.join('; ')); return; }
     const S = R(el), cd = cards.find(x => +x.dataset.i === k), C = cd && getComputedStyle(cd).display !== 'none' ? R(cd) : null, ct = R(document.getElementById('count')), F = k === LAST ? R(formEl) : null, notes = [];
