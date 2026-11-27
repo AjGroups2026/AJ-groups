@@ -17,3 +17,22 @@ Checked 19 November 2026. Nothing here needs a payment, a subscription or permis
 Things to confirm yourself
 - Real photographs of Bun Bun products, bakers, Alven and Fovo work, and the founder must be your own or properly licensed.
 - A lawyer should read `privacy/` and `terms/` before launch. They are written in plain language for a small Indian business and have not been reviewed by a lawyer.
+
+## Bun Bun photos (assets/bunbun/menu/, assets/bunbun/plum/)
+AI-generated images supplied by the owner on 24 Nov 2026 (menu items and the six plum cake steps), background levelled to the brand cream. No third-party licence applies. Replace with Bun Bun's own photos when ready, and check they match what is actually baked.
+
+## Bun Bun new design review (`bunbun-new/vendor/`, 26 Nov 2026)
+- GSAP 3.12.5 and ScrollTrigger (GreenSock, standard no-charge licence, https://gsap.com/standard-license): animation and scroll effects.
+- Lenis 1.1.14 (MIT, darkroomengineering): smooth scrolling.
+- Matter.js 0.20.0 (MIT, Liam Brummitt): sprinkle physics.
+Downloaded from the jsDelivr npm CDN at pinned versions and self-hosted. Review the GSAP licence before the new design goes live.
+
+## Bun Bun stock photos (`assets/bunbun/stock/`, 27 Nov 2026)
+Free photos under the Unsplash License (https://unsplash.com/license: free to use, commercial use allowed, no attribution required; credited here anyway). Resized to WebP; `-sq` files are centre-cropped squares.
+- `brownie-pour`: Pushpak Dsilva, https://unsplash.com/photos/chocolate-brownies-with-pouring-sauce-2UeBOL7UD34
+- `brownie-plate`: Arwen, https://unsplash.com/photos/a-rich-chocolate-brownie-on-a-white-plate-yBNwcGFDqBk
+- `waffle`: Angelo Pantazis, https://unsplash.com/photos/waffle-on-pink-ceramic-plate-placed-on-wooden-table-TjulG6gR-CM
+- `flan`: Felippe Lopes, https://unsplash.com/photos/a-small-dessert-on-a-white-plate-on-a-wooden-table-TqPdzQ00I0U
+- `mousse`: Abhishek Hajare, https://unsplash.com/photos/brown-and-black-chocolate-cake-G0xaK8Lfdlg
+- `fruit-cake`: Prince Abid, https://unsplash.com/photos/sliced-cakes-on-plate-75chao-zJa4
+These are stock photos, not Bun Bun's own bakes. Replace them with real photos of Bun Bun's products before the site goes live.

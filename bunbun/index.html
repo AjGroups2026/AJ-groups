@@ -3,569 +3,124 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<script>location.replace("../");</script>
+<script>/* opens Sun 29 Nov 2026, 6:00 pm IST (12:30 UTC); until then only ?preview gets in */(function(){var open=Date.now()>=Date.UTC(2026,10,29,12,30);if(open){var m=document.querySelector('meta[name="robots"]');if(m)m.remove();}else if(!/[?&]preview(=|&|$)/.test(location.search))location.replace("../");})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bun Bun Bakes | Cakes baked for your moment</title>
-<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<meta name="description" content="Bun Bun Bakes: homemade-taste cakes for every occasion, designed by you and baked to order by real bakers. Part of AJ GROUPS.">
-<meta name="theme-color" content="#aab6cc">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
-<script>try{var P=new URLSearchParams(location.search),d=new Date(),xm=P.get("xmas")==="0"?false:(P.has("xmas")||(d.getMonth()===11&&d.getDate()<=26)),q=P.get("theme"),s=localStorage.getItem("bbtheme"),ok=xm?/^x[123]$/:/^[abc]$/,t=ok.test(q)?q:(ok.test(s)?s:(xm?"x1":"a"));document.documentElement.dataset.xmas=xm?"1":"0";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.xmas="0";document.documentElement.dataset.theme="a"}</script>
-<link rel="stylesheet" href="../assets/vt.css?v=5">
-<script src="../assets/vt.js?v=10"></script>
-<style>
-*{box-sizing:border-box}
-/* palette sampled from the branding document, Option 5 (blue) and Option 3 (navy) */
-:root{--blue:#aab6cc;--blue-l:#c8d1e1;--blue-xl:#e8edf5;--blue-d:#7f90b0;--blue-dd:#4d6290;--navy:#19253b;--cream:#fff0c1;--ink:#19253b;--mute:rgba(25,37,59,.72);--glass:rgba(255,255,255,.3);--line:rgba(25,37,59,.2);--disp:'Jost','Inter',system-ui,sans-serif;--pad:clamp(18px,3.6vw,56px)}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--blue);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(60% 50% at 16% 10%,#f0f3f9 0,transparent 70%),radial-gradient(55% 55% at 90% 32%,#8c9dbd 0,transparent 70%),radial-gradient(70% 60% at 40% 100%,#97a8c6 0,transparent 70%),var(--blue)}
-a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
-.mono{font-family:Inter,sans-serif;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:500}
-/* the real logo: exact artwork from the branding document, used as a mask so it can take any brand colour */
-.mk,.wm{display:block;background:var(--c,var(--cream));-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
-.mk{-webkit-mask-image:url(../assets/bunbun/logo-mark.png?v=2);mask-image:url(../assets/bunbun/logo-mark.png?v=2);aspect-ratio:453/354}
-.wm{-webkit-mask-image:url(../assets/bunbun/logo-word.png?v=2);mask-image:url(../assets/bunbun/logo-word.png?v=2);aspect-ratio:955/280}
-/* header */
-.top{position:fixed;z-index:30;top:0;left:0;right:0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:14px var(--pad)}.top .pill{justify-self:center}.btn{white-space:nowrap}
-.top::before{content:"";position:absolute;inset:0 0 -18px;background:linear-gradient(180deg,rgba(170,182,204,.78),rgba(170,182,204,0));pointer-events:none;z-index:-1}
-.logo{display:flex;align-items:center;gap:14px;text-decoration:none}.logo .mk{width:38px;--c:var(--navy)}.logo .wm{width:104px;--c:var(--navy)}
-.pill{display:flex;gap:2px;padding:5px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 10px 30px rgba(25,37,59,.1)}
-.pill a{font-size:12px;text-decoration:none;color:var(--navy);padding:8px 16px;border-radius:999px;transition:background .3s}.pill a:hover{background:rgba(255,255,255,.55)}
-.right{justify-self:end;display:flex;gap:10px;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 20px;border:0;border-radius:999px;background:var(--navy);color:var(--cream);font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background .3s}
-.btn:hover{box-shadow:0 12px 28px rgba(25,37,59,.32)}.btn.ghost{background:var(--glass);color:var(--navy);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-/* hero: the identity, no product, just the mark */
-.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:grid;place-items:center;text-align:center;padding:110px var(--pad) 120px}
-.hero .grid{position:absolute;inset:0;pointer-events:none}.hero .grid i{position:absolute;background:rgba(25,37,59,.16)}
-.hero .grid .v1{left:14%;top:0;bottom:0;width:1px}.hero .grid .v2{right:14%;top:0;bottom:0;width:1px}.hero .grid .h1{left:0;right:0;bottom:20%;height:1px}
-.hero .grid b{position:absolute;width:14px;height:14px;border:1px solid var(--navy);transform:rotate(45deg);opacity:.45}
-.lock{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(18px,3vw,34px)}
-.lock .disc{position:relative;width:min(70vw,440px);aspect-ratio:1;display:grid;place-items:center}
-.lock .disc::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(70% 70% at 32% 26%,#dde4f0,#bcc7da 60%,#aab6cc);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 40px 100px rgba(25,37,59,.2)}
-.lock .disc .mk{position:relative;width:62%;filter:drop-shadow(0 12px 22px rgba(25,37,59,.22))}
-.lock .disc svg{position:absolute;inset:-2%;width:104%;height:104%;animation:spin 46s linear infinite}
-.lock .disc text{font:600 12.6px Inter,sans-serif;letter-spacing:.3em;fill:var(--navy);opacity:.8}
-.lock .wm{width:min(70vw,520px);--c:var(--cream);filter:drop-shadow(0 6px 14px rgba(25,37,59,.18))}
-@keyframes spin{to{rotate:360deg}}
-.hero .tiny{position:absolute;z-index:3;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;line-height:1.9;color:var(--navy);font-weight:500}
-.t-a{left:var(--pad);top:110px;max-width:26ch;text-align:left}.t-b{right:var(--pad);bottom:96px;text-align:right}.t-c{left:var(--pad);bottom:96px;text-align:left}
-.cta-row{position:absolute;z-index:4;left:50%;bottom:34px;transform:translateX(-50%);display:flex;gap:10px;white-space:nowrap}
-#cake{position:absolute;left:50%;top:50%;width:640px;height:640px;z-index:1;pointer-events:none;transform-origin:50% 50%}
-/* sections */
-.sec{position:relative;padding:clamp(70px,10vw,150px) var(--pad) 0}
-.lab{display:inline-flex;align-items:center;gap:9px;color:var(--navy)}.lab::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--navy)}
-h2{margin:12px 0 0;font-family:var(--disp);font-weight:400;font-size:clamp(34px,5.2vw,80px);letter-spacing:-.03em;line-height:1;color:var(--navy)}
-h2 em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;color:var(--blue-dd);letter-spacing:-.02em}
-.sub{max-width:52ch;margin:16px 0 0;color:var(--mute);line-height:1.65;font-size:clamp(14px,1.2vw,17px)}
-/* studio */
-.builder{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(16px,2.4vw,36px);margin-top:clamp(26px,4vw,56px);align-items:start}
-.stage{position:sticky;top:78px;height:min(76vh,720px);border-radius:36px;overflow:hidden;background:radial-gradient(90% 80% at 50% 38%,rgba(255,255,255,.62),rgba(255,255,255,.1) 62%),linear-gradient(160deg,rgba(255,255,255,.4),rgba(255,255,255,.1));-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset 0 1.5px 0 #fff,0 30px 80px rgba(25,37,59,.16)}
-.stage .grid{position:absolute;inset:0;pointer-events:none}.stage .grid i{position:absolute;background:rgba(25,37,59,.14)}.stage .g1{left:12%;top:0;bottom:0;width:1px}.stage .g2{right:12%;top:0;bottom:0;width:1px}.stage .g3{left:0;right:0;bottom:16%;height:1px}
-#viewer{position:absolute;inset:0;cursor:grab;touch-action:pan-y}#viewer.drag{cursor:grabbing}
-.stage .corner{position:absolute;left:18px;top:16px;color:var(--navy)}.stage .hint{position:absolute;left:0;right:0;bottom:18px;text-align:center;color:var(--navy);pointer-events:none}
-.price{position:absolute;right:16px;top:12px;text-align:right;color:var(--navy);pointer-events:none;z-index:4}.price b{display:block;font-family:var(--disp);font-size:clamp(26px,3vw,40px);letter-spacing:-.03em;font-weight:500}
-.tools{position:absolute;right:14px;bottom:14px;display:flex;gap:8px;z-index:4}
-.tools button{height:38px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.7);color:var(--navy);font-size:12px;font-weight:500;cursor:pointer;box-shadow:inset 0 0 0 1px #fff;transition:background .3s,transform .3s cubic-bezier(.2,.8,.2,1)}.tools button:active{transform:scale(.94)}.tools button.on{background:var(--navy);color:var(--cream)}
-.panel{border-radius:36px;padding:clamp(18px,2.2vw,32px);background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(26px) saturate(1.6);backdrop-filter:blur(26px) saturate(1.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset 0 1.5px 0 #fff,0 30px 80px rgba(25,37,59,.14)}
-.step{padding:16px 0;border-top:1px solid rgba(25,37,59,.16)}.step:first-child{border-top:0;padding-top:0}
-.step h3{margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;font-family:var(--disp);font-weight:500;font-size:15px;color:var(--navy);letter-spacing:-.01em}.step h3 small{font:500 10.5px Inter;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:0;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9);color:var(--navy);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .3s,transform .35s cubic-bezier(.2,.8,.2,1),color .3s,box-shadow .3s}
-.chip:hover{transform:translateY(-2px)}.chip:active{transform:scale(.95)}.chip.on{background:var(--navy);color:var(--cream);box-shadow:0 8px 20px rgba(25,37,59,.3)}
-.chip i{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.16)}
-.msg{width:100%;padding:12px 16px;border:0;border-radius:16px;background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px #fff;outline:0;font-size:14px}.msg:focus{box-shadow:inset 0 0 0 2px var(--blue-dd)}
-.sum{margin-top:6px;padding:16px;border-radius:20px;background:rgba(255,255,255,.55);font-size:13px;line-height:1.6}
-.go{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-/* stage dressing */
-.bgword{position:absolute;left:0;right:0;top:22%;text-align:center;font-family:var(--disp);font-weight:300;font-size:clamp(70px,13vw,190px);letter-spacing:-.05em;line-height:.8;color:rgba(255,255,255,.55);white-space:nowrap;pointer-events:none}
-.hill{position:absolute;left:-10%;right:-10%;bottom:-30%;height:58%;border-radius:50% 50% 0 0/38% 38% 0 0;background:radial-gradient(80% 90% at 50% 0,#c4cee1,#9eaccb 70%);box-shadow:inset 0 10px 30px rgba(255,255,255,.55)}
-.float{position:absolute;inset:0;pointer-events:none;overflow:hidden}.float i{position:absolute;width:8px;height:8px;border-radius:50% 50% 50% 0;background:var(--c,#fff);opacity:.8;animation:fl var(--t,7s) ease-in-out infinite;animation-delay:var(--d,0s)}
-@keyframes fl{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-26px) rotate(160deg)}}
-.route{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .5s;z-index:2}.stage.ship .route{opacity:1}
-.status{position:absolute;left:50%;top:56px;translate:-50% 0;padding:9px 16px;border-radius:999px;background:var(--navy);color:var(--cream);opacity:0;transition:opacity .4s;white-space:nowrap;pointer-events:none;z-index:4}.status.on{opacity:1}
-.qty{display:inline-flex;align-items:center;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px #fff}.qty button{width:36px;height:36px;border-radius:50%;border:0;background:var(--navy);color:var(--cream);font-size:18px;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1)}.qty button:active{transform:scale(.88)}.qty b{min-width:32px;text-align:center;font-family:var(--disp)}
-.shipRow{display:flex;gap:8px;margin-top:10px}.shipRow .msg{flex:1}.shipMsg{margin:10px 0 0;font-size:13px;line-height:1.5;min-height:1.5em}.shipMsg.ok{color:#2f6b52}.shipMsg.no{color:#a2405a}
-.go .btn[disabled]{opacity:.6;pointer-events:none}
-/* occasions arc, each card a render of the real cake */
-.arc{position:relative;height:clamp(440px,52vw,610px);margin-top:clamp(18px,3vw,40px);overflow:hidden;border-radius:44px;touch-action:pan-y;cursor:grab;user-select:none;background:linear-gradient(160deg,rgba(255,255,255,.4),rgba(255,255,255,.1));box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
-.arc.drag{cursor:grabbing}
-.arcblob{position:absolute;left:50%;bottom:-38%;width:min(120%,1100px);aspect-ratio:1;translate:-50% 0;border-radius:50%;background:radial-gradient(60% 60% at 50% 30%,#cdd6e6,#a9b7d0 60%,#93a3c3)}
-.arcring{position:absolute;left:50%;bottom:-62%;width:min(150%,1200px);aspect-ratio:1;translate:-50% 0;animation:spin 60s linear infinite reverse;pointer-events:none}
-.arcring text{font:600 17px Inter,sans-serif;letter-spacing:.34em;fill:rgba(255,240,193,.95)}
-.arcrail{position:absolute;inset:0}
-.ac{position:absolute;left:50%;top:44%;width:clamp(150px,17vw,210px);aspect-ratio:.78;margin:calc(clamp(150px,17vw,210px)*-.64) 0 0 calc(clamp(150px,17vw,210px)*-.5);border-radius:28px;border:0;padding:10px 10px 14px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;cursor:pointer;background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.34));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px #fff,0 24px 50px rgba(25,37,59,.2);will-change:transform;transition:box-shadow .4s}
-.ac img{width:100%;flex:1;min-height:0;object-fit:contain;pointer-events:none}.ac b{font-family:var(--disp);font-weight:500;font-size:clamp(14px,1.4vw,18px);color:var(--navy);letter-spacing:-.01em}.ac small{display:block;font:500 10px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:2px}
-.ac.on{box-shadow:inset 0 0 0 2px #fff,0 30px 70px rgba(25,37,59,.32)}
-.arcpill{position:absolute;left:50%;bottom:20px;translate:-50% 0;z-index:5;height:42px;padding:0 20px;border:0;border-radius:999px;background:var(--navy);color:var(--cream);font-size:13px;font-weight:500;cursor:pointer;box-shadow:0 14px 30px rgba(25,37,59,.3);transition:transform .35s cubic-bezier(.2,.8,.2,1)}.arcpill:active{transform:scale(.94)}
-.arcnav{position:absolute;left:16px;right:16px;top:50%;display:flex;justify-content:space-between;pointer-events:none;z-index:4}.arcnav button{pointer-events:auto;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.7);color:var(--navy);font-size:18px;cursor:pointer;box-shadow:inset 0 0 0 1px #fff;transition:transform .3s cubic-bezier(.2,.8,.2,1)}.arcnav button:active{transform:scale(.9)}
-/* how, bakers, order */
-.how{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(26px,4vw,50px);border-top:1px solid var(--line)}
-.hw{padding:22px 18px 0 0;position:relative}.hw::before{content:"";position:absolute;left:0;top:-5px;width:9px;height:9px;border-radius:50%;background:var(--navy)}
-.hw b{font-family:var(--disp);font-weight:300;font-size:clamp(34px,4vw,56px);color:rgba(25,37,59,.3);letter-spacing:-.05em}.hw h3{margin:8px 0 6px;font-family:var(--disp);font-weight:500;font-size:18px;letter-spacing:-.01em}.hw p{margin:0;font-size:13.5px;line-height:1.6;color:var(--mute)}
-.bakers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:clamp(26px,4vw,50px)}
-.bk{padding:24px;border-radius:30px;background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 20px 50px rgba(25,37,59,.1)}
-.bk .av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#dfe6f2,var(--blue-l));font-family:var(--disp);font-weight:500;font-size:24px;box-shadow:inset 0 0 0 2px #fff}
-.bk h3{margin:16px 0 4px;font-family:var(--disp);font-weight:500;font-size:20px}.bk p{margin:0;font-size:13.5px;line-height:1.6;color:var(--mute)}
-.order{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,50px);align-items:start;margin-top:clamp(26px,4vw,50px)}
-form.f{display:grid;gap:12px}.f label span{display:block;margin:0 0 6px}.f input,.f select,.f textarea{width:100%;padding:13px 16px;border:0;border-radius:16px;background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px #fff;outline:0}.f input:focus,.f select:focus,.f textarea:focus{box-shadow:inset 0 0 0 2px var(--blue-dd)}.f textarea{min-height:90px;resize:vertical}.f .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.thanks{display:none;padding:18px;border-radius:20px;background:rgba(255,255,255,.7);font-size:14px;line-height:1.6}.thanks.on{display:block}
-.foot{margin-top:clamp(70px,10vw,140px);padding:26px var(--pad) 120px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);font-size:12px}.foot a{text-decoration:none}
-.draft{position:fixed;left:50%;top:70px;transform:translateX(-50%);z-index:29;padding:6px 14px;border-radius:999px;background:rgba(25,37,59,.86);color:var(--cream);font:500 10.5px Inter;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;white-space:nowrap}
-.rv{opacity:0;transform:translateY(40px);filter:blur(8px);transition:opacity .7s ease,transform .95s cubic-bezier(.16,1,.3,1),filter .7s ease;transition-delay:var(--rd,0s)}.rv.in{opacity:1;transform:none;filter:none}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
-@media (max-width:1180px){.pill{display:none}.top{grid-template-columns:1fr auto}}
-@media (max-width:1000px){.how{grid-template-columns:1fr 1fr;row-gap:30px}.bakers{grid-template-columns:1fr}.order{grid-template-columns:1fr}}
-@media (max-width:760px){
- .builder{grid-template-columns:1fr;gap:0}
- .stage{top:62px;height:44vh;border-radius:28px;z-index:5}.panel{margin-top:-20px;padding-top:34px;border-radius:30px 30px 36px 36px}
- .t-a{top:96px;max-width:20ch}.t-b,.t-c{display:none}.cta-row{bottom:92px}.draft{top:62px;font-size:9px;padding:5px 11px}
- .tools{right:10px;bottom:10px}.price{right:12px}.arc{height:470px;border-radius:32px}.ac{top:42%}.arcnav{display:none}.how{grid-template-columns:1fr}
- .logo .wm{display:none}.status{top:50px}.bgword{top:26%}.lock .disc{width:min(78vw,360px)}
-}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none;transition:none}.lock .disc svg,.arcring{animation:none}}
-
-/* readjustments */
-.dtag{padding:7px 11px;border-radius:999px;background:var(--navy);color:var(--cream);font-size:9.5px}
-.arcring{bottom:-78%;width:min(170%,1360px);opacity:.5}.arcring text{font-size:15px}
-.hero .lock{margin-top:-2vh}
-.stage{top:84px}
-.panel{min-width:0}
-@media (min-width:1001px){.builder{align-items:start}.stage{height:min(calc(100vh - 110px),720px)}}
-@media (max-width:760px){
- .dtag{padding:6px 9px;font-size:9px}
- .stage{top:66px;height:40vh;min-height:300px}
- .stage .hint{display:none}
- .tools{left:50%;right:auto;bottom:10px;translate:-50% 0;gap:6px;width:max-content;max-width:calc(100% - 20px)}
- .tools button{height:32px;padding:0 12px;font-size:11px}
- .price b{font-size:24px}.bgword{top:20%}
- .panel{margin-top:-16px;padding-top:30px}
- .arcring{bottom:-60%;width:min(200%,900px)}
- .cta-row{bottom:96px}
- .step h3{margin-bottom:8px}
-}
-
-/* ---------- colour directions A, B, C (switch in the header) ---------- */
-:root,:root[data-theme="a"]{--bg:#aab6cc;--bg1:#f0f3f9;--bg2:#8c9dbd;--bg3:#97a8c6;--bgtop:rgba(170,182,204,.78);--ink:#19253b;--mute:rgba(25,37,59,.72);--line:rgba(25,37,59,.2);--grid:rgba(25,37,59,.15);
- --glass:rgba(255,255,255,.3);--glass2:rgba(255,255,255,.55);--glass-b:rgba(255,255,255,.7);--shadow:rgba(25,37,59,.2);--btn:#19253b;--btn-ink:#fff0c1;--accent:#4d6290;
- --logo:#19253b;--hero-mk:#19253b;--hero-wm:#19253b;--ring:#19253b;--disc1:#e3e9f3;--disc2:#c3cde0;--disc3:#aab6cc;--stage-glow:rgba(255,255,255,.62);--bgword:rgba(255,255,255,.55);
- --hill1:#c4cee1;--hill2:#9eaccb;--arc1:#cdd6e6;--arc2:#a9b7d0;--arc3:#93a3c3;--arcring:rgba(255,240,193,.95);--card1:rgba(255,255,255,.72);--card2:rgba(255,255,255,.34);--hwnum:rgba(25,37,59,.3);--tc:#aab6cc}
-:root[data-theme="b"]{--bg:#19253b;--bg1:#34466f;--bg2:#0f1828;--bg3:#243558;--bgtop:rgba(25,37,59,.85);--ink:#f4efe0;--mute:rgba(244,239,224,.74);--line:rgba(244,239,224,.2);--grid:rgba(244,239,224,.14);
- --glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.11);--glass-b:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.42);--btn:#fff0c1;--btn-ink:#19253b;--accent:#aab6cc;
- --logo:#fff0c1;--hero-mk:#fff0c1;--hero-wm:#fff0c1;--ring:#aab6cc;--disc1:#3d5079;--disc2:#2b3c60;--disc3:#1f2d4b;--stage-glow:rgba(170,182,204,.3);--bgword:rgba(170,182,204,.2);
- --hill1:#6277a1;--hill2:#3f527c;--arc1:#36496f;--arc2:#293b60;--arc3:#1f2f50;--arcring:rgba(255,240,193,.9);--card1:rgba(255,255,255,.16);--card2:rgba(255,255,255,.06);--hwnum:rgba(244,239,224,.3);--tc:#19253b}
-:root[data-theme="c"]{--bg:#fff0c1;--bg1:#fffaf0;--bg2:#f6e0a0;--bg3:#fbe7ad;--bgtop:rgba(255,240,193,.85);--ink:#19253b;--mute:rgba(25,37,59,.72);--line:rgba(25,37,59,.2);--grid:rgba(25,37,59,.14);
- --glass:rgba(255,255,255,.45);--glass2:rgba(255,255,255,.7);--glass-b:rgba(255,255,255,.9);--shadow:rgba(120,95,30,.2);--btn:#19253b;--btn-ink:#fff0c1;--accent:#6f82ab;
- --logo:#19253b;--hero-mk:#fff0c1;--hero-wm:#19253b;--ring:#19253b;--disc1:#c3cde0;--disc2:#aab6cc;--disc3:#94a3c2;--stage-glow:rgba(255,255,255,.8);--bgword:rgba(170,182,204,.4);
- --hill1:#c8d1e1;--hill2:#aab6cc;--arc1:#c2cce0;--arc2:#aab6cc;--arc3:#93a3c3;--arcring:rgba(255,255,255,.95);--card1:rgba(255,255,255,.85);--card2:rgba(255,255,255,.5);--hwnum:rgba(25,37,59,.28);--tc:#fff0c1}
-body{background:var(--bg);color:var(--ink);transition:background .5s,color .5s}
-body::before{background:radial-gradient(60% 50% at 16% 10%,var(--bg1) 0,transparent 70%),radial-gradient(55% 55% at 90% 32%,var(--bg2) 0,transparent 70%),radial-gradient(70% 60% at 40% 100%,var(--bg3) 0,transparent 70%),var(--bg)}
-.top::before{background:linear-gradient(180deg,var(--bgtop),transparent)}
-.lab,h2,.step h3,.hw h3,.bk h3,.ac b,.price,.stage .corner,.stage .hint,.foot a,.bk .av{color:var(--ink)}
-.lab::before,.hw::before{background:var(--ink)}
-h2 em{color:var(--accent)}
-.sub,.hw p,.bk p,.ac small,.f label span{color:var(--mute)}
-.pill{background:var(--glass);box-shadow:inset 0 0 0 1px var(--glass-b),0 10px 30px var(--shadow)}
-.pill a{color:var(--ink)}.pill a:hover{background:var(--glass2)}
-.btn{background:var(--btn);color:var(--btn-ink)}
-.btn.ghost{background:var(--glass);color:var(--ink);box-shadow:inset 0 0 0 1px var(--glass-b)}
-.dtag{background:var(--btn);color:var(--btn-ink)}
-.logo .mk,.logo .wm{--c:var(--logo)}
-.lock .disc::before{background:radial-gradient(70% 70% at 32% 26%,var(--disc1),var(--disc2) 60%,var(--disc3));box-shadow:inset 0 0 0 1px var(--glass-b),0 40px 100px var(--shadow)}
-.lock .disc .mk{--c:var(--hero-mk)}.lock .wm{--c:var(--hero-wm)}
-.lock .disc text{fill:var(--ring)}
-.hero .grid i,.stage .grid i{background:var(--grid)}.hero .grid b{border-color:var(--ink)}.hero .tiny{color:var(--ink)}
-.stage{background:radial-gradient(90% 80% at 50% 38%,var(--stage-glow),transparent 62%),linear-gradient(160deg,var(--glass2),var(--glass));box-shadow:inset 0 0 0 1px var(--glass-b),inset 0 1.5px 0 var(--glass-b),0 30px 80px var(--shadow)}
-.bgword{color:var(--bgword)}
-.hill{background:radial-gradient(80% 90% at 50% 0,var(--hill1),var(--hill2) 70%)}
-.panel,.bk{background:linear-gradient(160deg,var(--glass2),var(--glass));box-shadow:inset 0 0 0 1px var(--glass-b),0 30px 80px var(--shadow)}
-.step{border-color:var(--line)}.how,.foot{border-color:var(--line)}
-.chip,.msg,.sum,.qty,.f input,.f select,.f textarea,.thanks,.tools button,.arcnav button{background:var(--glass2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--glass-b)}
-.msg::placeholder,.f input::placeholder,.f textarea::placeholder{color:var(--mute)}
-.chip.on,.tools button.on{background:var(--btn);color:var(--btn-ink)}
-.qty button,.arcpill,.status{background:var(--btn);color:var(--btn-ink)}
-.arc{background:linear-gradient(160deg,var(--glass2),var(--glass));box-shadow:inset 0 0 0 1px var(--glass-b)}
-.arcblob{background:radial-gradient(60% 60% at 50% 30%,var(--arc1),var(--arc2) 60%,var(--arc3))}
-.arcring text{fill:var(--arcring)}
-.ac{background:linear-gradient(160deg,var(--card1),var(--card2));box-shadow:inset 0 0 0 1px var(--glass-b),0 24px 50px var(--shadow)}
-.hw b{color:var(--hwnum)}
-.route #routep{stroke:var(--ink)}.route text{fill:var(--ink)}.route #pinA circle,.route #pinB path{fill:var(--ink)}.route #scoot circle{fill:var(--btn-ink);stroke:var(--ink)}.route #scoot path{stroke:var(--ink)}
-.shipMsg.ok{color:#2f8f6a}:root[data-theme="b"] .shipMsg.no{color:#f19aa9}:root[data-theme="b"] .shipMsg.ok{color:#8fe0bd}
-/* the switch */
-.sw{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--glass-b);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-.sw button{width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--ink);font:600 12px Inter,sans-serif;cursor:pointer;display:grid;place-items:center;transition:background .3s,color .3s,transform .3s cubic-bezier(.2,.8,.2,1)}
-.sw button:hover{transform:translateY(-1px)}.sw button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
-@media (max-width:760px){.sw button{width:26px;height:26px;font-size:11px}.dtag{display:none}}
-@media (prefers-reduced-motion:reduce){body{transition:none}}
-
-/* named looks */
-.sw{gap:2px;padding:3px}
-.sw button{width:auto;height:32px;padding:0 13px 0 5px;border-radius:999px;display:flex;align-items:center;gap:8px;font:500 12px Inter,sans-serif;white-space:nowrap}
-.sw button i{width:22px;height:22px;border-radius:50%;background:var(--sw);box-shadow:inset 0 0 0 1px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.12);flex:none}
-@media (max-width:1180px){.sw button span{display:none}.sw button[aria-pressed="true"] span{display:inline}.sw button{padding:0 5px}.sw button[aria-pressed="true"]{padding:0 12px 0 5px}}
-@media (max-width:760px){.sw button{height:28px}.sw button i{width:19px;height:19px}.sw button span{font-size:11px}}
-
-/* packaging collage */
-.pk{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.6vw,22px);margin-top:clamp(26px,4vw,52px);align-items:stretch}
-.pkf{position:relative;margin:0;border-radius:30px;overflow:hidden;background:var(--glass2);box-shadow:inset 0 0 0 1px var(--glass-b),0 24px 60px var(--shadow);isolation:isolate}
-.pkf img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
-.pkf:hover img{transform:scale(1.05)}
-.pkf figcaption{position:absolute;left:12px;bottom:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 14px;border-radius:999px;background:var(--glass2);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 0 0 1px var(--glass-b);color:var(--ink);font-size:12px}
-.pkf figcaption b{font-family:var(--disp);font-weight:500;font-size:13px}.pkf figcaption span{color:var(--mute);font-size:11px;text-align:right}
-.p-set{grid-column:1/8;aspect-ratio:16/10}.p-cups{grid-column:8/13;aspect-ratio:1}.p-carrier{grid-column:1/5;aspect-ratio:1}.p-coaster{grid-column:5/9;aspect-ratio:1}.p-shop{grid-column:9/13;aspect-ratio:1}
-.p-set img{object-position:50% 60%}
-@media (max-width:760px){.p-set{grid-column:1/-1;aspect-ratio:4/3}.p-cups,.p-carrier,.p-coaster,.p-shop{grid-column:span 6;aspect-ratio:.9}.p-shop{grid-column:1/-1;aspect-ratio:1.3}.pkf figcaption span{display:none}}
-
-/* menu */
-.mtabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin-top:clamp(22px,3vw,40px);scrollbar-width:none;-webkit-overflow-scrolling:touch}.mtabs::-webkit-scrollbar{display:none}.mtabs .chip{flex:none}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:clamp(12px,1.6vw,20px);margin-top:12px}
-.mc{display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,var(--glass2),var(--glass));-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 0 0 1px var(--glass-b),0 20px 50px var(--shadow);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
-.mc:hover{transform:translateY(-5px)}
-.mi{position:relative;aspect-ratio:1;background:radial-gradient(70% 70% at 50% 40%,var(--stage-glow),transparent 70%);display:grid;place-items:center}
-.mi::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,var(--glass-b) 50%,transparent 70%);background-size:220% 100%;animation:shim 1.6s linear infinite;opacity:.6}.mi.ok::after{display:none}
-@keyframes shim{from{background-position:120% 0}to{background-position:-120% 0}}
-.mi img{width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .5s,transform 1s cubic-bezier(.2,.8,.2,1)}.mi.ok img{opacity:1}.mc:hover .mi img{transform:scale(1.05)}
-.mt{padding:6px 18px 0}.mt h3{margin:0;font-family:var(--disp);font-weight:500;font-size:18px;letter-spacing:-.01em}.mt p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--mute);min-height:3em}
-.mb{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px 16px 18px;margin-top:auto}
-.mp{font-family:var(--disp);font-weight:500;font-size:17px}.mp small{font:400 11px Inter;color:var(--mute)}
-.add{border:0;height:36px;padding:0 18px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-size:13px;font-weight:500;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1)}.add:active{transform:scale(.92)}
-.oq{display:inline-flex;align-items:center;gap:4px;padding:3px;border-radius:999px;background:var(--glass2);box-shadow:inset 0 0 0 1px var(--glass-b)}.oq button{width:30px;height:30px;border:0;border-radius:50%;background:var(--btn);color:var(--btn-ink);font-size:16px;cursor:pointer}.oq b{min-width:24px;text-align:center;font-size:14px}
-/* order lines */
-.ol{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}.ol:first-child{border-top:0}.ol small{opacity:.65;font-size:11px}.ol .op{font-weight:600;min-width:70px;text-align:right}.ol.cake{align-items:start}.ol.tot{font-weight:600;font-size:15px;border-top:1px solid var(--ink)}
-.bagn{display:none;margin-left:6px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font:600 10.5px/18px Inter;text-align:center}.has .bagn{display:inline-block}
-.mo-dock a[data-n]::after{content:attr(data-n);position:absolute;top:2px;right:10px;min-width:16px;height:16px;border-radius:999px;background:#fff0c1;color:#19253b;font:700 10px/16px Inter;text-align:center}.mo-dock a[data-n=""]::after{display:none}
-.toast{position:fixed;left:50%;bottom:96px;translate:-50% 14px;z-index:60;padding:11px 18px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-size:13px;opacity:0;pointer-events:none;transition:opacity .3s,translate .4s cubic-bezier(.2,.8,.2,1);max-width:90vw;text-align:center}.toast.on{opacity:1;translate:-50% 0}
-@media (min-width:761px){.toast{bottom:28px}}
-@media (max-width:520px){.mgrid{grid-template-columns:1fr 1fr}.mt h3{font-size:15px}.mt p{font-size:12px}.mc{border-radius:22px}.mb{flex-wrap:wrap;padding:10px 12px 14px}.mp{font-size:15px}}
-@media (prefers-reduced-motion:reduce){.mi::after{animation:none}}
-
-/* real photographs on the menu */
-.mi.photo{background:radial-gradient(75% 70% at 50% 45%,#fff,transparent 72%)}.mi.photo img{object-fit:contain;padding:7%;filter:drop-shadow(0 22px 22px rgba(25,37,59,.3))}
-
-
-/* ---------- Christmas looks: complementary pairs drawn from the plum cake ---------- */
-:root{--snow:rgba(255,255,255,.75)}
-/* Plum & Gold: deep plum with gold (purple against yellow) */
-:root[data-theme="x1"]{--bg:#2a1020;--bg1:#6a2f55;--bg2:#190812;--bg3:#3f1731;--bgtop:rgba(42,16,32,.86);--ink:#f8efdc;--mute:rgba(248,239,220,.76);--line:rgba(248,239,220,.2);--grid:rgba(248,239,220,.14);
- --glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.11);--glass-b:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.45);--btn:#e0b863;--btn-ink:#2a1020;--accent:#ecc97c;
- --logo:#f3d98e;--hero-mk:#f3d98e;--hero-wm:#f3d98e;--ring:#d8b66a;--disc1:#74365d;--disc2:#4d2040;--disc3:#34142a;--stage-glow:rgba(224,184,99,.26);--bgword:rgba(224,184,99,.17);
- --hill1:#82426b;--hill2:#53243f;--arc1:#5d2a4a;--arc2:#44193a;--arc3:#31112a;--arcring:rgba(243,217,142,.92);--card1:rgba(255,255,255,.15);--card2:rgba(255,255,255,.05);--hwnum:rgba(248,239,220,.3);--tc:#2a1020}
-/* Holly & Cranberry: forest green with cranberry red (opposites on the colour wheel) */
-:root[data-theme="x2"]{--bg:#12301f;--bg1:#2f7048;--bg2:#091a10;--bg3:#1e4b31;--bgtop:rgba(18,48,31,.86);--ink:#f7f1e2;--mute:rgba(247,241,226,.76);--line:rgba(247,241,226,.2);--grid:rgba(247,241,226,.14);
- --glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.11);--glass-b:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.45);--btn:#c8283d;--btn-ink:#fff6ee;--accent:#ff9aa8;
- --logo:#fff3d6;--hero-mk:#fff3d6;--hero-wm:#fff3d6;--ring:#f6c9d0;--disc1:#3f865a;--disc2:#2a6245;--disc3:#18432d;--stage-glow:rgba(255,255,255,.2);--bgword:rgba(255,255,255,.14);
- --hill1:#43905f;--hill2:#215c3c;--arc1:#327552;--arc2:#245b3f;--arc3:#18452f;--arcring:rgba(255,214,220,.92);--card1:rgba(255,255,255,.15);--card2:rgba(255,255,255,.05);--hwnum:rgba(247,241,226,.3);--tc:#fff6ee}
-/* Icing & Rum: cream icing with rum brown, cranberry and holly as the accents */
-:root[data-theme="x3"]{--bg:#fbf6ec;--bg1:#ffffff;--bg2:#efdfc4;--bg3:#f4e5cc;--bgtop:rgba(251,246,236,.88);--ink:#2b170d;--mute:rgba(43,23,13,.72);--line:rgba(43,23,13,.2);--grid:rgba(43,23,13,.14);
- --glass:rgba(255,255,255,.55);--glass2:rgba(255,255,255,.78);--glass-b:#fff;--shadow:rgba(110,60,20,.2);--btn:#2b170d;--btn-ink:#fbf6ec;--accent:#a31d2e;
- --logo:#2b170d;--hero-mk:#a31d2e;--hero-wm:#2b170d;--ring:#1e5a2d;--disc1:#f8dde0;--disc2:#edbdc5;--disc3:#df9aa5;--stage-glow:rgba(255,255,255,.9);--bgword:rgba(163,29,46,.12);
- --hill1:#ecd0aa;--hill2:#cf9f66;--arc1:#f1d7bd;--arc2:#e2bd92;--arc3:#cf9f66;--arcring:rgba(163,29,46,.85);--card1:rgba(255,255,255,.92);--card2:rgba(255,255,255,.62);--hwnum:rgba(43,23,13,.25);--tc:#fbf6ec;--snow:rgba(130,150,185,.7)}
-:root[data-theme="x3"] .shipMsg.no{color:#a31d2e}:root[data-theme="x3"] .shipMsg.ok{color:#1e5a2d}
-:root[data-theme^="x"][data-theme="x1"] .shipMsg.no,:root[data-theme="x2"] .shipMsg.no{color:#ffb3bd}:root[data-theme="x1"] .shipMsg.ok,:root[data-theme="x2"] .shipMsg.ok{color:#a8e6b9}
-
-
-a.logo.mo-cur{background:none!important}
-/* ---------- hero polish: quiet, the logo does the talking ---------- */
-.hero::before{content:"";position:absolute;left:50%;top:46%;width:min(110vw,980px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:radial-gradient(closest-side,var(--stage-glow),transparent 70%);pointer-events:none;opacity:.7}
-.lock .disc .mk{filter:drop-shadow(0 14px 26px var(--shadow))}
-.lock .disc svg{animation-duration:90s}
-.lock .wm{background-image:linear-gradient(105deg,var(--c) 0 44%,color-mix(in srgb,var(--c) 55%,#fff) 50%,var(--c) 56% 100%);background-size:280% 100%;background-color:transparent;animation:sheen 9s ease-in-out infinite}
-@keyframes sheen{0%,40%{background-position:100% 0}85%,100%{background-position:0 0}}
-a.logo.mo-cur{background:none!important}
-.lock .disc{width:min(70vw,440px,46vh)}.lock .wm{width:min(70vw,520px,62vh)}.lock{gap:clamp(12px,2.4vh,30px)}
-@media (prefers-reduced-motion:reduce){.lock .wm{animation:none}}
-/* ---------- christmas demo ---------- */
-.pill a{white-space:nowrap}
-.xgift label[hidden]{display:none}
-.xdemo{position:fixed;left:50%;bottom:6px;translate:-50% 0;z-index:25;padding:5px 12px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-size:9px;pointer-events:none;white-space:nowrap;opacity:.9}
-@media (max-width:760px){.xdemo{bottom:auto;top:62px}}
-.xg{display:grid;grid-template-columns:1fr 1.4fr 1.2fr;gap:14px;margin-top:clamp(22px,3vw,40px)}
-.xc{border-radius:28px;padding:20px;background:linear-gradient(160deg,var(--glass2),var(--glass));-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 0 0 1px var(--glass-b),0 20px 50px var(--shadow)}
-.xc h3{margin:0 0 12px;font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:-.02em}
-.cd{font-family:var(--disp);font-weight:300;font-size:clamp(34px,4vw,56px);letter-spacing:-.04em;line-height:1.1;margin:8px 0 4px}
-.xn p{margin:8px 0 0;font-size:13px;line-height:1.6;color:var(--mute)}
-.bt{margin-top:12px}.bt:first-of-type{margin-top:10px}.bt .r{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}.bt .r small{color:var(--mute)}
-.bt .bar{height:8px;border-radius:99px;background:var(--glass2);box-shadow:inset 0 0 0 1px var(--glass-b);overflow:hidden}.bt .bar i{display:block;height:100%;border-radius:99px;background:var(--btn);width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.xt{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:start}
-.xgift{display:grid;gap:10px}.xgift label{display:block}.xgift label span.mono{display:block;margin-bottom:5px;color:var(--mute)}.gr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.xgift input,.xgift select,.xwish input{width:100%;padding:12px 14px;border:0;border-radius:14px;background:var(--glass2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--glass-b);outline:0;font-size:14px}.xgift input:focus,.xgift select:focus,.xwish input:focus{box-shadow:inset 0 0 0 2px var(--accent)}
-.xgift .gc{display:flex;gap:10px;align-items:center;font-size:13px}.xgift .gc input{width:auto}.gm{margin:0;font-size:13px;min-height:1.4em;color:var(--mute)}
-.xwish canvas{width:100%;max-width:360px;aspect-ratio:4/5;display:block;margin:0 auto 12px;border-radius:18px;box-shadow:0 18px 40px var(--shadow)}
-#snow{position:fixed;inset:0;z-index:7;pointer-events:none}
-@media (max-width:900px){.xg{grid-template-columns:1fr}.xt{grid-template-columns:1fr}}
-
-/* ---------- glass system: one recipe for every surface, over a soft blurred backdrop ---------- */
-:root{--gl-blur:blur(26px) saturate(1.65);--gl-hi:inset 0 1.5px 0 rgba(255,255,255,.3),inset 0 0 0 1px var(--glass-b),inset 0 -1px 0 rgba(0,0,0,.12)}
-#gfx{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-#gfx i{position:absolute;border-radius:50%;will-change:transform}
-#gfx .o1{left:-14vmax;top:-12vmax;width:64vmax;height:64vmax;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent,var(--bg1)) 30%,transparent),transparent 72%);animation:dr1 48s ease-in-out infinite alternate}
-#gfx .o2{right:-18vmax;top:20vh;width:60vmax;height:60vmax;background:radial-gradient(closest-side,color-mix(in srgb,var(--disc1,var(--bg1)) 80%,transparent),transparent 72%);animation:dr2 60s ease-in-out infinite alternate}
-#gfx .o3{left:16vw;bottom:-28vmax;width:72vmax;height:72vmax;background:radial-gradient(closest-side,color-mix(in srgb,var(--bg1) 70%,transparent),transparent 72%);animation:dr3 54s ease-in-out infinite alternate}
-#gfx .gm{right:-8vw;bottom:-6vh;width:min(72vw,820px);height:auto;aspect-ratio:453/354;border-radius:0;background:var(--accent,var(--ink));opacity:.07;filter:blur(56px)}
-@keyframes dr1{to{transform:translate3d(9vw,7vh,0) scale(1.08)}}@keyframes dr2{to{transform:translate3d(-10vw,-9vh,0) scale(.94)}}@keyframes dr3{to{transform:translate3d(8vw,-8vh,0) scale(1.1)}}
-.pill,.sw,.btn.ghost,.panel,.stage,.arc,.bk,.xc,.mc,.chip,.sum,.ac,.pkf figcaption,.hw,.foot{-webkit-backdrop-filter:var(--gl-blur);backdrop-filter:var(--gl-blur)}
-.pill,.sw,.btn.ghost,.chip{box-shadow:var(--gl-hi),0 10px 30px var(--shadow)}
-.panel,.bk,.xc,.mc,.stage,.arc,.hw{box-shadow:var(--gl-hi),0 30px 80px var(--shadow)}
-.panel,.bk,.xc,.mc,.hw{background:linear-gradient(160deg,rgba(255,255,255,.14),transparent 46%),linear-gradient(160deg,var(--glass2),var(--glass))}
-.hw{padding:26px 22px 22px;border-radius:28px}.hw::before{left:22px;top:12px;width:7px;height:7px}.hw h3{margin-top:6px}
-@media (max-width:760px){:root{--gl-blur:blur(16px) saturate(1.4)}#gfx .gm{display:none}#gfx .o1,#gfx .o2,#gfx .o3{animation-duration:90s}}
-@media (prefers-reduced-motion:reduce){#gfx i{animation:none}}
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.pill,.sw,.btn.ghost,.panel,.bk,.xc,.mc,.hw,.chip{background:color-mix(in srgb,var(--bg) 84%,var(--ink) 8%)}}
-
-/* ---------- share, delivery map, saved dates ---------- */
-.shm{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(10,6,12,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}.shm[hidden]{display:none}
-.shb{position:relative;width:min(100%,420px);max-height:92vh;overflow:auto;padding:22px;border-radius:30px;background:linear-gradient(160deg,var(--glass2),var(--glass));box-shadow:var(--gl-hi),0 40px 90px var(--shadow);-webkit-backdrop-filter:var(--gl-blur);backdrop-filter:var(--gl-blur);text-align:center;color:var(--ink)}
-.shb img{display:block;width:min(100%,270px);height:auto;margin:6px auto 16px;border-radius:18px;box-shadow:0 18px 40px var(--shadow)}
-.shx{position:absolute;right:14px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:var(--glass2);color:var(--ink);cursor:pointer;box-shadow:inset 0 0 0 1px var(--glass-b)}
-.shr{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.shr .btn{min-height:40px}.shmsg{margin:12px 0 0;font-size:12px;color:var(--mute);min-height:1.4em}
-.sharedb{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:18px 0 0;padding:14px 18px;font-size:14px}
-.dmap{display:none;margin-top:12px;padding:12px;border-radius:22px;background:var(--glass2);box-shadow:var(--gl-hi)}.dmap.on{display:block}.dmap.off{display:none!important}
-.dsvg svg{display:block;width:100%;height:auto;border-radius:14px}.dflow{animation:dflow 1.1s linear infinite}@keyframes dflow{to{stroke-dashoffset:-18}}
-.dmeta{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:10px}.dmeta div{display:grid;gap:2px}.dmeta span{font-size:10px;opacity:.7}.dmeta b{font-weight:500;font-size:14px}
-.dslots{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.dslots .chip{padding:7px 11px;font-size:12px}.dnote{margin:10px 0 0;font-size:11px;line-height:1.5;color:var(--mute)}
-.rm{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:14px;margin-top:clamp(22px,3vw,40px);align-items:start}
-.rmf{display:grid;gap:12px}.rr{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}.rchk{display:flex;align-items:center;gap:8px;font-size:13px;padding-bottom:12px}.rchk input{width:auto}.rmq{opacity:.7;margin-top:4px}
-.rml{display:grid;gap:12px}.rmi{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}.rmc{text-align:center;min-width:64px}.rmc b{display:block;font-family:var(--disp);font-weight:300;font-size:clamp(38px,4vw,54px);letter-spacing:-.04em;line-height:1}.rmc span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
-.rmt h4{margin:0 0 3px;font-family:var(--disp);font-weight:500;font-size:19px;letter-spacing:-.02em}.rmt p{margin:0 0 8px;font-size:13px;color:var(--mute)}.rmt small{display:block;margin-top:6px;font-size:12px;color:var(--mute)}
-.rmpill{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11px;letter-spacing:.06em;background:var(--glass2);box-shadow:inset 0 0 0 1px var(--glass-b)}
-.st-urgent .rmpill{background:var(--btn);color:var(--btn-ink)}.st-soon .rmpill{box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent)}.st-late{opacity:.82}
-.rma{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.rma button{height:36px;padding:0 14px;border-radius:999px;border:0;cursor:pointer;font-size:12px;font-weight:500;background:var(--glass2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--glass-b)}.rma button[data-a="design"]{background:var(--btn);color:var(--btn-ink)}
-.rmempty{font-size:14px;color:var(--mute)}
-@media (max-width:900px){.rm{grid-template-columns:1fr}.rr{grid-template-columns:1fr}}
-
-/* ---------- phone fixes: order form, demo tag, cake card ---------- */
-.f label,.order>*{min-width:0}.f input,.f select,.f textarea{min-width:0;max-width:100%;box-sizing:border-box}
-.f input[type="date"]{-webkit-appearance:none;appearance:none;min-height:48px;display:block}
-.f .row,.rr{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-@media (max-width:1000px){.order{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:760px){
- .stage{top:60px;height:33svh;min-height:240px}
- .p-shop{grid-column:span 6;aspect-ratio:.9}
- .xdemo{position:absolute;top:64px;bottom:auto;left:50%;translate:-50% 0;font-size:9px}
- .f .row{grid-template-columns:minmax(0,1fr)}.rr{grid-template-columns:minmax(0,1fr)}
- .f input,.f select,.f textarea{font-size:16px}
- .stage{background:linear-gradient(160deg,color-mix(in srgb,var(--bg) 70%,transparent),color-mix(in srgb,var(--bg) 52%,transparent))}
-}
-
-/* ---------- order tracker ---------- */
-.sec[hidden]{display:none}
-.trk{margin-top:clamp(22px,3vw,40px);padding:clamp(18px,3vw,32px)}
-.trkhead{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:clamp(22px,3vw,34px)}.trkhead div{display:grid;gap:3px}.trkhead span{font-size:10px;opacity:.7}.trkhead b{font-family:var(--disp);font-weight:500;font-size:clamp(16px,1.6vw,20px);letter-spacing:-.01em}
-.trksteps{--n:7;--p:0;list-style:none;margin:0;padding:0;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px}
-.trkline{position:absolute;left:calc(50% / var(--n));right:calc(50% / var(--n));top:22px;height:3px;border-radius:3px;background:var(--line)}.trkline i{display:block;height:100%;width:calc(var(--p) * 100%);border-radius:3px;background:var(--accent);transition:width 1s cubic-bezier(.2,.8,.2,1)}
-.trs{position:relative;z-index:1;display:grid;justify-items:center;gap:9px;text-align:center}.trs b{font-weight:500;font-size:12px;line-height:1.3;max-width:11ch;opacity:.6;transition:opacity .4s}
-.tri{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--glass2);box-shadow:var(--gl-hi);transition:background .5s,color .5s,transform .5s cubic-bezier(.34,1.56,.64,1)}.tri svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.trs.done .tri{background:var(--accent);color:var(--bg)}.trs.done b,.trs.now b{opacity:1}
-.trs.now .tri{background:var(--btn);color:var(--btn-ink);transform:scale(1.14);animation:trkpulse 1.8s ease-in-out infinite}
-@keyframes trkpulse{0%,100%{box-shadow:var(--gl-hi),0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}50%{box-shadow:var(--gl-hi),0 0 0 12px transparent}}
-.trknow{margin:clamp(20px,3vw,30px) 0 0;font-family:var(--disp);font-weight:400;font-size:clamp(18px,2vw,26px);letter-spacing:-.02em;line-height:1.35}
-.trkdemo{margin:8px 0 0;font-size:12px;color:var(--mute);line-height:1.5}
-.trkbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:18px}.trkfind{display:flex;gap:8px;flex:1 1 280px;max-width:420px}.trkfind .msg{flex:1;min-width:0}
-@media (max-width:760px){
- .trkhead{grid-template-columns:1fr 1fr}.trkhead div:last-child{grid-column:1/-1}
- .trksteps{grid-template-columns:minmax(0,1fr);gap:14px}
- .trkline{left:22px;right:auto;top:22px;bottom:22px;width:3px;height:auto}.trkline i{width:100%;height:calc(var(--p) * 100%)}
- .trs{grid-template-columns:46px 1fr;justify-items:start;align-items:center;text-align:left;gap:14px}.trs b{max-width:none;font-size:14px}
-}
-@media (prefers-reduced-motion:reduce){.trs.now .tri{animation:none}.trkline i{transition:none}}
-
-/* ---------- pay now ---------- */
-.paybox[hidden]{display:none}.paybox{display:grid;gap:12px}.paybox h3{margin:0;font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:-.02em}
-.paysub{margin:0;font-size:13px;line-height:1.55;color:var(--mute)}.payrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.payrow div{display:grid;gap:2px}.payrow span{font-size:10px;opacity:.7}.payrow b{font-family:var(--disp);font-weight:300;font-size:clamp(28px,3.4vw,38px);letter-spacing:-.03em;line-height:1.1}
-.paynote{margin:0;font-size:12px;line-height:1.5;color:var(--mute)}.trkpay{margin:6px 0 0;font-size:13px;color:var(--accent)}.trkpay:empty{display:none}
-</style>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<title>Bun Bun Cafe | Freshly baked, beautifully made</title>
+<meta name="description" content="Bun Bun Cafe, a homegrown bakery: brownies, waffles, desserts, customised cakes and Christmas plum cakes. Enquire on WhatsApp.">
+<meta name="theme-color" content="#4a442c">
+<link rel="icon" href="./favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./box.css?v=87">
+<script>(function(){try{var q=new URLSearchParams(location.search).get("season"),d=new Date();document.documentElement.classList.toggle("season",q==="1"?true:q==="0"?false:d<new Date(2027,0,2));try{document.documentElement.dataset.look=localStorage.getItem("bbboxlook")==="green"?"green":"cream"}catch(e){document.documentElement.dataset.look="cream"}document.documentElement.classList.add("opened")}catch(e){}})();</script>
 </head>
 <body>
-<div id="gfx" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="mk gm"></i></div>
+
+<div class="cur" id="cur" aria-hidden="true"><i class="mk"></i><span></span></div>
+
 <header class="top" id="top">
-  <a class="logo" href="#hero" aria-label="Bun Bun Bakes home"><i class="mk"></i><i class="wm"></i></a>
-  <nav class="pill" aria-label="Main"><a href="#occasions">Occasions</a><a href="#build">Cake studio</a><a href="#menu">Menu</a><a href="#packaging">Packaging</a><a href="#order">Order <b class="bagn">0</b></a></nav>
-  <div class="right"><div class="sw" role="group" aria-label="Choose a look"><button type="button" data-t="a" title="Periwinkle: light and soft" style="--sw:linear-gradient(135deg,#aab6cc 50%,#19253b 50%)"><i></i><span>Periwinkle</span></button><button type="button" data-t="b" title="Midnight: night and luxury" style="--sw:linear-gradient(135deg,#19253b 50%,#fff0c1 50%)"><i></i><span>Midnight</span></button><button type="button" data-t="c" title="Buttercream: bright and bakery" style="--sw:linear-gradient(135deg,#fff0c1 50%,#aab6cc 50%)"><i></i><span>Buttercream</span></button></div><a class="btn ghost" href="../">AJ GROUPS ↗</a></div>
+  <a class="brand" href="#home" aria-label="Bun Bun Cafe, home"><i class="mk"></i><i class="wm"></i></a>
+  <nav aria-label="Main"><a href="#home">Home</a><a class="only-season" href="#seasonal">Seasonal Editions</a><a href="#tray">Creations</a><a href="#about">About</a><a href="#contact">Contact Us</a></nav>
+  <a class="wa-ico" data-wa href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.3 12.8L3.5 20.5l4.3-1.1A8.5 8.5 0 1 0 12 3.5z"/><path d="M9.2 8.6c.3-.6.8-.5 1.1.1l.5 1.1c.1.3 0 .6-.3.9l-.4.4c.6 1.2 1.6 2.1 2.8 2.7l.5-.5c.2-.2.5-.3.8-.1l1.1.6c.5.3.6.8.1 1.3-.7.8-1.8 1-3 .5-2.4-1-4-2.7-4.7-4.8-.3-.8.1-1.5.5-2.2z"/></svg></a>
+  <div class="look" role="group" aria-label="Colour look"><button type="button" data-l="cream" aria-label="Cream look" title="Cream"><i></i></button><button type="button" data-l="green" aria-label="Green look" title="Green"><i></i></button></div>
+  <a class="pb solid sm" href="#contact">Enquire</a>
 </header>
-<canvas id="cake" width="640" height="640" aria-hidden="true"></canvas>
+
 <main>
-  <section class="hero" id="hero">
-    <div class="grid" aria-hidden="true"><i class="v1"></i><i class="v2"></i><i class="h1"></i><b style="left:calc(14% - 7px);top:22%"></b><b style="right:calc(14% - 7px);bottom:calc(20% - 7px)"></b></div>
-    <div class="lock">
-      <div class="disc"><svg viewBox="0 0 400 400" aria-hidden="true"><defs><path id="rp" d="M200,200 m-186,0 a186,186 0 1,1 372,0 a186,186 0 1,1 -372,0"/></defs><text><textPath href="#rp">BAKED FRESH · HOMEMADE TASTE · MADE TO ORDER · BAKED WITH LOVE · </textPath></text></svg><i class="mk" role="img" aria-label="Bun Bun mark"></i></div>
-      <i class="wm" role="img" aria-label="Bun Bun"></i>
-    </div>
-    <p class="tiny t-a">Homemade taste.<br>Baked to order.<br>Designed by you.</p>
-    <p class="tiny t-b">Birthdays · Weddings<br>Anniversaries · Baby showers</p>
-    <p class="tiny t-c">[ Cakes for every occasion ]</p>
-    <div class="cta-row"><a class="btn" href="#occasions">Choose an occasion</a><a class="btn ghost" href="#build">Go to the studio</a></div>
-  </section>
+<!-- 01 HOME: the original logo entry, annotated like a specimen plate -->
+<section class="fig" id="home">
+  <h1 class="sr-only">Bun Bun Cafe: freshly baked treats and customised cakes</h1>
+  <div class="grid0" aria-hidden="true"><i class="v1"></i><i class="v2"></i><b style="left:calc(14% - 7px);top:22%"></b><b style="right:calc(14% - 7px);top:64%"></b></div>
+  <p class="fg-top rise"><span>Bun Bun Cafe · A homegrown bakery</span><span class="mono">Freshly baked · Beautifully made</span></p>
+  <div class="spec fade">
+    <div class="disc"><svg viewBox="0 0 400 400" aria-hidden="true"><defs><path id="rp3" d="M200,200 m-186,0 a186,186 0 1,1 372,0 a186,186 0 1,1 -372,0"/></defs><text><textPath href="#rp3" textLength="1150" lengthAdjust="spacing">BAKED FRESH · HOMEMADE TASTE · MADE TO ORDER · BAKED WITH LOVE · </textPath></text></svg><i class="mk" role="img" aria-label="Bun Bun mark"></i></div>
+    <i class="wm" role="img" aria-label="Bun Bun"></i>
+  </div>
+  <p class="qa fade">Homemade taste<br>Baked to order<br>Made for every moment</p>
+  <p class="qb fade only-season">Christmas editions<br>Plum cakes &amp; hampers</p>
+  <p class="qb fade only-std">Order ahead<br>At least 2 days before</p>
+  <div class="cta2 rise"><a class="pb solid" href="#tray">Discover Our Creations</a><a class="pb only-season" href="#seasonal">Explore Seasonal Editions</a><a class="pb only-std" data-wa href="#" target="_blank" rel="noopener">Enquire on WhatsApp</a></div>
+</section>
 
-  <template id="xmasT"><section class="sec xmas" id="xmas">
-    <span class="lab mono">Christmas special · demo</span>
-    <h2>Rum plum cake <em>season</em></h2>
-    <p class="sub">Pre-order the Christmas cake and send it as a gift. Every date, batch size and price on this page is a sample until Allwyn confirms it.</p>
-    <div class="xg">
-      <div class="xc"><span class="mono">Last orders close in</span><div class="cd" id="cd">--</div><span class="mono" id="cdn"></span></div>
-      <div class="xc"><span class="mono">Batches</span><div id="batches"></div></div>
-      <div class="xc xn"><span class="mono">Please note</span><p>Contains rum (alcohol). Not for under-18s. An alcohol-free plum cake is available. Wording to be confirmed against food rules before launch.</p></div>
-    </div>
-    <div class="xt">
-      <form class="xc xgift" id="gift" novalidate>
-        <h3>Send it as a gift</h3>
-        <label><span class="mono">Cake</span><select id="gcake"></select></label>
-        <div class="gr"><label><span class="mono">How many</span><input id="gqty" type="number" min="1" max="50" value="1"></label><label><span class="mono">Deliver on</span><select id="gdate"></select></label></div>
-        <label><span class="mono">To</span><input id="gto" maxlength="40" placeholder="Their name"></label>
-        <label><span class="mono">Card message</span><input id="gmsg" maxlength="70" placeholder="Merry Christmas, from all of us"></label>
-        <label class="gc"><input id="gcorp" type="checkbox"> <span>This is a business order (10 or more boxes)</span></label>
-        <label id="gcw" hidden><span class="mono">Company</span><input id="gco" maxlength="60" placeholder="Company name"></label>
-        <button class="btn" type="submit">Add gift to my order</button><p class="gm" id="gm" role="status"></p>
-      </form>
-      <div class="xc xwish">
-        <h3>Make a Christmas wish card</h3>
-        <canvas id="wc" width="1080" height="1350" aria-label="Your wish card preview"></canvas>
-        <div class="gr"><label><span class="mono">Name</span><input id="wn" maxlength="24" placeholder="Your name"></label><label><span class="mono">Wish</span><input id="ww" maxlength="60" placeholder="Wishing you cake and cheer"></label></div>
-        <div class="go"><button class="btn" id="wdl" type="button">Download card</button><button class="btn ghost" id="wsh" type="button">Share</button></div>
-      </div>
-    </div>
-  </section></template>
-  <section class="sec" id="occasions">
-    <span class="lab mono">Occasions</span>
-    <h2>Start with the <em>moment</em></h2>
-    <p class="sub">Drag the arc or use the arrows and pick an occasion. The cake studio sets itself up for it, and then you can change anything: tiers, sponge, buttercream, decoration and the message.</p>
-    <div class="arc" id="arc" role="listbox" aria-label="Occasions"><div class="arcblob" aria-hidden="true"></div><svg class="arcring" viewBox="0 0 400 400" aria-hidden="true"><defs><path id="rp2" d="M200,200 m-176,0 a176,176 0 1,1 352,0 a176,176 0 1,1 -352,0"/></defs><text><textPath href="#rp2">CHOOSE YOUR MOMENT · CHOOSE YOUR MOMENT · CHOOSE YOUR MOMENT · </textPath></text></svg><div class="arcrail" id="arcrail"></div><button class="arcpill" id="arcpill" type="button">Design this cake →</button><div class="arcnav"><button type="button" id="arcp" aria-label="Previous">←</button><button type="button" id="arcn" aria-label="Next">→</button></div></div>
-  </section>
+<!-- 02 SEASONAL EDITIONS (Advent, until New Year) -->
+<section class="seasonal only-season" id="seasonal"><div class="wrap">
+  <div class="sh">
+    <div><p class="eyebrow">Seasonal Editions · Christmas 2026</p><h2>A Christmas tradition, <em>baked with love.</em></h2>
+      <p class="lead">Plum cakes and Christmas hampers, made to order.</p></div>
+    <div class="days"><b data-xdays>0</b><span>days to Christmas</span><svg viewBox="0 0 100 50" aria-hidden="true"><path d="M8 46a42 42 0 0 1 84 0"/><path class="arc" d="M8 46a42 42 0 0 1 84 0" pathLength="100"/></svg></div>
+  </div>
+  <div class="plums" id="plums"></div>
+  <div class="hamper" id="hamper"></div>
+</div></section>
 
-  <section class="sec" id="remind">
-    <span class="lab mono">Never miss a date</span>
-    <h2>Plan it <em>early</em></h2>
-    <p class="sub">Save a birthday or anniversary once. We count down to it and show the last day to order, so the cake is baked fresh and arrives on time. Dates stay on this device.</p>
-    <div class="rm">
-      <form class="f xc rmf" id="rmForm" novalidate>
-        <div class="rr"><label><span class="mono">Occasion</span><select id="rmOcc"></select></label><label><span class="mono">For</span><input id="rmFor" maxlength="20" placeholder="Name (optional)" autocomplete="off"></label></div>
-        <div class="rr"><label><span class="mono">Date</span><input id="rmDate" type="date"></label><label class="rchk"><input type="checkbox" id="rmYear" checked><span>Repeats every year</span></label></div>
-        <button class="btn" type="submit">Save this date</button>
-        <div class="mono rmq">Quick add</div><div class="chips" id="rmFest"></div>
-      </form>
-      <div class="rml" id="rmList" aria-live="polite"></div>
-    </div>
-  </section>
-  <section class="sec" id="build">
-    <span class="lab mono">Cake studio</span>
-    <h2>Make it <em>yours,</em><br>we bake it.</h2>
-    <p class="sub">Your occasion is already set. Change the tiers, sponge, finish and decoration, or switch occasion below. Switch on Decorate and tap the cake to place strawberries and macarons wherever you like. A baker confirms every order by call.</p>
-    <div class="builder">
-      <div class="stage">
-        <div class="grid" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="g3"></i></div>
-        <div class="bgword" id="bgword" aria-hidden="true">Birthday</div>
-        <div class="hill" aria-hidden="true"></div>
-        <div class="float" id="float" aria-hidden="true"></div>
-        <svg class="route" id="route" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path id="routep" d="M60 236 C 130 250, 150 120, 230 140 S 330 70, 346 78" fill="none" stroke="#19253b" stroke-width="2.4" stroke-dasharray="3 9" stroke-linecap="round"/><g id="pinA"><circle cx="60" cy="236" r="7" fill="#19253b"/><text x="60" y="262" text-anchor="middle" font-size="11" fill="#19253b" font-family="Inter" font-weight="600" letter-spacing="1.5">KITCHEN</text></g><g id="pinB"><path d="M346 62l14 12v16h-9v-9h-10v9h-9V74z" fill="#19253b"/><text x="346" y="112" text-anchor="middle" font-size="11" fill="#19253b" font-family="Inter" font-weight="600" letter-spacing="1.5">HOME</text></g><g id="scoot"><circle r="13" fill="#fff0c1" stroke="#19253b" stroke-width="2"/><path d="M-6 3h12M-4 3l2-7h5" stroke="#19253b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
-        <div class="status mono" id="status" role="status"></div>
-        <div id="viewer" aria-label="Your cake. Drag to rotate."></div>
-        <span class="corner mono">Your cake</span>
-        <div class="price"><span class="mono" style="opacity:.7">From</span><b id="price">₹0</b></div>
-        <div class="tools"><button type="button" id="bDeco">Decorate</button><button type="button" id="bClear">Clear</button><button type="button" id="bRand">Surprise me</button></div>
-        <span class="hint mono" id="hint">Drag to rotate</span>
-      </div>
-      <div class="panel">
-        <div class="step"><h3>Occasion <small>1</small></h3><div class="chips" id="c-occ"></div></div>
-        <div class="step"><h3>Tiers <small id="serves">2</small></h3><div class="chips" id="c-tiers"></div></div>
-        <div class="step"><h3>Finish <small>3</small></h3><div class="chips" id="c-style"></div></div>
-        <div class="step"><h3>Sponge <small>4</small></h3><div class="chips" id="c-flavour"></div></div>
-        <div class="step"><h3>Buttercream <small>5</small></h3><div class="chips" id="c-frost"></div></div>
-        <div class="step"><h3>Drip <small>6</small></h3><div class="chips" id="c-drip"></div></div>
-        <div class="step"><h3>Decoration <small>7</small></h3><div class="chips" id="c-tops"></div></div>
-        <div class="step"><h3>Message <small>8</small></h3><input class="msg" id="msg" maxlength="22" placeholder="Happy Birthday" aria-label="Cake message"><div class="chips" id="msgsug" style="margin-top:10px"></div><div class="chips" id="c-msgs" style="margin-top:8px"></div></div>
-        <div class="step"><h3>Quantity <small>9</small></h3><div class="qty"><button type="button" id="qm" aria-label="One less">−</button><b id="qn">1</b><button type="button" id="qp" aria-label="One more">+</button></div></div>
-        <div class="step"><h3>Delivery <small>10</small></h3><div class="chips" id="c-ship"></div><div class="shipRow" id="shipRow"><input class="msg" id="pin" inputmode="numeric" maxlength="6" placeholder="Your 6-digit pincode" aria-label="Pincode"><button type="button" class="btn ghost" id="pinGo">Check</button></div><p class="shipMsg" id="shipMsg"></p></div>
-        <div class="sum" id="sum"></div>
-        <div class="go"><button class="btn" id="bPack" type="button">Pack it and send home →</button><button class="btn ghost" id="bShare" type="button">Share this cake</button><a class="btn ghost" href="#order">Order details</a></div>
-      </div>
-    </div>
-  </section>
+<!-- 03 CREATIONS: the tray -->
+<section class="trayw" id="tray">
+  <div class="th"><p class="eyebrow">Our creations</p><h2>Crafted fresh. <em>Loved every bite.</em></h2>
+    <p class="lead">Brownies, waffles and desserts, made by hand and baked to order.</p></div>
+  <div class="tray" id="trayg"></div>
+</section>
 
+<!-- 04 ABOUT -->
+<section class="about" id="about"><div class="wrap">
+  <div class="ab-row ab-1">
+    <div class="ab-h"><p class="eyebrow">About us</p><h2>A little interest. <em>A sweet beginning.</em></h2></div>
+    <div class="three one"><p>Bun Bun Cafe began with Monisha Janet's love of baking. With her family's support it grew into a homegrown bakery built on creativity, care and the joy of sharing something special.</p></div>
+  </div>
+  <div class="ab-row ab-2">
+    <div class="who"><p class="eyebrow">Meet our founder</p><h3>Monisha Janet</h3><p class="role">Founder &amp; Certified Baker</p><div class="txt"><p>A certified baker, Monisha leads every bake, from new flavours and designs to a thoughtful experience with every order.</p></div></div>
+    <div class="who"><p class="eyebrow">Our philosophy</p><h3>More than just taste.</h3><div class="txt"><p>We believe that good baking is about more than just taste. It is about quality, care, creativity and the happiness that comes with sharing something special.</p></div></div>
+  </div>
+  <div class="ab-3">
+    <ul class="pills"><li>Quality ingredients</li><li>Fresh preparation</li><li>Attention to detail</li><li>Food safety and hygiene</li><li>Personalised customer experience</li></ul>
+    <p class="lic">Bun Bun Cafe is an FSSAI-licensed food business. Licence no. <span data-fill="fssai"></span></p>
+  </div>
+</div></section>
 
-  <section class="sec" id="menu">
-    <span class="lab mono">The menu</span>
-    <h2>More than <em>cake</em></h2>
-    <p class="sub">Cheesecakes, puddings, brownies, cupcakes, cake pops, macarons, donuts, tarts and more, all baked fresh. Add anything to your order. Prices are sample prices for now.</p>
-    <div class="mtabs" id="mtabs" role="tablist" aria-label="Menu categories"></div>
-    <div class="mgrid" id="mgrid"></div>
-  </section>
-
-  <section class="sec" id="packaging">
-    <span class="lab mono">Packaging</span>
-    <h2>Wrapped like <em>a gift</em></h2>
-    <p class="sub">Every Bun Bun order leaves in our own packaging: cake bags and boxes, cups, a carry handle and a ribbon. Concept mockups from the brand document.</p>
-    <div class="pk">
-      <figure class="pkf p-set rv"><img src="../assets/bunbun/pack-set.jpg" alt="Bun Bun bag, carton, cups and mug in periwinkle blue" loading="lazy"><figcaption><b>The full set</b><span>Bags, cartons, cups and mugs</span></figcaption></figure>
-      <figure class="pkf p-cups rv"><img src="../assets/bunbun/pack-cups.jpg" alt="Stacked Bun Bun cups" loading="lazy"><figcaption><b>Cups</b><span>For hot chocolate and more</span></figcaption></figure>
-      <figure class="pkf p-carrier rv"><img src="../assets/bunbun/pack-carrier.jpg" alt="Bun Bun carry handle holding two cups" loading="lazy"><figcaption><b>Carry handle</b><span>Easy to take home</span></figcaption></figure>
-      <figure class="pkf p-coaster rv"><img src="../assets/bunbun/pack-coaster.jpg" alt="Bun Bun branded lid on a wooden tray" loading="lazy"><figcaption><b>Gift tray</b><span>Wood and ribbon</span></figcaption></figure>
-      <figure class="pkf p-shop rv"><img src="../assets/bunbun/pack-shop.jpg" alt="Bun Bun shopfront concept" loading="lazy"><figcaption><b>Our shopfront</b><span>Concept</span></figcaption></figure>
-    </div>
-  </section>
-
-  <section class="sec" id="how">
-    <span class="lab mono">How it works</span>
-    <h2>From idea to <em>warm oven</em></h2>
-    <div class="how">
-      <div class="hw rv"><b>01</b><h3>Design</h3><p>Build your cake in the studio, or tell us the idea and we will sketch it with you.</p></div>
-      <div class="hw rv"><b>02</b><h3>Confirm</h3><p>A baker calls to confirm flavours, allergies, date and the final price.</p></div>
-      <div class="hw rv"><b>03</b><h3>Bake</h3><p>Baked fresh at home-kitchen standards, the day before or the day of.</p></div>
-      <div class="hw rv"><b>04</b><h3>Deliver</h3><p>Pick it up warm from the oven, or have it boxed and delivered with care.</p></div>
-    </div>
-  </section>
-
-  <section class="sec" id="bakers">
-    <span class="lab mono">The bakers</span>
-    <h2>Real hands, <em>real kitchens</em></h2>
-    <div class="bakers">
-      <div class="bk rv"><div class="av">A</div><h3>Baker one</h3><p>Placeholder. Specialises in celebration cakes and detailed piping. Real name, photo and story to come.</p></div>
-      <div class="bk rv"><div class="av">B</div><h3>Baker two</h3><p>Placeholder. Eggless and low-sugar bakes, brownies and tea cakes. Details to come.</p></div>
-      <div class="bk rv"><div class="av">C</div><h3>Baker three</h3><p>Placeholder. Wedding tiers and custom designs. Details to come.</p></div>
-    </div>
-  </section>
-
-  <section class="sec" id="order">
-    <span class="lab mono">Order</span>
-    <h2>Tell us <em>when</em></h2>
-    <div class="order">
-      <div class="rv"><p class="sub" style="margin-top:0">We confirm every order by call before baking. Your design from the studio is attached below.</p><div class="sum" id="sum2" style="margin-top:16px"></div></div>
-      <form class="f rv" id="form" novalidate>
-        <div class="row"><label><span class="mono">Name</span><input name="n" autocomplete="name" required></label><label><span class="mono">Phone</span><input name="p" type="tel" autocomplete="tel" required></label></div>
-        <div class="row"><label><span class="mono">Date needed</span><input name="d" type="date"></label><label><span class="mono">Pickup or delivery</span><select name="t"><option>Pickup</option><option>Delivery</option></select></label></div>
-        <label><span class="mono">Delivery slot (for home delivery)</span><select name="s"></select></label>
-        <label><span class="mono">Allergies or notes</span><textarea name="m" placeholder="Eggless, nut allergy, colours, theme…"></textarea></label>
-        <button class="btn" type="submit">Send order request</button>
-        <p class="paynote" style="margin:0">We use your name and phone number only to confirm, bake and deliver your order. Only the bakery team can see them, and they are deleted after 6 months.</p>
-        <div class="thanks" id="thanks" role="status"></div>
-        <div class="xc paybox" id="paybox" hidden></div>
-      </form>
-    </div>
-  </section>
-  <section class="sec" id="track" hidden>
-    <span class="lab mono">Order tracker</span>
-    <h2>Where is <em>my cake?</em></h2>
-    <p class="sub">Follow your order from the oven to your door. Every stage updates here as the baker moves it along.</p>
-    <div class="xc trk">
-      <div class="trkhead"><div><span class="mono">Order</span><b id="trkId">BB-0000</b></div><div><span class="mono">For</span><b id="trkFor"></b></div><div><span class="mono" id="trkWhenL">Delivery</span><b id="trkWhen"></b></div></div>
-      <ol class="trksteps" id="trkSteps"></ol>
-      <p class="trknow" id="trkNow" role="status" aria-live="polite"></p>
-      <p class="trkpay" id="trkPay"></p>
-      <p class="trkdemo" id="trkDemo" hidden>Draft: the stages move on a timer so you can see how it will feel. Real orders will update when the baker changes the status.</p>
-      <div class="trkbar"><form id="trkFind" class="trkfind"><input id="trkQ" class="msg" placeholder="Find an order, e.g. BB-1234" aria-label="Order number"><button class="btn ghost" type="submit">Find</button></form><button class="btn ghost" id="trkReplay" type="button">Replay</button></div>
-      <p class="shipMsg" id="trkFindMsg" role="status"></p>
-    </div>
-  </section>
+<!-- 05 CONTACT US -->
+<section class="contact" id="contact"><div class="wrap">
+  <p class="eyebrow">Contact us</p>
+  <h2>We'd love to <em>hear from you!</em></h2>
+  <p class="lead">Questions, celebrations or an order: message us and we reply on WhatsApp.</p>
+  <div class="cg">
+    <div class="cc"><span class="eyebrow">WhatsApp</span><b data-fill="wa-number"></b><span>The quickest way to enquire or order. Pick your favourites, we bake fresh; please order at least <span data-days>2</span> days ahead.</span><a class="pb solid sm" data-wa href="#" target="_blank" rel="noopener">Enquire on WhatsApp</a></div>
+    <div class="cc"><span class="eyebrow">Instagram</span><b>Send a DM</b><span>See our latest bakes.</span><a class="pb sm" data-fill="instagram" href="#" target="_blank" rel="noopener">Instagram</a></div>
+    <div class="cc"><span class="eyebrow">Location</span><b data-fill="location"></b><span>Shared when your order is confirmed.</span></div>
+  </div>
+</div>
+<footer class="ft">
+  <div class="fg">
+    <div class="fa1"><a class="brand" href="#home" aria-label="Bun Bun Cafe, home"><i class="mk"></i><i class="wm"></i></a><p>A homegrown bakery making fresh treats and personalised cakes with care.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="#home">Home</a></li><li class="only-season"><a href="#seasonal">Seasonal Editions</a></li><li><a href="#tray">Creations</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact Us</a></li></ul></div>
+    <div><h4>Order</h4><ul><li><a data-wa href="#" target="_blank" rel="noopener">WhatsApp</a></li><li><a data-fill="instagram" href="#" target="_blank" rel="noopener">Instagram</a></li><li><span>FSSAI licence: <span data-fill="fssai"></span></span></li></ul></div>
+  </div>
+  <div class="base"><span>© 2026 Bun Bun Cafe · by AJ GROUPS. All rights reserved.</span><span><a href="../privacy/">Privacy</a> · <a href="../terms/">Terms</a></span></div>
+</footer>
+</section>
 </main>
-<footer class="foot"><span>© 2026 Bun Bun Bakes · part of AJ GROUPS. All rights reserved.</span><a href="../">← Back to AJ GROUPS</a> · <a href="../privacy/">Privacy</a> · <a href="../terms/">Terms</a></footer>
-<script>window.MOTION={accent:'#aab6cc',par:'.mo-none',reveal:'.mo-none',press:'.btn,.chip,.tools button,.ac',mag:'.btn',titles:{hero:'Bun Bun Bakes',occasions:'Occasions',remind:'Save a date',build:'Cake studio',menu:'The menu',packaging:'Packaging',how:'How it works',bakers:'The bakers',order:'Order'},dock:[{l:'Home',h:'#hero',i:'<svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg>'},{l:'Occasions',h:'#occasions',i:'<svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="2"/><path d="M12 9v11M4 14h16M12 9c-2-4-6-3-5 0M12 9c2-4 6-3 5 0"/></svg>'},{l:'Design',h:'#build',i:'<svg viewBox="0 0 24 24"><path d="M5 20h14M7 20v-7h10v7M9 13V9h6v4M12 9V5"/></svg>'},{l:'Menu',h:'#menu',i:'<svg viewBox="0 0 24 24"><path d="M6 3v8M9 3v8M6 7h3M7.5 11v10M16 3c-2 2-2 6 0 8v10"/></svg>'},{l:'Order',h:'#order',i:'<svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7zM9 8a3 3 0 0 1 6 0"/></svg>'}]};</script>
-<script>(function(){if(document.documentElement.dataset.xmas!=='1')return;var t=document.getElementById('xmasT'),o=document.getElementById('occasions');if(t&&o)o.parentNode.insertBefore(t.content.cloneNode(true),o);
-var p=document.querySelector('.pill');if(p)p.insertAdjacentHTML('afterbegin','<a href="#xmas">Christmas</a>');
-window.MOTION.titles.xmas='Christmas';window.MOTION.dock.splice(1,0,{l:'Christmas',h:'#xmas',i:'<svg viewBox="0 0 24 24"><path d="M12 3l4 6h-3l4 6h-3l3 5H7l3-5H7l4-6H8z"/></svg>'});
-})();</script>
-<script src="../assets/motion.js?v=8"></script>
-<script type="module" src="main.js?v=53"></script>
+
+<!-- your box pill -->
+<div class="bx" id="bx" role="status"><span class="ct"><b id="bn">0</b> in your box</span><button type="button" id="mk" class="pb">Make my card</button><a class="pb solid" id="eq" target="_blank" rel="noopener" href="#">Enquire</a><button type="button" id="clr" class="x" aria-label="Empty my box">&times;</button></div>
+
+<!-- a dish opens in a sheet -->
+<dialog class="sheet" id="sheet" aria-label="Creation details">
+  <button class="close" type="button" aria-label="Close" data-close>&times;</button>
+  <div class="sp"><img id="sImg" alt="" width="640" height="640"><i class="mk" aria-hidden="true"></i></div>
+  <div class="sb"><span class="fn" id="sNo"></span><h3 id="sTitle"></h3><p id="sText"></p>
+    <span class="lb" id="sLb">Choose your favourites</span><div class="chk" id="sChk"></div>
+    <a class="pb solid" id="sGo" target="_blank" rel="noopener" href="#">Enquire on WhatsApp</a></div>
+</dialog>
+
+<!-- the share card -->
+<dialog class="sheet card" id="cardD" aria-label="Your box card">
+  <button class="close" type="button" aria-label="Close" data-close>&times;</button>
+  <canvas id="cv" width="1080" height="1350"></canvas>
+  <div class="sb"><h3>Your Bun Bun box</h3><p>Save your card or share it. Anyone can enquire in one tap.</p>
+    <button class="pb solid" id="cSave" type="button">Share or save</button></div>
+</dialog>
+
+<script src="./vendor/gsap.min.js"></script>
+<script src="./vendor/ScrollTrigger.min.js"></script>
+<script src="./vendor/lenis.min.js"></script>
+<script src="./box.js?v=35"></script>
 </body>
 </html>
